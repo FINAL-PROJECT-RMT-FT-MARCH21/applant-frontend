@@ -22,12 +22,12 @@ class Navbar extends React.Component {
             return (
                 <div className="navbar-child">
                     <div className="nav-left">
-                        <div className="nav-btn"><Link className="link" to="/">Home</Link></div>
-                        <div className="nav-btn"><Link className="link" to="/forum">Forum</Link></div>
-                        <div className="nav-btn"><Link className="link" to="/shop">Shop</Link></div>
+                        <Link className="link" to="/"><div className="nav-btn">Home</div></Link>
+                        <Link className="link" to="/forum"><div className="nav-btn">Forum</div></Link>
+                        <Link className="link" to="/shop"><div className="nav-btn">Shop</div></Link>
                     </div>
                     <div className="nav-right">
-                        <div className="nav-btn"><Link className="link" to="/login">Log in</Link></div>
+                        <Link className="link" to="/login"><div className="nav-btn">Log in</div></Link>
                     </div>
                 </div>
             )

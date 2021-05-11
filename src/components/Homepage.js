@@ -1,8 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-import Navbar from './Navbar'
-
 class Homepage extends React.Component {
     state = {
       plants: []
@@ -27,7 +25,9 @@ class Homepage extends React.Component {
     return (
       <div className="Homepage">
         <h1 className="main-title">All plants</h1>
-       {this.getPlants()}
+        <div className="plant-cards-container">
+          {this.getPlants()}
+        </div>
       </div>
     );
   }

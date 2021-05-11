@@ -1,14 +1,16 @@
 import './App.scss';
 import React from 'react'
-import { Link, Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import axios from 'axios'
 
 import Navbar from './components/Navbar'
 import Homepage from './components/Homepage'
+import PlantDetails from './components/PlantDetails'
+import Forum from './components/Forum'
+import Shop from './components/Shop'
 import Signup from './components/Signup'
 import Login from './components/Login'
 import Profile from './components/Profile'
-import PlantDetails from './components/PlantDetails'
 
 class App extends React.Component {
   state = {
@@ -48,13 +50,15 @@ class App extends React.Component {
       <div className="App">
         <Navbar auth={this.state.logInSuccess}/>
         <Switch>
+          <Route path="/" exact component={() => <Homepage allPlants={this.state.plants} />} />
           <Route path="/plant-details/:_id" exact component={(routeProps)=><PlantDetails {...routeProps} allPlants={this.state.plants} />}/>
-          <Route path="/profile" exact component={()=> <Profile />} />
+          <Route path="/forum" exact component={() => <Forum />} />
+          <Route path="/shop" exact component={() => <Shop />} />
           <Route path="/signup" exact component={() => <Signup />} />
           <Route path="/login" exact component={() => <Login 
                 setAppState={(body) => this.editStateFromLogin(body)}
                 logInSuccess={this.state.logInSuccess} />} />
-          <Route path="/" exact component={() => <Homepage allPlants={this.state.plants} />} />
+          <Route path="/profile" exact component={()=> <Profile />} />
         </Switch>
       </div>
     )
