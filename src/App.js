@@ -11,7 +11,8 @@ class App extends React.Component {
       <div className="App">
         <Link to="/">Home</Link>
         <h1>Home page</h1>
-        <Link to="/signup">Sign up</Link>
+        <Link to="/signup">Sign up |</Link>
+        <Link to="/login"> Log in</Link>
         <Switch>
           <Route path="/signup" exact component={() => <Signup />} />
           <Route path="/login" exact component={() => <Login />} />
