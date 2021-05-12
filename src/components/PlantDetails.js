@@ -1,5 +1,4 @@
 import React from "react";
-/* import { Redirect } from "react-router-dom"; */
 import axios from 'axios'
 
 class PlantDetails extends React.Component {
@@ -12,7 +11,7 @@ class PlantDetails extends React.Component {
     return word[0].toUpperCase()+word.slice(1)
   }
 
- /*  addToProfile(name, image) {
+  addToProfile(name, image) {
     axios({
       method: "post",
       url: "http://localhost:5000/add-plant",
@@ -21,11 +20,12 @@ class PlantDetails extends React.Component {
     })
       .then((result) => {
         this.setState({ ...this.state, createdSuccess: true });
+        console.log(this.state)
       })
       .catch((err) => {
         console.log(err);
       });
-  } */
+  } 
 
   render() {
     const selectedPlant = this.props.match.params._id;
@@ -42,7 +42,7 @@ class PlantDetails extends React.Component {
           <div>
             <img src={allPlants.image} alt={allPlants.commonName} />
 
-            <h2>{this.toUpper(allPlants.commonName)}</h2>
+            <h2>{this.toUpper(allPlants.commonName)}</h2>  <button onClick={() => this.addToProfile()}>♥</button> 
 
             <h3>({this.toUpper(allPlants.botanicalName)})</h3>
 
@@ -63,9 +63,7 @@ class PlantDetails extends React.Component {
             
           </div>
         )}
-        {/* <button onClick={() => this.addToProfile(name, sprite)}>
-            <i class="far fa-heart"></i>
-            </button> */}
+        
       </div>
     );
   }

@@ -1,19 +1,19 @@
-import axios from "axios";
 import React from "react";
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
+// import axios from "axios";
 
 class Navbar extends React.Component {
 
-    handleLogout = () => {
-        axios.get("http://localhost:5000/logout")
-        .then((result) => {
-            console.log('logged out', result);
-            this.props.logout()
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    }
+    // handleLogout = () => {
+    //     axios.get("http://localhost:5000/logout")
+    //     .then((result) => {
+    //         console.log('logged out', result);
+    //         this.props.logout()
+    //     })
+    //     .catch((err) => {
+    //         console.log(err)
+    //     })
+    // }
 
     getNavbar(){
         if (this.props.auth){
@@ -26,7 +26,8 @@ class Navbar extends React.Component {
                     </div>
                     <div className="nav-right">
                         <div className="nav-btn-container"><div className="nav-btn"><Link className="link" to="/profile">Profile</Link></div></div>
-                        <div className="nav-btn-container"><div className="nav-btn"><Link className="link" to="/" onClick={()=>this.handleLogout()} >Logout</Link></div></div>
+                        <div className="nav-btn-container"><div className="nav-btn"><Link className="link" to="/logout">Logout</Link></div></div>
+                        {/* <div className="nav-btn-container"><div className="nav-btn"><Link className="link" to="/" onClick={()=>this.handleLogout()} >Logout</Link></div></div> */}
                     </div>
                 </div>
             )

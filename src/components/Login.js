@@ -20,7 +20,13 @@ class Login extends React.Component {
       withCredentials: true
     })
       .then((result) => {
-        this.props.setAppState(result.data.result)
+        const body = result.data.result
+        const message = result.data.message
+        this.props.setAppState(body, message)
+
+        // const user = result.data.result
+        // const logInSuccess = true
+        // this.props.editState(user, message, 'checkLog')
       })
       .catch((error) => {
         console.log(error);
