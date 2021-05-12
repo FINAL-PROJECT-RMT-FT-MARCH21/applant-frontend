@@ -20,9 +20,9 @@ class Login extends React.Component {
       withCredentials: true
     })
       .then((result) => {
-        const body = result.data.result
+        const user = result.data.result
         const message = result.data.message
-        this.props.setAppState(body, message)
+        this.props.setAppState(user, message)
 
         // const user = result.data.result
         // const logInSuccess = true

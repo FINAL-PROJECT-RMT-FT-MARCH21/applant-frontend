@@ -7,7 +7,8 @@ class Logout extends React.Component {
     handleLogout = () => {
         axios.get("http://localhost:5000/logout")
         .then((result) => {
-            this.props.logout()
+            const message = result.data.message
+            this.props.logout(message)
         })
         .catch((err) => {
             console.log(err)

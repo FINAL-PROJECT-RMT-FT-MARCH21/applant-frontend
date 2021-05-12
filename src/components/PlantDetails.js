@@ -1,5 +1,4 @@
 import React from "react";
-import axios from 'axios'
 
 class PlantDetails extends React.Component {
   state ={
@@ -10,27 +9,13 @@ class PlantDetails extends React.Component {
   toUpper(word){
     return word[0].toUpperCase()+word.slice(1)
   }
-
-  addToProfile(name, image) {
-    axios({
-      method: "post",
-      url: "http://localhost:5000/add-plant",
-      data: { name: name, image: image },
-      withCredentials: true,
-    })
-      .then((result) => {
-        this.setState({ ...this.state, createdSuccess: true });
-        console.log(this.state)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  } 
+  
+  
 
   render() {
-    const selectedPlant = this.props.match.params._id;
+    const selectedPlantId = this.props.match.params._id;
     const allPlants = this.props.allPlants.filter((plant) => {
-      return selectedPlant === plant._id;
+      return selectedPlantId === plant._id;
     })[0];
 
     return (
@@ -39,10 +24,11 @@ class PlantDetails extends React.Component {
         {this.props.allPlants.length === 0 ? (
           <h1>Loading...</h1>
         ) : (
-          <div>
+          <div style="">
             <img src={allPlants.image} alt={allPlants.commonName} />
-
-            <h2>{this.toUpper(allPlants.commonName)}</h2>  <button onClick={() => this.addToProfile()}>♥</button> 
+            
+            <h2>{this.toUpper(allPlants.commonName)}</h2>
+            <button onClick={() => this.props.setAppState(selectedPlantId)}>♥</button> 
 
             <h3>({this.toUpper(allPlants.botanicalName)})</h3>
 
