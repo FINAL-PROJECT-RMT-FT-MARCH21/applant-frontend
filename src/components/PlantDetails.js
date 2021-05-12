@@ -24,7 +24,7 @@ class PlantDetails extends React.Component {
         {this.props.allPlants.length === 0 ? (
           <h1>Loading...</h1>
         ) : (
-          <div style="">
+          <div>
             <img src={allPlants.image} alt={allPlants.commonName} />
             
             <h2>{this.toUpper(allPlants.commonName)}</h2>
