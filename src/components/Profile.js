@@ -3,9 +3,10 @@ import React from "react";
 class Profile extends React.Component {
 
   render() {
+    const username = this.props.userInfo.username
     return (
         <div className="Profile">
-            <h1>Profile page</h1>
+            <h1>Hello {username}</h1>
         </div>
     )
   }

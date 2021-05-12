@@ -24,6 +24,16 @@
   height: 100%;
 }
 
+.button{
+  color: black;
+}
+
+body{
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .App{
   text-align: center;
   h1{

@@ -26,7 +26,7 @@ class App extends React.Component {
 
   componentDidMount() {
     axios({
-          method: "get",
+      method: "get",
       url: `http://localhost:5000/all-plants`,
     })
     .then((result)=>{
@@ -45,10 +45,16 @@ class App extends React.Component {
     this.setState(stateCopy);
   }
   
+  editStateFromLogout() {
+    const stateCopy = { ...this.state };
+    stateCopy.logInSuccess = false;
+    this.setState(stateCopy);
+  }
+
   render(){
     return (
       <div className="App">
-        <Navbar auth={this.state.logInSuccess}/>
+        <Navbar auth={this.state.logInSuccess } logout={()=>this.editStateFromLogout()}/>
         <Switch>
           <Route path="/" exact component={() => <Homepage allPlants={this.state.plants} />} />
           <Route path="/plant-details/:_id" exact component={(routeProps)=><PlantDetails {...routeProps} allPlants={this.state.plants} />}/>
@@ -58,7 +64,7 @@ class App extends React.Component {
           <Route path="/login" exact component={() => <Login 
                 setAppState={(body) => this.editStateFromLogin(body)}
                 logInSuccess={this.state.logInSuccess} />} />
-          <Route path="/profile" exact component={()=> <Profile />} />
+          <Route path="/profile" exact component={()=> <Profile userInfo={this.state.user} />} />
         </Switch>
       </div>
     )
