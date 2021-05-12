@@ -57,7 +57,7 @@ class App extends React.Component {
     axios({
       method: "post",
       url: "http://localhost:5000/add-plant",
-      data: this.state.user,
+      data: {plantId: selectedPlantId, user: this.state.user},
       withCredentials: true,
     })
       .then((result) => {

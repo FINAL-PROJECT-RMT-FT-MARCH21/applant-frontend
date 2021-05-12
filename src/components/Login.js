@@ -23,7 +23,7 @@ class Login extends React.Component {
         const user = result.data.result
         const message = result.data.message
         this.props.setAppState(user, message)
-
+        console.log('loged in')
         // const user = result.data.result
         // const logInSuccess = true
         // this.props.editState(user, message, 'checkLog')

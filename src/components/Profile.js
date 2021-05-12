@@ -1,18 +1,32 @@
 import React from "react";
 import {Redirect} from 'react-router-dom'
+import axios from 'axios'
 
 class Profile extends React.Component {
+state = {
+  favoritePlants: []
+}
 
   toUpper(word){
     if (word) return word[0].toUpperCase()+word.slice(1)
   }
 
+  componentDidMount(){
+    axios.get('http://localhost:5000/loggedin')
+    .then((result)=>{
+      console.log('recived user', result)
+      this.setState({ ...this.state, favoritePlants: result.data });
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
   getFavoritePlants(){
-    const {favoritePlants} = this.props
+    const {favoritePlants} = this.state
+    console.log(favoritePlants)
     if (favoritePlants.length > 0){
-      console.log('favorites not empty')
-      return this.props.favoritePlants.map((plant, index)=>{
-        
+      return favoritePlants.map((plant, index)=>{
         return (
           <div key={index} className="plant-card">
             <img src={plant.image} alt={plant.commonName} />
@@ -39,7 +53,7 @@ class Profile extends React.Component {
         )
       })
     } else {
-      console.log('favorites empty')
+      console.log('favorites is empty')
     }
   }
 
