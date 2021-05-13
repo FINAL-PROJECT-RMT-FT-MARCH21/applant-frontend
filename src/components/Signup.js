@@ -20,7 +20,6 @@ class Signup extends React.Component {
       data: this.state.user,
     })
       .then((result) => {
-        console.log(result);
         if (result.data.message === "User created") {
           this.setState({ ...this.state, successSignUp: true });
         } else {

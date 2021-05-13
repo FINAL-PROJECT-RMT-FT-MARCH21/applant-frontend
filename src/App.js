@@ -3,6 +3,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import axios from "axios";
 
+import Admin from "./components/Admin";
 import Navbar from "./components/Navbar";
 import Message from "./components/Message";
 import Homepage from "./components/Homepage";
@@ -13,6 +14,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import Profile from "./components/Profile";
+import ShopItem from "./components/ShopItem";
 
 class App extends React.Component {
   state = {
@@ -20,6 +22,7 @@ class App extends React.Component {
       _id: "",
       username: "",
       password: "",
+      admin: false,
       favoritePlants: [],
     },
     logInSuccess: false,
@@ -31,6 +34,7 @@ class App extends React.Component {
     axios({
       method: "get",
       url: `http://localhost:5000/all-plants`,
+      withCredentials: true,
     })
       .then((result) => {
         this.setState({ ...this.state, plants: result.data });
@@ -38,6 +42,8 @@ class App extends React.Component {
       .catch((error) => {
         console.log(error);
       });
+
+    this.updateUser();
   }
 
   /*  editState(message, body){
@@ -53,18 +59,36 @@ class App extends React.Component {
     }) 
   } */
 
+  updateUser() {
+    // No pasar como props para evitar loop
+    axios({
+      method: "get",
+      url: "http://localhost:5000/loggedin",
+      withCredentials: true,
+    })
+      .then((result) => {
+        const stateCopy = { ...this.state };
+        stateCopy.user = result.data.user;
+        this.setState(stateCopy);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   editStateFromPlantDetails(selectedPlantId) {
     axios({
       method: "post",
       url: "http://localhost:5000/add-plant",
-      data: {plantId: selectedPlantId, user: this.state.user},
+      data: { plantId: selectedPlantId, user: this.state.user },
       withCredentials: true,
     })
       .then((result) => {
-        const stateCopy={...this.state}
-        stateCopy.user.favoritePlants.push(selectedPlantId)
-        stateCopy.message = result.data.message
+        const stateCopy = { ...this.state };
+        stateCopy.user.favoritePlants.push(selectedPlantId);
+        stateCopy.message = result.data.message;
         this.setState(stateCopy);
+        this.updateUser();
       })
       .catch((err) => {
         console.log(err);
@@ -75,7 +99,7 @@ class App extends React.Component {
     const stateCopy = { ...this.state };
     stateCopy["user"] = user;
     stateCopy.message = message;
-    stateCopy.logInSuccess = true;
+    user ? (stateCopy.logInSuccess = true) : (stateCopy.logInSuccess = false);
     this.setState(stateCopy);
   }
 
@@ -94,6 +118,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Navbar
+          user={this.state.user}
           auth={this.state.logInSuccess}
           logout={() => this.editStateFromLogout()}
         />
@@ -118,12 +143,19 @@ class App extends React.Component {
             )}
           />
           <Route path="/forum" exact component={() => <Forum />} />
-          <Route path="/shop" exact component={() => <Shop />} />
           <Route
-            path="/signup"
+            path="/shop"
             exact
-            component={() => <Signup logInSuccess={this.state.logInSuccess} />}
+            component={() => <Shop allPlants={this.state.plants} />}
           />
+          <Route
+            path="/shop-items/:_id"
+            exact
+            component={(routeProps) => (
+              <ShopItem {...routeProps} plants={this.state.plants} />
+            )}
+          />
+          <Route path="/signup" exact component={() => <Signup />} />
           <Route
             path="/login"
             exact
@@ -133,6 +165,7 @@ class App extends React.Component {
                   this.editStateFromLogin(body, message)
                 }
                 logInSuccess={this.state.logInSuccess}
+                userInfo={this.state.user}
               />
             )}
           />
@@ -140,14 +173,19 @@ class App extends React.Component {
             path="/logout"
             exact
             component={() => (
-              <Logout
+              <Logout logout={(message) => this.editStateFromLogout(message)} />
+            )}
+          />
+          <Route
+            path="/admin"
+            exact
+            component={() => (
+              <Admin
                 userInfo={this.state.user}
                 logInSuccess={this.state.logInSuccess}
-                logout={(message) => this.editStateFromLogout(message)}
               />
             )}
           />
-
           <Route
             path="/profile"
             exact
@@ -155,7 +193,6 @@ class App extends React.Component {
               <Profile
                 userInfo={this.state.user}
                 logInSuccess={this.state.logInSuccess}
-                favoritePlants={this.state.user.favoritePlants}
               />
             )}
           />

@@ -1,71 +1,108 @@
-@mixin mainTitle{
+@mixin mainTitle {
   font-size: 2rem;
 }
 @mixin title {
   font-size: 1.5rem;
 }
-@mixin subtitle{
+@mixin subtitle {
   font-size: 1.2rem;
 }
-@mixin normalText{
-  font-size: 1rem
+@mixin normalText {
+  font-size: 1rem;
 }
 
-@mixin flexCenter($direction, $justify, $align){
+@mixin flexCenter($direction, $justify, $align) {
   display: flex;
   flex-direction: $direction;
   justify-content: $justify;
   align-items: $align;
 }
 
-.link{
-  color: black; 
+.link {
+  color: black;
   text-decoration: none;
   height: 100%;
 }
 
-.button{
+.button {
   color: black;
 }
 
-body{
+body {
   &::-webkit-scrollbar {
     display: none;
   }
 }
 
-.App{
+.App {
   text-align: center;
-  h1{
+  h1 {
     @include mainTitle;
   }
 }
 
-.Navbar{
+.spinner {
+  width: 100%;
+  height: 100px;
+  .lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-ripple div {
+    position: absolute;
+    border: 4px solid #dfc;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  .lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  @keyframes lds-ripple {
+    0% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+    100% {
+      top: 0px;
+      left: 0px;
+      width: 72px;
+      height: 72px;
+      opacity: 0;
+    }
+  }
+}
+
+.Navbar {
   background-color: rgb(156, 211, 156);
-  .navbar-child{
+  .navbar-child {
     @include flexCenter(row, space-between, center);
     height: 80px;
     margin: 0 10px;
-    a{
+    a {
       @include flexCenter(row, center, center);
     }
-    .nav-left{
-      @include flexCenter(row, center, center);
-      height: 100%;      
-    }
-    .nav-right{
+    .nav-left {
       @include flexCenter(row, center, center);
       height: 100%;
     }
-    .nav-btn{
+    .nav-right {
+      @include flexCenter(row, center, center);
+      height: 100%;
+    }
+    .nav-btn {
       @include flexCenter(row, center, center);
       width: 150px;
       padding: 20px 10px;
       font-size: 1.4rem;
       margin: 5px 0;
-      transition: .75s;
-      &:hover{
+      transition: 0.75s;
+      &:hover {
         color: whitesmoke;
         background-color: rgb(100, 136, 100);
       }
@@ -73,72 +110,100 @@ body{
   }
 }
 
-.Homepage{
+.plant-cards-container {
+  @include flexCenter(row, center, center);
+  flex-wrap: wrap;
+  margin: 100px;
+  .plant-card {
+    img {
+      width: 250px;
+    }
+    h2 {
+      @include title;
+    }
+    h3 {
+      @include subtitle;
+    }
+    width: 300px;
+    height: 400px;
+    margin: 0 auto;
+    padding: 30px 0px;
+    margin: 30px;
+    -webkit-box-shadow: 0px 10px 16px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 10px 16px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 10px 16px 2px rgba(0, 0, 0, 0.75);
+    transition: 0.5s;
+    &:hover {
+      transform: scale3d(1.02, 1.02, 1);
+    }
+  }
+}
+
+.Homepage {
   color: darkslategrey;
-  .plant-cards-container{
+  .plant-cards-container {
     @include flexCenter(row, center, center);
     flex-wrap: wrap;
     margin: 100px;
-    .plant-card{
-      img{
+    .plant-card {
+      img {
         width: 250px;
       }
-      h2{
-        @include title
+      h2 {
+        @include title;
       }
-      h3{
-        @include subtitle
+      h3 {
+        @include subtitle;
       }
       width: 300px;
       height: 400px;
       margin: 0 auto;
       padding: 30px 0px;
       margin: 30px;
-      -webkit-box-shadow: 0px 10px 16px 2px rgba(0,0,0,0.75);
-      -moz-box-shadow: 0px 10px 16px 2px rgba(0,0,0,0.75);
-      box-shadow: 0px 10px 16px 2px rgba(0,0,0,0.75);
+      -webkit-box-shadow: 0px 10px 16px 2px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 0px 10px 16px 2px rgba(0, 0, 0, 0.75);
+      box-shadow: 0px 10px 16px 2px rgba(0, 0, 0, 0.75);
       transition: 0.5s;
-      &:hover{
+      &:hover {
         transform: scale3d(1.02, 1.02, 1);
       }
     }
   }
 }
 
-.Profile{
-  .plant-cards-container{
+.Profile {
+  .plant-cards-container {
     background-color: coral;
     @include flexCenter(row, center, center);
     flex-wrap: wrap;
     margin: 100px;
-    .plant-card{
-      img{
+    .plant-card {
+      img {
         width: 250px;
       }
-      h2{
-        @include title
+      h2 {
+        @include title;
       }
-      h3{
-        @include subtitle
+      h3 {
+        @include subtitle;
       }
       width: 300px;
       height: 400px;
       margin: 0 auto;
       padding: 30px 0px;
       margin: 30px;
-      -webkit-box-shadow: 0px 10px 16px 2px rgba(0,0,0,0.75);
-      -moz-box-shadow: 0px 10px 16px 2px rgba(0,0,0,0.75);
-      box-shadow: 0px 10px 16px 2px rgba(0,0,0,0.75);
+      -webkit-box-shadow: 0px 10px 16px 2px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 0px 10px 16px 2px rgba(0, 0, 0, 0.75);
+      box-shadow: 0px 10px 16px 2px rgba(0, 0, 0, 0.75);
       transition: 0.5s;
-      &:hover{
+      &:hover {
         transform: scale3d(1.02, 1.02, 1);
       }
     }
   }
 }
 
-.PlantDetails{
-
+.PlantDetails {
 }
 
 // @import url(https://fonts.googleapis.com/css?family=Montserrat)
@@ -160,7 +225,7 @@ body{
 // button
 //   font-family: 'Montserrat', sans-serif
 //   text-transform: uppercase
-  
+
 // button
 //   position: relative
 //   border: none
@@ -171,22 +236,22 @@ body{
 //   margin: 0 10px
 //   padding: 23px 33px
 //   border: 3px solid transparent
-  
+
 //   &:active
 //     transform: translateY(3px)
-  
+
 //   &::after, &::before
 //     border-radius: 3px
-  
+
 // .shrink-border
 //   background-color: transparent
 //   color: darken($darkblue, 10%)
-  
+
 //   &:hover
 //     background-color: transparent
 //     box-shadow: none
 //     color: $offwhite
-  
+
 //   &::before
 //     content: ""
 //     position: absolute
@@ -199,7 +264,7 @@ body{
 
 //   &:hover::before
 //     opacity: 0
-  
+
 //   &::after
 //     content: ""
 //     position: absolute
@@ -213,21 +278,21 @@ body{
 //     z-index: -1
 //     transform: scaleX(1.1) scaleY(1.3)
 //     transition: transform 0.3s, opacity 0.3s
-  
+
 //   &:hover::after
 //     opacity: 1
 //     transform: scaleX(1) scaleY(1)
- 
+
 // .material-bubble
 //   background-color: transparent
 //   color: darken($darkblue, 10%)
 //   border: none
 //   overflow: hidden
 //   box-shadow: none
-  
+
 //   &:hover
 //     color: $offwhite
-  
+
 //   &::before
 //     content: ""
 //     position: absolute
@@ -240,7 +305,7 @@ body{
 
 //   &:hover::before
 //     opacity: 0
-  
+
 //   &::after
 //     content: ""
 //     position: absolute
@@ -255,7 +320,7 @@ body{
 //     opacity: 0
 //     z-index: -1
 //     transition: transform 0.3s, opacity 0.3s, background-color 0.3s
-  
+
 //   &:hover::after
 //     opacity: 1
 //     transform-origin: 100px 100px

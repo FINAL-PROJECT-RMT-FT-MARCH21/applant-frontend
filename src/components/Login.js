@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 class Login extends React.Component {
   state = {
@@ -17,13 +17,12 @@ class Login extends React.Component {
       method: "post",
       url: "http://localhost:5000/login",
       data: this.state.user,
-      withCredentials: true
+      withCredentials: true,
     })
       .then((result) => {
-        const user = result.data.result
-        const message = result.data.message
-        this.props.setAppState(user, message)
-        console.log('loged in')
+        const user = result.data.result;
+        const message = result.data.message;
+        this.props.setAppState(user, message);
         // const user = result.data.result
         // const logInSuccess = true
         // this.props.editState(user, message, 'checkLog')
@@ -41,31 +40,77 @@ class Login extends React.Component {
     });
   }
 
-  render() {
-    return this.props.logInSuccess ? (
-      <Redirect to="/profile" />
-    ) : (
-      <div className="Login">
-        <h1>Login</h1>
-        <form onSubmit={(event) => this.handleSubmit(event)}>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            onChange={(event) => this.handleInput(event)}
-          />
-
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            onChange={(event) => this.handleInput(event)}
-          />
-
-          <button>Log in</button>
-        </form>
+  getLogin() {
+    return (
+      <div>
+        <div className="Login">
+          <h1>Login</h1>
+          <form onSubmit={(event) => this.handleSubmit(event)}>
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              name="username"
+              onChange={(event) => this.handleInput(event)}
+            />
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              onChange={(event) => this.handleInput(event)}
+            />
+            <button>Log in</button>
+          </form>
+        </div>
+        <div>
+          <p>
+            Don't have an account yet? Register by clicking
+            <Link to="/signup"> here</Link>
+          </p>
+        </div>
       </div>
     );
+
+    // if (this.props.logInSuccess) {
+    //   if (this.props.user.admin) {
+    //     <Redirect to="/admin" />;
+    //   } else {
+    //     <Redirect to="/profile" />;
+    //   }
+    // } else {
+    //   return (
+    //     <div>
+    //       <div className="Login">
+    //         <h1>Login</h1>
+    //         <form onSubmit={(event) => this.handleSubmit(event)}>
+    //           <label htmlFor="username">Username</label>
+    //           <input
+    //             type="text"
+    //             name="username"
+    //             onChange={(event) => this.handleInput(event)}
+    //           />
+    //           <label htmlFor="password">Password</label>
+    //           <input
+    //             type="password"
+    //             name="password"
+    //             onChange={(event) => this.handleInput(event)}
+    //           />
+    //           <button>Log in</button>
+    //         </form>
+    //       </div>
+    //       <div>
+    //         <p>
+    //           Don't have an account yet? Register by clicking
+    //           <Link to="/signup"> here</Link>
+    //         </p>
+    //       </div>
+    //     </div>
+    //   );
+    // }
+  }
+
+  render() {
+    return <div className="Login">{/* {this.getLogin()} */}</div>;
   }
 }
+
 export default Login;
