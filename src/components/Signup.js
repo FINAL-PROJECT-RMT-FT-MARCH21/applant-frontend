@@ -1,6 +1,6 @@
-import React from "react";
-import axios from "axios";
-import { Redirect } from "react-router-dom";
+import React from 'react'
+import axios from 'axios'
+import { Redirect } from 'react-router-dom'
 
 class Signup extends React.Component {
   state = {
@@ -10,34 +10,36 @@ class Signup extends React.Component {
     },
     successSignUp: false,
     errorMessage: false,
-  };
+  }
 
   handleSubmit(event) {
-    event.preventDefault();
+    event.preventDefault()
     axios({
-      method: "post",
-      url: "http://localhost:5000/signup",
+      method: 'post',
+      url: 'http://localhost:5000/signup',
       data: this.state.user,
     })
       .then((result) => {
-        if (result.data.message === "User created") {
-          this.setState({ ...this.state, successSignUp: true });
+        if (result.data.message === 'User created') {
+          this.setState({ ...this.state, successSignUp: true })
         } else {
-          this.setState({ ...this.state, errorMessage: true });
+          this.setState({ ...this.state, errorMessage: true })
         }
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   handleChange(event) {
-    const { value, name } = event.target;
+    const { value, name } = event.target
     this.setState({
       ...this.state,
       user: { ...this.state.user, [name]: value },
-    });
+    })
   }
+
+  getSignUp() {}
 
   render() {
     return this.state.successSignUp ? (
@@ -45,26 +47,29 @@ class Signup extends React.Component {
     ) : (
       <div className="Signup">
         <h1>Sign up</h1>
-        <form onSubmit={(event) => this.handleSubmit(event)}>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            onChange={(event) => this.handleChange(event)}
-          />
+        <form className="form" onSubmit={(event) => this.handleSubmit(event)}>
+          <div className="form-field">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              name="username"
+              onChange={(event) => this.handleChange(event)}
+            />
+          </div>
+          <div className="form-field">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              onChange={(event) => this.handleChange(event)}
+            />
+          </div>
 
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            onChange={(event) => this.handleChange(event)}
-          />
-
-          <button>Sign up</button>
+          <button>Register new user</button>
         </form>
         {this.state.errorMessage ? <p>Este usuario ya existe</p> : null}
       </div>
-    );
+    )
   }
 }
-export default Signup;
+export default Signup

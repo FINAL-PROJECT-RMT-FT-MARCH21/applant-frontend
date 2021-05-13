@@ -18,14 +18,57 @@
   align-items: $align;
 }
 
+@keyframes btn-hover {
+  from {
+    background-color: darkgreen;
+    width: 300px;
+    border-radius: 5px;
+  }
+  to {
+    background-color: green;
+    width: 400px;
+    border-radius: 10px 50px;
+  }
+}
+
+@keyframes btn-no-hover {
+  from {
+    background-color: green;
+    width: 400px;
+    border-radius: 10px 50px;
+  }
+  to {
+    background-color: darkgreen;
+    width: 300px;
+    border-radius: 5px;
+  }
+}
+
+button {
+  width: 300px;
+  background: none;
+  background-color: darkgreen;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  animation-name: btn-no-hover;
+  animation-duration: 1s;
+  &:hover {
+    animation-name: btn-hover;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+  }
+}
+
 .link {
   color: black;
   text-decoration: none;
   height: 100%;
-}
-
-.button {
-  color: black;
 }
 
 body {
@@ -35,7 +78,6 @@ body {
 }
 
 .App {
-  text-align: center;
   h1 {
     @include mainTitle;
   }
@@ -78,6 +120,17 @@ body {
   }
 }
 
+.form {
+  @include flexCenter(column, center, center);
+  .form-field {
+    @include flexCenter(column, center, center);
+    margin: 8px 0;
+  }
+  .form-field * {
+    margin: 4px 0;
+  }
+}
+
 .Navbar {
   background-color: rgb(156, 211, 156);
   .navbar-child {
@@ -96,17 +149,34 @@ body {
       height: 100%;
     }
     .nav-btn {
-      @include flexCenter(row, center, center);
+      text-align: center;
       width: 150px;
       padding: 20px 10px;
       font-size: 1.4rem;
       margin: 5px 0;
       transition: 0.75s;
+      color: whitesmoke;
       &:hover {
-        color: whitesmoke;
+        color: black;
         background-color: rgb(100, 136, 100);
       }
     }
+  }
+}
+
+.link-btn {
+  margin: 0 auto;
+  width: 150px;
+  padding: 20px 10px;
+  font-size: 1.4rem;
+  margin: 5px 0;
+  transition: 0.75s;
+  color: whitesmoke;
+  text-decoration: none;
+  background-color: rgb(100, 136, 100);
+  &:hover {
+    color: black;
+    background-color: white;
   }
 }
 
@@ -140,13 +210,14 @@ body {
 }
 
 .Homepage {
+  @include flexCenter(column, center, center);
   color: darkslategrey;
   .plant-cards-container {
     @include flexCenter(row, center, center);
     flex-wrap: wrap;
     margin: 100px;
     .plant-card {
-      img {
+      @include flexCenter(column, center, center) img {
         width: 250px;
       }
       h2 {
@@ -171,13 +242,37 @@ body {
   }
 }
 
+.Forum {
+  @include flexCenter(column, center, center);
+}
+
+.Store {
+  a,
+  h2,
+  h3 {
+    @include flexCenter(column, center, center);
+  }
+}
+
+.Signup {
+  @include flexCenter(column, center, center);
+}
+
+.Login {
+  div {
+    @include flexCenter(column, center, center);
+  }
+}
+
 .Profile {
+  @include flexCenter(column, center, center);
   .plant-cards-container {
+    @include flexCenter(column, center, center);
     background-color: coral;
-    @include flexCenter(row, center, center);
     flex-wrap: wrap;
     margin: 100px;
     .plant-card {
+      @include flexCenter(column, center, center);
       img {
         width: 250px;
       }

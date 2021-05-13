@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-class Shop extends React.Component {
+class Store extends React.Component {
   getPlants() {
-    const plants = this.props.allPlants;
+    const plants = this.props.allPlants
     return plants.map((plant, index) => {
       return (
         <div key={index} className="plant-card">
@@ -20,16 +20,12 @@ class Shop extends React.Component {
             )
           </h3>
         </div>
-      );
-    });
+      )
+    })
   }
 
   render() {
-    return (
-      <div className="Shop">
-        <h1>Shop</h1>
-      </div>
-    );
+    return <div className="Store">{this.getPlants()}</div>
   }
 }
-export default Shop;
+export default Store

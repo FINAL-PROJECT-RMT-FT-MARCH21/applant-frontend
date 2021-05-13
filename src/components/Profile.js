@@ -1,13 +1,15 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
+import axios from 'axios'
+import React from 'react'
+import { Redirect, Link } from 'react-router-dom'
 
 class Profile extends React.Component {
   toUpper(word) {
-    if (word) return word[0].toUpperCase() + word.slice(1);
+    if (word) return word[0].toUpperCase() + word.slice(1)
   }
 
   getFavoritePlants() {
-    const { favoritePlants } = this.props.userInfo;
+    const selectedPlantId = this.props.match.params._id
+    const { favoritePlants } = this.props.userInfo
     if (favoritePlants.length > 0) {
       return favoritePlants.map((plant, index) => {
         return (
@@ -17,6 +19,16 @@ class Profile extends React.Component {
             <h2>{this.toUpper(plant.commonName)}</h2>
 
             <h3>({this.toUpper(plant.botanicalName)})</h3>
+
+            <Link
+              to={`/delete-plant/${selectedPlantId}`}
+              className="link-btn"
+              onClick={(selectedPlantId) =>
+                this.props.deletePlant(selectedPlantId)
+              }
+            >
+              Delete
+            </Link>
 
             <p>
               <b>Maintenance:</b> {this.toUpper(plant.maintenance)}
@@ -29,13 +41,13 @@ class Profile extends React.Component {
             <p>
               <b>Type: </b>
               {plant.type.map((type) => {
-                return `${this.toUpper(type)} `;
+                return `${this.toUpper(type)} `
               })}
             </p>
             <p>{plant.exposure.forEach((exposure) => exposure)}</p>
 
             <p>
-              <b>Air purifying:</b> {plant.purifying ? "Yes" : "No"}
+              <b>Air purifying:</b> {plant.purifying ? 'Yes' : 'No'}
             </p>
 
             <p>
@@ -47,13 +59,12 @@ class Profile extends React.Component {
             </h3>
             <p>{plant.about}</p>
           </div>
-        );
-      });
+        )
+      })
     }
   }
 
   render() {
-    console.log();
     return this.props.logInSuccess ? (
       <div className="Profile">
         <h1>
@@ -66,8 +77,8 @@ class Profile extends React.Component {
       </div>
     ) : (
       <Redirect to="./" />
-    );
+    )
   }
 }
 
-export default Profile;
+export default Profile

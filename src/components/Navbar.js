@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
 // import axios from "axios";
 
 class Navbar extends React.Component {
@@ -30,7 +30,7 @@ class Navbar extends React.Component {
                 </Link>
               </div>
               <div className="nav-btn">
-                <Link className="link" to="/shop">
+                <Link className="link" to="/store">
                   Store
                 </Link>
               </div>
@@ -59,7 +59,7 @@ class Navbar extends React.Component {
               </div>
             </div>
           </div>
-        );
+        )
       } else {
         return (
           <div className="navbar-child">
@@ -75,7 +75,7 @@ class Navbar extends React.Component {
                 </Link>
               </div>
               <div className="nav-btn">
-                <Link className="link" to="/shop">
+                <Link className="link" to="/store">
                   Store
                 </Link>
               </div>
@@ -97,7 +97,7 @@ class Navbar extends React.Component {
               </div>
             </div>
           </div>
-        );
+        )
       }
     } else {
       return (
@@ -109,7 +109,7 @@ class Navbar extends React.Component {
             <Link className="link" to="/forum">
               <div className="nav-btn">Forum</div>
             </Link>
-            <Link className="link" to="/shop">
+            <Link className="link" to="/store">
               <div className="nav-btn">Store</div>
             </Link>
           </div>
@@ -119,14 +119,14 @@ class Navbar extends React.Component {
             </Link>
           </div>
         </div>
-      );
+      )
     }
   }
 
   /*{ <Link className="link" to="/signup">Sign up | </Link> }*/
   render() {
-    return <nav className="Navbar">{this.getNavbar()}</nav>;
+    return <nav className="Navbar">{this.getNavbar()}</nav>
   }
 }
 
-export default Navbar;
+export default Navbar

@@ -1,20 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 class Homepage extends React.Component {
   state = {
     filteredPlants: [...this.props.allPlants],
-  };
+  }
 
   filterPlants(event) {
-    const value = event.target.value.toLowerCase();
+    const value = event.target.value.toLowerCase()
     const filteredPlants = this.props.allPlants.filter((plant) => {
-      return plant.commonName.includes(value);
-    });
-    this.setState({ ...this.state, filteredPlants: filteredPlants });
+      return plant.commonName.includes(value)
+    })
+    this.setState({ ...this.state, filteredPlants: filteredPlants })
   }
   getPlants() {
-    const plants = this.state.filteredPlants;
+    const plants = this.state.filteredPlants
     return plants.map((plant, index) => {
       return (
         <div key={index} className="plant-card">
@@ -31,8 +31,8 @@ class Homepage extends React.Component {
             )
           </h3>
         </div>
-      );
-    });
+      )
+    })
   }
 
   render() {
@@ -55,7 +55,7 @@ class Homepage extends React.Component {
           <div className="plant-cards-container">{this.getPlants()}</div>
         )}
       </div>
-    );
+    )
   }
 }
-export default Homepage;
+export default Homepage
