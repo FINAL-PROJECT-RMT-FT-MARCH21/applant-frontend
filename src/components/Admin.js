@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import { Redirect } from 'react-router-dom'
 
 class Admin extends React.Component {
   state = {
@@ -20,6 +21,16 @@ class Admin extends React.Component {
     },
     newPost: {},
     adminPermissions: false
+  }
+
+  isAdmin(){
+    if (this.props.logInSuccess){
+      if (this.props.userInfo.admin){
+        return true
+      } else {
+        return false
+      }
+    }
   }
 
   showLog() {
@@ -194,9 +205,8 @@ class Admin extends React.Component {
           <button>Create new plant</button>
           <button onClick={() => this.showLog()}>See log</button>
         </form>
+        {!this.isAdmin() ? <Redirect to="/login" /> : null}
       </div>
-      {this.state.adminPermissions = this.props.logInSuccess ? true : false}
-      {!this.state.adminPermissions ? <Redirect to="/login" /> : null}
     )
   }
 
