@@ -5,7 +5,7 @@ class StoreItem extends React.Component {
   state = {
     selectedPlantId: [],
     quantity: 0,
-    toCartNotLogged: false,
+    toCartLoggedStatus: undefined,
   }
 
   handleInput(event) {
@@ -21,8 +21,9 @@ class StoreItem extends React.Component {
   addToCart() {
     if (this.props.logInSuccess) {
       this.props.setAppState(this.state.selectedPlantId, this.state.quantity)
+      this.setState({ ...this.state, toCartLoggedStatus: 'logged' })
     } else {
-      this.setState({ ...this.state, toCartNotLogged: true })
+      this.setState({ ...this.state, toCartLoggedStatus: 'not logged' })
     }
   }
 
@@ -64,10 +65,17 @@ class StoreItem extends React.Component {
           <strong>
             <p>{showSelected.price}€</p>
           </strong>
+
           <button onClick={() => this.addToCart()}>Add to cart</button>
+
           <Link to={`/plant-details/${selectedPlantId}`}>View details</Link>
         </div>
-        {this.state.toCartNotLogged ? <Redirect to="/login" /> : null}
+        {this.state.toCartLoggedStatus === 'not logged' ? (
+          <Redirect to="/login" />
+        ) : null}
+        {this.state.toCartLoggedStatus === 'logged' ? (
+          <Redirect to="/shopping-cart" />
+        ) : null}
       </div>
     )
   }

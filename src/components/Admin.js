@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 class Admin extends React.Component {
   state = {
@@ -15,53 +16,76 @@ class Admin extends React.Component {
       about: '',
       price: 0,
       stock: 0,
+      inStore: false,
     },
     newPost: {},
-  }
-
-  handleSubmit(event) {
-    const {
-      commonName,
-      botanicalName,
-      type,
-      maintenance,
-      water,
-      exposure,
-      safety,
-      purifying,
-      about,
-      price,
-      stock,
-    } = this.state.newPlant
+    adminPermissions: false
   }
 
   showLog() {
     console.log(this.state)
   }
 
-  handleInput(event) {
-    const { name, value } = event.target
-    if (name === 'exposure') {
-    } else {
-      this.setState({
-        ...this.state,
-        newPlant: { ...this.state.newPlant, [name]: value },
+  handleSubmitNewPlant(event) {
+    event.preventDefault()
+    axios({
+      method: 'post',
+      url: 'http://localhost:5000/new-plant',
+      data: this.state.newPlant,
+      withCredentials: true,
+    })
+      .then((result) => {
+        const newPlant = result.data.result
+        const message = result.data.message
+        this.props.setAppState(newPlant, message)
       })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  handleInputNewPlant(event) {
+    const { name, value } = event.target
+    const stateCopy = { ...this.state }
+    if (name === 'type') {
+      stateCopy.newPlant.type = value.includes('all')
+        ? ['indoor', 'outdoor']
+        : value.split(' ')
+    } else if (name === 'exposure') {
+      stateCopy.newPlant.exposure = value.includes('all')
+        ? ['low', 'medium', 'high']
+        : value.split(' ')
+    } else if (name === 'purifying' || name === 'inStore') {
+      stateCopy.newPlant[name] = value ? true : false
+    } else {
+      stateCopy.newPlant[[name]] = value
     }
+    this.setState(stateCopy)
   }
 
   getAdminForms() {
     return (
       <div className="form-container">
         <h2>New plant</h2>
-        <button onClick={() => this.showLog()}>See log</button>
-        <form className="form" onSubmit={(event) => this.handleSubmit(event)}>
+        <form
+          className="form"
+          onSubmit={(event) => this.handleSubmitNewPlant(event)}
+        >
+          <div className="form-field">
+            <label htmlFor="image">Image URL</label>
+            <input
+              type="text"
+              name="image"
+              onChange={(event) => this.handleInputNewPlant(event)}
+              placeholder="https://ibb.co/KyKxWZv"
+            />
+          </div>
           <div className="form-field">
             <label htmlFor="commonName">Common name</label>
             <input
               type="text"
               name="commonName"
-              onChange={(event) => this.handleInput(event)}
+              onChange={(event) => this.handleInputNewPlant(event)}
               placeholder="encina"
             />
           </div>
@@ -70,7 +94,7 @@ class Admin extends React.Component {
             <input
               type="text"
               name="botanicalName"
-              onChange={(event) => this.handleInput(event)}
+              onChange={(event) => this.handleInputNewPlant(event)}
               placeholder="quercus ilex"
             />
           </div>
@@ -79,7 +103,7 @@ class Admin extends React.Component {
             <input
               type="text"
               name="type"
-              onChange={(event) => this.handleInput(event)}
+              onChange={(event) => this.handleInputNewPlant(event)}
               placeholder="indoor / outdoor"
             />
           </div>
@@ -88,7 +112,7 @@ class Admin extends React.Component {
             <input
               type="text"
               name="maintenance"
-              onChange={(event) => this.handleInput(event)}
+              onChange={(event) => this.handleInputNewPlant(event)}
               placeholder="low / medium / high"
             />
           </div>
@@ -97,16 +121,16 @@ class Admin extends React.Component {
             <input
               type="text"
               name="water"
-              onChange={(event) => this.handleInput(event)}
+              onChange={(event) => this.handleInputNewPlant(event)}
               placeholder="low / medium / high"
             />
           </div>
           <div className="form-field">
-            <label htmlFor="water">Exposure</label>
+            <label htmlFor="exposure">Exposure</label>
             <input
               type="text"
-              name="water"
-              onChange={(event) => this.handleInput(event)}
+              name="exposure"
+              onChange={(event) => this.handleInputNewPlant(event)}
               placeholder="low / medium / high"
             />
           </div>
@@ -115,7 +139,7 @@ class Admin extends React.Component {
             <input
               type="text"
               name="safety"
-              onChange={(event) => this.handleInput(event)}
+              onChange={(event) => this.handleInputNewPlant(event)}
               placeholder="yes / (details)"
             />
           </div>
@@ -124,8 +148,8 @@ class Admin extends React.Component {
             <input
               type="checkbox"
               name="purifying"
-              onChange={(event) => this.handleInput(event)}
-              placeholder="true / false"
+              onChange={(event) => this.handleInputNewPlant(event)}
+              value="true"
             />
           </div>
           <div className="form-field">
@@ -134,32 +158,45 @@ class Admin extends React.Component {
               className="textarea"
               type="text"
               name="about"
-              onChange={(event) => this.handleInput(event)}
+              onChange={(event) => this.handleInputNewPlant(event)}
             />
           </div>
           <hr></hr>
-          <div className="form-field">
+          <div className="form-field text-centered">
             <label htmlFor="price">Price</label>
             <input
               type="number"
               step="0.01"
               name="price"
-              onChange={(event) => this.handleInput(event)}
+              onChange={(event) => this.handleInputNewPlant(event)}
               placeholder="0 €"
               min={0}
             />
           </div>
+          <div className="form-field text-centered">
+            <label htmlFor="stock">Stock</label>
+            <input
+              type="number"
+              name="stock"
+              onChange={(event) => this.handleInputNewPlant(event)}
+              placeholder={0}
+            />
+          </div>
           <div className="checkbox">
-            <label htmlFor="stock">Stock </label>
+            <label htmlFor="inStore">In store </label>
             <input
               type="checkbox"
-              name="stock"
-              onChange={(event) => this.handleInput(event)}
+              name="inStore"
+              onChange={(event) => this.handleInputNewPlant(event)}
+              value="true"
             />
           </div>
           <button>Create new plant</button>
+          <button onClick={() => this.showLog()}>See log</button>
         </form>
       </div>
+      {this.state.adminPermissions = this.props.logInSuccess ? true : false}
+      {!this.state.adminPermissions ? <Redirect to="/login" /> : null}
     )
   }
 

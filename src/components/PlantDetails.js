@@ -12,7 +12,7 @@ class PlantDetails extends React.Component {
   checkIfLogIn() {
     const selectedPlantId = this.props.match.params._id
     if (this.props.logInSuccess) {
-      this.setState({ ...this.state, loggedin: true })
+      // this.setState({ ...this.state, loggedin: true })
       this.props.setAppState(selectedPlantId)
     } else {
       this.setState({ ...this.state, toLikeNotLogged: true })

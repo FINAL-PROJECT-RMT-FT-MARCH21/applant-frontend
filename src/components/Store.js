@@ -45,20 +45,23 @@ class Store extends React.Component {
 
   render() {
     return (
-      <div className="Store">
+      <div className="Homepage">
+        <h1 className="main-title">Store</h1>
         <input
           type="text"
           placeholder="Search plant"
           onChange={(event) => this.filterPlantsByName(event)}
         />
-        <button onClick={() => this.getAllPlants()}>All</button>
-        <button onClick={() => this.filterPlantsByType('indoor')}>
-          Indoors
-        </button>
-        <button onClick={() => this.filterPlantsByType('outdoor')}>
-          Outdoors
-        </button>
-        {this.getPlants()}
+        <div className="filter-buttons">
+          <button onClick={() => this.getAllPlants()}>All</button>
+          <button onClick={() => this.filterPlantsByType('indoor')}>
+            Indoors
+          </button>
+          <button onClick={() => this.filterPlantsByType('outdoor')}>
+            Outdoors
+          </button>
+        </div>
+        <div className="plant-cards-container">{this.getPlants()}</div>
       </div>
     )
   }

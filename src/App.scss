@@ -18,6 +18,10 @@
   align-items: $align;
 }
 
+.text-centered {
+  text-align: center;
+}
+
 button {
   width: 200px;
   background: none;
@@ -104,7 +108,9 @@ body {
   h2 {
     margin: 5px 0;
   }
-
+  .form {
+    @include flexCenter(column, center, center);
+  }
   .checkbox {
     @include flexCenter(row, center, center);
     margin: 5px 0;
@@ -117,11 +123,9 @@ body {
       max-width: 177px;
     }
   }
-
   button {
     margin: 5px 0;
   }
-
   .logginButton {
     margin-top: 20px;
   }

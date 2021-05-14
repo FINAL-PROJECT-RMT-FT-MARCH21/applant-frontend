@@ -16,6 +16,7 @@ import Login from './components/Login'
 import Logout from './components/Logout'
 import Profile from './components/Profile'
 import StoreItem from './components/StoreItem'
+import ShoppingCart from './components/ShoppingCart'
 
 class App extends React.Component {
   state = {
@@ -121,10 +122,17 @@ class App extends React.Component {
     this.setState(stateCopy)
   }
 
+  addNewPlant(newPlant, message) {
+    const stateCopy = { ...this.state }
+    stateCopy.message = message
+    stateCopy.plants.push(newPlant)
+    this.setState(stateCopy)
+  }
+
   deleteFavoritePlant(id) {
     axios({
       method: 'post',
-      url: `http://localhost:5000/delete-plant/${id}`,
+      url: `http://localhost:5000/delete-favorite-plant/${id}`,
       data: { user: this.state.user },
       withCredentials: true,
     })
@@ -137,7 +145,6 @@ class App extends React.Component {
   }
 
   deletePlant = (id) => {
-    console.log('EVEEEENT' + id)
     const favoritePlantsCopy = [...this.state.user.favoritePlants]
     const updatedPlants = favoritePlantsCopy.filter((plant) => {
       return plant._id !== id
@@ -242,6 +249,9 @@ class App extends React.Component {
               <Admin
                 userInfo={this.state.user}
                 logInSuccess={this.state.logInSuccess}
+                setAppState={(newPlant, message) =>
+                  this.addNewPlant(newPlant, message)
+                }
               />
             )}
           />
@@ -254,6 +264,18 @@ class App extends React.Component {
                 userInfo={this.state.user}
                 logInSuccess={this.state.logInSuccess}
                 deletePlant={(event) => this.deletePlant(event)}
+              />
+            )}
+          />
+
+          <Route
+            path="/shopping-cart"
+            exact
+            component={() => (
+              <ShoppingCart
+                userInfo={this.state.user}
+                plants={this.state.plants}
+                logInSuccess={this.state.logInSuccess}
               />
             )}
           />
