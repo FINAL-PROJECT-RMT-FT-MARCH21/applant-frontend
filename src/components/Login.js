@@ -41,6 +41,7 @@ class Login extends React.Component {
     return (
       <div>
         <h1>Login</h1>
+
         <form className="form" onSubmit={(event) => this.handleSubmit(event)}>
           <div className="form-field">
             <label htmlFor="username">Username</label>
@@ -58,7 +59,7 @@ class Login extends React.Component {
               onChange={(event) => this.handleInput(event)}
             />
           </div>
-          <button>Log in</button>
+          <button className="loginButton">Log in</button>
         </form>
         <p>
           Don't have an account yet? Register by clicking<span> </span>

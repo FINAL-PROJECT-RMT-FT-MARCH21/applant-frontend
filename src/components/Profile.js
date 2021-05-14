@@ -20,15 +20,12 @@ class Profile extends React.Component {
 
             <h3>({this.toUpper(plant.botanicalName)})</h3>
 
-            <Link
-              to={`/delete-plant/${selectedPlantId}`}
+            <button
               className="link-btn"
-              onClick={(selectedPlantId) =>
-                this.props.deletePlant(selectedPlantId)
-              }
+              onClick={() => this.props.deletePlant(plant._id)}
             >
               Delete
-            </Link>
+            </button>
 
             <p>
               <b>Maintenance:</b> {this.toUpper(plant.maintenance)}

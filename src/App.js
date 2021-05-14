@@ -25,6 +25,7 @@ class App extends React.Component {
       password: '',
       admin: false,
       favoritePlants: [],
+      cart: [],
     },
     logInSuccess: false,
     plants: [],
@@ -63,7 +64,28 @@ class App extends React.Component {
         console.log(error)
       })
   }
-
+  editStateFromStoreItems(selectedPlantId, quantity) {
+    axios({
+      method: 'post',
+      url: 'http://localhost:5000/add-to-cart',
+      data: {
+        plantId: selectedPlantId,
+        quantity: quantity,
+        user: this.state.user,
+      },
+      withCredentials: true,
+    })
+      .then((result) => {
+        const stateCopy = { ...this.state }
+        stateCopy.user.cart.push(selectedPlantId, quantity)
+        stateCopy.message = result.data.message
+        this.setState(stateCopy)
+        this.updateUser()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
   editStateFromPlantDetails(selectedPlantId) {
     axios({
       method: 'post',
@@ -99,10 +121,10 @@ class App extends React.Component {
     this.setState(stateCopy)
   }
 
-  deleteFavoritePlant(selectedPlantId) {
+  deleteFavoritePlant(id) {
     axios({
       method: 'post',
-      url: 'http://localhost:5000/delete-plant/:_id',
+      url: `http://localhost:5000/delete-plant/${id}`,
       data: { user: this.state.user },
       withCredentials: true,
     })
@@ -114,14 +136,21 @@ class App extends React.Component {
       })
   }
 
-  deletePlant = (event) => {
-    console.log('EVEEEENT' + event.target)
-    const deleteId = event.target._id
+  deletePlant = (id) => {
+    console.log('EVEEEENT' + id)
     const favoritePlantsCopy = [...this.state.user.favoritePlants]
     const updatedPlants = favoritePlantsCopy.filter((plant) => {
-      return plant._id !== deleteId
+      return plant._id !== id
     })
-    this.setState({ ...this.state.user, favoritePlants: updatedPlants })
+    this.setState(
+      {
+        ...this.state,
+        user: { ...this.state.user, favoritePlants: updatedPlants },
+      },
+      () => {
+        this.deleteFavoritePlant(id)
+      }
+    )
   }
 
   cleanMsg() {
@@ -175,7 +204,14 @@ class App extends React.Component {
             path="/store-items/:_id"
             exact
             component={(routeProps) => (
-              <StoreItem {...routeProps} plants={this.state.plants} />
+              <StoreItem
+                {...routeProps}
+                plants={this.state.plants}
+                logInSuccess={this.state.logInSuccess}
+                setAppState={(selectedPlantId, quantity) =>
+                  this.editStateFromStoreItems(selectedPlantId, quantity)
+                }
+              />
             )}
           />
           <Route path="/signup" exact component={() => <Signup />} />

@@ -6,12 +6,21 @@ class Homepage extends React.Component {
     filteredPlants: [...this.props.allPlants],
   }
 
-  filterPlants(event) {
+  filterPlantsByName(event) {
     const value = event.target.value.toLowerCase()
     const filteredPlants = this.props.allPlants.filter((plant) => {
       return plant.commonName.includes(value)
     })
     this.setState({ ...this.state, filteredPlants: filteredPlants })
+  }
+  filterPlantsByType(type) {
+    const filteredPlants = this.props.allPlants.filter((plant) => {
+      return plant.type.includes(type)
+    })
+    this.setState({ ...this.state, filteredPlants: filteredPlants })
+  }
+  getAllPlants() {
+    this.setState({ ...this.state, filteredPlants: this.props.allPlants })
   }
   getPlants() {
     const plants = this.state.filteredPlants
@@ -42,8 +51,17 @@ class Homepage extends React.Component {
         <input
           type="text"
           placeholder="Search plant"
-          onChange={(event) => this.filterPlants(event)}
+          onChange={(event) => this.filterPlantsByName(event)}
         />
+        <div className="filter-buttons">
+          <button onClick={() => this.getAllPlants()}>All</button>
+          <button onClick={() => this.filterPlantsByType('indoor')}>
+            Indoors
+          </button>
+          <button onClick={() => this.filterPlantsByType('outdoor')}>
+            Outdoors
+          </button>
+        </div>
         {this.props.allPlants.length === 0 ? (
           <div className="spinner">
             <div className="lds-ripple">
