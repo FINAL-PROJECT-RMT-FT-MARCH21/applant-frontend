@@ -1,6 +1,5 @@
-import axios from 'axios'
 import React from 'react'
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 class Profile extends React.Component {
   toUpper(word) {
@@ -8,7 +7,6 @@ class Profile extends React.Component {
   }
 
   getFavoritePlants() {
-    const selectedPlantId = this.props.match.params._id
     const { favoritePlants } = this.props.userInfo
     if (favoritePlants.length > 0) {
       return favoritePlants.map((plant, index) => {

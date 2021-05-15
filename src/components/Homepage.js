@@ -6,22 +6,35 @@ class Homepage extends React.Component {
     filteredPlants: [...this.props.allPlants],
   }
 
-  filterPlantsByName(event) {
-    const value = event.target.value.toLowerCase()
-    const filteredPlants = this.props.allPlants.filter((plant) => {
-      return plant.commonName.includes(value)
-    })
+  getSearchBar(){
+    return (
+      <input type="text" placeholder="Search plant" onChange={(event) => this.filterPlants(event, 'commonName')} />
+    )
+  }
+
+  getFilterButtons(){
+    return (
+      <div className="filter-buttons">
+        <button onClick={() => this.filterPlants()}>All</button>
+        <button onClick={() => this.filterPlants(null, 'type', 'indoors')}>Indoors</button>
+        <button onClick={() => this.filterPlants(null, 'type', 'outdoors')}>Outdoors</button>
+      </div>
+    )
+  }
+
+  filterPlants(event, by, type){
+    let filteredPlants, value
+    if (by === 'commonName'){
+      value = event.target.value.toLowerCase()
+      filteredPlants = this.props.allPlants.filter((plant) => plant[by].includes(value))
+    } else if (by === 'type'){
+      filteredPlants = this.props.allPlants.filter((plant) => plant.type.includes(type))
+    } else {
+      filteredPlants = this.props.allPlants
+    }
     this.setState({ ...this.state, filteredPlants: filteredPlants })
   }
-  filterPlantsByType(type) {
-    const filteredPlants = this.props.allPlants.filter((plant) => {
-      return plant.type.includes(type)
-    })
-    this.setState({ ...this.state, filteredPlants: filteredPlants })
-  }
-  getAllPlants() {
-    this.setState({ ...this.state, filteredPlants: this.props.allPlants })
-  }
+
   getPlants() {
     const plants = this.state.filteredPlants
     return plants.map((plant, index) => {
@@ -30,15 +43,8 @@ class Homepage extends React.Component {
           <Link className="link" to={`/plant-details/${plant._id}`}>
             <img src={plant.image} alt={plant.commonName} />
           </Link>
-          <h2>
-            {plant.commonName[0].toUpperCase() + plant.commonName.slice(1)}
-          </h2>
-          <h3>
-            (
-            {plant.botanicalName[0].toUpperCase() +
-              plant.botanicalName.slice(1)}
-            )
-          </h3>
+          <h2>{plant.commonName[0].toUpperCase() + plant.commonName.slice(1)}</h2>
+          <h3>({plant.botanicalName[0].toUpperCase() + plant.botanicalName.slice(1)})</h3>
         </div>
       )
     })
@@ -48,20 +54,8 @@ class Homepage extends React.Component {
     return (
       <div className="Homepage">
         <h1 className="main-title">All plants</h1>
-        <input
-          type="text"
-          placeholder="Search plant"
-          onChange={(event) => this.filterPlantsByName(event)}
-        />
-        <div className="filter-buttons">
-          <button onClick={() => this.getAllPlants()}>All</button>
-          <button onClick={() => this.filterPlantsByType('indoor')}>
-            Indoors
-          </button>
-          <button onClick={() => this.filterPlantsByType('outdoor')}>
-            Outdoors
-          </button>
-        </div>
+        {this.getSearchBar()}
+        {this.getFilterButtons()}
         {this.props.allPlants.length === 0 ? (
           <div className="spinner">
             <div className="lds-ripple">

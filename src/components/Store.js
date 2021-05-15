@@ -3,41 +3,48 @@ import { Link } from 'react-router-dom'
 
 class Store extends React.Component {
   state = {
-    filteredPlants: [...this.props.allPlants],
+    filteredStoreItems: [...this.props.allPlants],
   }
-  filterPlantsByName(event) {
-    const value = event.target.value.toLowerCase()
-    const filteredPlants = this.props.allPlants.filter((plant) => {
-      return plant.commonName.includes(value)
-    })
-    this.setState({ ...this.state, filteredPlants: filteredPlants })
+
+  getSearchBar(){
+    return (
+      <input type="text" placeholder="Search plant" onChange={(event) => this.filterStoreItems(event, 'commonName')} />
+    )
   }
-  filterPlantsByType(type) {
-    const filteredPlants = this.props.allPlants.filter((plant) => {
-      return plant.type.includes(type)
-    })
-    this.setState({ ...this.state, filteredPlants: filteredPlants })
+
+  getFilterButtons(){
+    return (
+      <div className="filter-buttons">
+        <button onClick={() => this.filterStoreItems()}>All</button>
+        <button onClick={() => this.filterStoreItems(null, 'type', 'indoors')}>Indoors</button>
+        <button onClick={() => this.filterStoreItems(null, 'type', 'outdoors')}>Outdoors</button>
+      </div>
+    )
   }
-  getAllPlants() {
-    this.setState({ ...this.state, filteredPlants: this.props.allPlants })
+
+  filterStoreItems(event, by, type){
+    let filteredStoreItems, value
+    if (by === 'commonName'){
+      value = event.target.value.toLowerCase()
+      filteredStoreItems = this.props.allPlants.filter((plant) => plant[by].includes(value))
+    } else if (by === 'type'){
+      filteredStoreItems = this.props.allPlants.filter((plant) => plant.type.includes(type))
+    } else {
+      filteredStoreItems = this.props.allPlants
+    }
+    this.setState({ ...this.state, filteredStoreItems: filteredStoreItems })
   }
-  getPlants() {
-    const plants = this.state.filteredPlants
-    return plants.map((plant, index) => {
+
+  getStoreItems() {
+    const storeItems = this.state.filteredStoreItems
+    return storeItems.map((plant, index) => {
       return (
         <div key={index} className="plant-card">
           <Link className="link" to={`/store-items/${plant._id}`}>
             <img src={plant.image} alt={plant.commonName} />
           </Link>
-          <h2>
-            {plant.commonName[0].toUpperCase() + plant.commonName.slice(1)}
-          </h2>
-          <h3>
-            (
-            {plant.botanicalName[0].toUpperCase() +
-              plant.botanicalName.slice(1)}
-            )
-          </h3>
+          <h2>{plant.commonName[0].toUpperCase() + plant.commonName.slice(1)}</h2>
+          <h3>({plant.botanicalName[0].toUpperCase() + plant.botanicalName.slice(1)})</h3>
         </div>
       )
     })
@@ -47,21 +54,9 @@ class Store extends React.Component {
     return (
       <div className="Homepage">
         <h1 className="main-title">Store</h1>
-        <input
-          type="text"
-          placeholder="Search plant"
-          onChange={(event) => this.filterPlantsByName(event)}
-        />
-        <div className="filter-buttons">
-          <button onClick={() => this.getAllPlants()}>All</button>
-          <button onClick={() => this.filterPlantsByType('indoor')}>
-            Indoors
-          </button>
-          <button onClick={() => this.filterPlantsByType('outdoor')}>
-            Outdoors
-          </button>
-        </div>
-        <div className="plant-cards-container">{this.getPlants()}</div>
+        {this.getSearchBar()}
+        {this.getFilterButtons()}
+        <div className="plant-cards-container">{this.getStoreItems()}</div>
       </div>
     )
   }

@@ -9,10 +9,8 @@ class StoreItem extends React.Component {
   }
 
   handleInput(event) {
-    console.log('------>', event.target.value)
     const selectedPlantId = this.props.match.params._id
     const quantity = event.target.value
-    console.log(event.target.value)
     if (this.props.logInSuccess) {
       this.setState({ ...this.state, selectedPlantId, quantity })
     }
@@ -57,7 +55,7 @@ class StoreItem extends React.Component {
           <input
             className="input"
             type="number"
-            placeholder="1"
+            placeholder="0"
             min="0"
             name="quantity"
             onChange={(event) => this.handleInput(event)}

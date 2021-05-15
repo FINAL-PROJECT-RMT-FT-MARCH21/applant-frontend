@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 
 class Admin extends React.Component {
   state = {
-    newUser: {},
+    users: [],
     newPlant: {
       commonName: '',
       botanicalName: '',
@@ -21,6 +21,24 @@ class Admin extends React.Component {
     },
     newPost: {},
     adminPermissions: false
+  }
+
+  componentDidMount(){
+    axios({
+      method: 'get',
+      url: `http://localhost:5000/all-users`,
+      withCredentials: true,
+    })
+      .then((result) => {
+        this.setState({ ...this.state, users: result.data })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  toUpper(word) {
+    if (word) return word[0].toUpperCase() + word.slice(1)
   }
 
   isAdmin(){
@@ -60,7 +78,7 @@ class Admin extends React.Component {
     const stateCopy = { ...this.state }
     if (name === 'type') {
       stateCopy.newPlant.type = value.includes('all')
-        ? ['indoor', 'outdoor']
+        ? ['indoors', 'outdoors']
         : value.split(' ')
     } else if (name === 'exposure') {
       stateCopy.newPlant.exposure = value.includes('all')
@@ -74,7 +92,46 @@ class Admin extends React.Component {
     this.setState(stateCopy)
   }
 
-  getAdminForms() {
+  getUsers(){
+    return (
+      <div className="form-container">
+        <h2>Users</h2>
+        <table>
+          <thead><tr><th>Username</th><th>Admin</th><th>Favorites</th><th>Cart</th></tr></thead>
+          <tbody>
+            {this.state.users.map((user) => {
+                return (
+                  <tr>
+                    <td>{user.username}</td>
+                    <td><input type="checkbox" name="admin" value={1}/></td>
+                    <td>
+                      <ul>
+                        {user.favoritePlants.map((plant) => {
+                          return (
+                            <li>{this.toUpper(plant.commonName)}</li>
+                          )
+                        })}
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        {user.favoritePlants.map((plant) => {
+                          return (
+                            <li>{this.toUpper(plant.commonName)}</li>
+                          )
+                        })}
+                      </ul>
+                    </td>
+                  </tr>
+                )
+              })}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
+  getNewPlantForm() {
     return (
       <div className="form-container">
         <h2>New plant</h2>
@@ -115,7 +172,7 @@ class Admin extends React.Component {
               type="text"
               name="type"
               onChange={(event) => this.handleInputNewPlant(event)}
-              placeholder="indoor / outdoor"
+              placeholder="indoors / outdoors"
             />
           </div>
           <div className="form-field">
@@ -205,13 +262,18 @@ class Admin extends React.Component {
           <button>Create new plant</button>
           <button onClick={() => this.showLog()}>See log</button>
         </form>
-        {!this.isAdmin() ? <Redirect to="/login" /> : null}
+        {/* {!this.isAdmin() ? <Redirect to="/login" /> : null} */}
       </div>
     )
   }
 
   render() {
-    return <div className="Admin">{this.getAdminForms()}</div>
+    return (
+      <div className="Admin">
+        {this.getUsers()}
+        {this.getNewPlantForm()}
+      </div>
+    )
   }
 }
 
