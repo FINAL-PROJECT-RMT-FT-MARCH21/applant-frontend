@@ -65,6 +65,7 @@ class App extends React.Component {
         console.log(error)
       })
   }
+
   editStateFromStoreItems(selectedPlantId, quantity) {
     axios({
       method: 'post',
@@ -87,14 +88,15 @@ class App extends React.Component {
         console.log(err)
       })
   }
+
   editStateFromPlantDetails(selectedPlantId) {
     axios({
       method: 'post',
-      url: 'http://localhost:5000/add-plant',
-      data: { plantId: selectedPlantId, user: this.state.user },
+      url: `http://localhost:5000/add-to-favorites/${selectedPlantId}`,
+      data: { user: this.state.user },
       withCredentials: true,
     })
-      .then((result) => {
+      .then((result) => { // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> check result
         const stateCopy = { ...this.state }
         stateCopy.user.favoritePlants.push(selectedPlantId)
         stateCopy.message = result.data.message
@@ -132,19 +134,20 @@ class App extends React.Component {
   deleteFavoritePlant(id) {
     axios({
       method: 'post',
-      url: `http://localhost:5000/delete-favorite-plant/${id}`,
+      url: `http://localhost:5000/remove-from-favorites/${id}`,
       data: { user: this.state.user },
       withCredentials: true,
     })
       .then((result) => {
         console.log(`Esto es el result => ${result}`)
+
       })
       .catch((error) => {
         console.log(error)
       })
   }
 
-  deletePlant = (id) => {
+  deletePlant = (id) => { // juntar con la de arriba?
     const favoritePlantsCopy = [...this.state.user.favoritePlants]
     const updatedPlants = favoritePlantsCopy.filter((plant) => {
       return plant._id !== id
@@ -158,6 +161,10 @@ class App extends React.Component {
         this.deleteFavoritePlant(id)
       }
     )
+  }
+
+  addMsg(msg){
+    this.setState({...this.state, message: msg})
   }
 
   cleanMsg() {
@@ -249,8 +256,8 @@ class App extends React.Component {
               <Admin
                 userInfo={this.state.user}
                 logInSuccess={this.state.logInSuccess}
-                setAppState={(newPlant, message) =>
-                  this.addNewPlant(newPlant, message)
+                addMsg={(msg) =>
+                  this.addMsg(msg)
                 }
               />
             )}

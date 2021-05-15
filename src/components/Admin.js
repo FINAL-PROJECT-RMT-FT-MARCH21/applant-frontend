@@ -24,6 +24,10 @@ class Admin extends React.Component {
   }
 
   componentDidMount(){
+    this.getUsers()
+  }
+  
+  getUsers(){
     axios({
       method: 'get',
       url: `http://localhost:5000/all-users`,
@@ -54,6 +58,7 @@ class Admin extends React.Component {
   showLog() {
     console.log(this.state)
   }
+
 
   handleSubmitNewPlant(event) {
     event.preventDefault()
@@ -92,16 +97,38 @@ class Admin extends React.Component {
     this.setState(stateCopy)
   }
 
-  getUsers(){
+  actionUsers(event, action, userId){
+    if (action === 'edit'){
+      const hola = null
+    } else if (action === 'delete'){
+      event.preventDefault()
+      axios({
+        method: 'post',
+        url: `http://localhost:5000/delete-user/${userId}`,
+        withCredentials: true,
+      })
+      .then((result) => {
+          console.log('deleted!')
+          const message = result.data.message
+          this.props.addMsg(message)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+        this.getUsers()
+    }
+  }
+
+  showUsers(){
     return (
       <div className="form-container">
         <h2>Users</h2>
         <table>
           <thead><tr><th>Username</th><th>Admin</th><th>Favorites</th><th>Cart</th></tr></thead>
           <tbody>
-            {this.state.users.map((user) => {
+            {this.state.users.map((user, index) => {
                 return (
-                  <tr>
+                  <tr key={index}>
                     <td>{user.username}</td>
                     <td><input type="checkbox" name="admin" value={1}/></td>
                     <td>
@@ -122,6 +149,9 @@ class Admin extends React.Component {
                         })}
                       </ul>
                     </td>
+                    <td>
+                      <button onClick={(event)=>this.actionUsers(event, 'delete', user._id)}><img src="/icons/delete-icon.png" alt="delete"/></button>
+                    </td>
                   </tr>
                 )
               })}
@@ -131,7 +161,7 @@ class Admin extends React.Component {
     )
   }
 
-  getNewPlantForm() {
+  showNewPlantForm() {
     return (
       <div className="form-container">
         <h2>New plant</h2>
@@ -270,8 +300,8 @@ class Admin extends React.Component {
   render() {
     return (
       <div className="Admin">
-        {this.getUsers()}
-        {this.getNewPlantForm()}
+        {this.showUsers()}
+        {this.showNewPlantForm()}
       </div>
     )
   }
