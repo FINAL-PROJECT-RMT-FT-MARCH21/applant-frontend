@@ -58,7 +58,7 @@ class App extends React.Component {
     })
       .then((result) => {
         const stateCopy = { ...this.state }
-        stateCopy.user = result.data.user
+        stateCopy.user = result.data.data
         this.setState(stateCopy)
       })
       .catch((error) => {
@@ -228,7 +228,8 @@ class App extends React.Component {
               />
             )}
           />
-          <Route path="/signup" exact component={() => <Signup />} />
+          <Route path="/signup" exact component={() => (
+              <Signup addMsg={(msg) => this.addMsg(msg)}/>)}/>
           <Route
             path="/login"
             exact

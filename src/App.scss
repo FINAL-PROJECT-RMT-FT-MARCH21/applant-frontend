@@ -108,7 +108,7 @@ table{
 .form-container {
   @include flexCenter(column, center, center);
   background-color: lightgray;
-  width: 300px;
+  width: auto;
   margin: 20px 0;
   padding: 10px 0;
   border-radius: 5px;

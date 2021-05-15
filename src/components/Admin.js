@@ -108,7 +108,7 @@ class Admin extends React.Component {
         withCredentials: true,
       })
       .then((result) => {
-          console.log('deleted!')
+          console.log('deleted!', result.data)
           const message = result.data.message
           this.props.addMsg(message)
         })

@@ -20,7 +20,7 @@ class Login extends React.Component {
       withCredentials: true,
     })
       .then((result) => {
-        const user = result.data.result
+        const user = result.data.data
         const message = result.data.message
         this.props.setAppState(user, message)
       })
@@ -39,9 +39,8 @@ class Login extends React.Component {
 
   getLogin() {
     return (
-      <div>
-        <h1>Login</h1>
-
+      <div className="form-container">
+        <h2>Login</h2>
         <form className="form" onSubmit={(event) => this.handleSubmit(event)}>
           <div className="form-field">
             <label htmlFor="username">Username</label>

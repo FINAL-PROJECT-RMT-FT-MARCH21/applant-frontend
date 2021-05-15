@@ -8,8 +8,7 @@ class Signup extends React.Component {
       username: ``,
       password: ``,
     },
-    successSignUp: false,
-    errorMessage: false,
+    successSignup: false
   }
 
   handleSubmit(event) {
@@ -20,11 +19,8 @@ class Signup extends React.Component {
       data: this.state.user,
     })
       .then((result) => {
-        if (result.data.message === 'User created') {
-          this.setState({ ...this.state, successSignUp: true })
-        } else {
-          this.setState({ ...this.state, errorMessage: true })
-        }
+        if (result.data.successSignup) this.setState({...this.state, successSignup: true})
+        this.props.addMsg(result.data.message)
       })
       .catch((err) => {
         console.log(err)
@@ -39,14 +35,10 @@ class Signup extends React.Component {
     })
   }
 
-  getSignUp() {}
-
-  render() {
-    return this.state.successSignUp ? (
-      <Redirect to="/login" />
-    ) : (
-      <div className="Signup">
-        <h1>Sign up</h1>
+  showSignup() {
+    return (
+      <div className="form-container">
+        <h2>Sign up</h2>
         <form className="form" onSubmit={(event) => this.handleSubmit(event)}>
           <div className="form-field">
             <label htmlFor="username">Username</label>
@@ -64,11 +56,17 @@ class Signup extends React.Component {
               onChange={(event) => this.handleChange(event)}
             />
           </div>
-
           <button>Register new user</button>
         </form>
-        {this.state.errorMessage ? <p>Este usuario ya existe</p> : null}
       </div>
+    )
+  }
+
+  render() {
+    return (
+      this.state.successSignup ? 
+      <Redirect to="/login" /> :
+      <div className="Signup">{this.showSignup()}</div>
     )
   }
 }
