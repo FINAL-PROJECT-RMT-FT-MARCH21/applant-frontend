@@ -79,10 +79,13 @@ class App extends React.Component {
     })
       .then((result) => {
         const stateCopy = { ...this.state }
-        stateCopy.user.cart.push(selectedPlantId, quantity)
+        result.data.data.cart.forEach((item) => {
+          stateCopy.user.cart.push(item)
+        })
         stateCopy.message = result.data.message
         this.setState(stateCopy)
         this.updateUser()
+        console.log(this.state.user)
       })
       .catch((err) => {
         console.log(err)
@@ -96,7 +99,8 @@ class App extends React.Component {
       data: { user: this.state.user },
       withCredentials: true,
     })
-      .then((result) => { // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> check result
+      .then((result) => {
+        // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> check result
         const stateCopy = { ...this.state }
         stateCopy.user.favoritePlants.push(selectedPlantId)
         stateCopy.message = result.data.message
@@ -140,14 +144,14 @@ class App extends React.Component {
     })
       .then((result) => {
         console.log(`Esto es el result => ${result}`)
-
       })
       .catch((error) => {
         console.log(error)
       })
   }
 
-  deletePlant = (id) => { // juntar con la de arriba?
+  deletePlant = (id) => {
+    // juntar con la de arriba?
     const favoritePlantsCopy = [...this.state.user.favoritePlants]
     const updatedPlants = favoritePlantsCopy.filter((plant) => {
       return plant._id !== id
@@ -163,8 +167,8 @@ class App extends React.Component {
     )
   }
 
-  addMsg(msg){
-    this.setState({...this.state, message: msg})
+  addMsg(msg) {
+    this.setState({ ...this.state, message: msg })
   }
 
   cleanMsg() {
@@ -228,8 +232,11 @@ class App extends React.Component {
               />
             )}
           />
-          <Route path="/signup" exact component={() => (
-              <Signup addMsg={(msg) => this.addMsg(msg)}/>)}/>
+          <Route
+            path="/signup"
+            exact
+            component={() => <Signup addMsg={(msg) => this.addMsg(msg)} />}
+          />
           <Route
             path="/login"
             exact
@@ -257,9 +264,7 @@ class App extends React.Component {
               <Admin
                 userInfo={this.state.user}
                 logInSuccess={this.state.logInSuccess}
-                addMsg={(msg) =>
-                  this.addMsg(msg)
-                }
+                addMsg={(msg) => this.addMsg(msg)}
               />
             )}
           />
