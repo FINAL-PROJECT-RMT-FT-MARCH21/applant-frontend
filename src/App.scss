@@ -141,6 +141,24 @@ table{
   }
 }
 
+@-webkit-keyframes move {
+  from {
+    left: -30%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+@-webkit-keyframes moveFirst {
+  from {
+    left: 50%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
 .Navbar {
   background-color: rgb(156, 211, 156);
   .navbar-child {
@@ -162,6 +180,19 @@ table{
       text-align: center;
       width: 150px;
       padding: 20px 10px;
+      font-size: 1.4rem;
+      margin: 5px 0;
+      transition: 0.75s;
+      color: whitesmoke;
+      &:hover {
+        color: black;
+        background-color: rgb(100, 136, 100);
+      }
+    }
+    .cart-icon{
+      text-align: center;
+      width: 50px;
+      padding: 10px 10px 10px 5px;
       font-size: 1.4rem;
       margin: 5px 0;
       transition: 0.75s;

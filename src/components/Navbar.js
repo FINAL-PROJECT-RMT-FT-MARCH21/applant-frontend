@@ -57,6 +57,13 @@ class Navbar extends React.Component {
                   </Link>
                 </div>
               </div>
+              <div className="nav-btn-container">
+                <div className="nav-btn cart-icon">
+                  <Link className="link" to="/shopping-cart">
+                    <img src="/icons/shopping-cart-icon.png" alt="cart"/>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         )
@@ -92,6 +99,13 @@ class Navbar extends React.Component {
                 <div className="nav-btn">
                   <Link className="link" to="/logout">
                     Logout
+                  </Link>
+                </div>
+              </div>
+              <div className="nav-btn-container">
+                <div className="nav-btn cart-icon">
+                  <Link className="link" to="/shopping-cart">
+                    <img src="/icons/shopping-cart-icon.png" alt="cart"/>
                   </Link>
                 </div>
               </div>

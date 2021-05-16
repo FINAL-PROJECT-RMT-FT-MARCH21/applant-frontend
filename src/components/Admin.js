@@ -119,6 +119,23 @@ class Admin extends React.Component {
     }
   }
 
+  isChecked(input){
+    return input.checked ? true : false
+  }
+
+  getCheckbox(swap, name, state){
+    const check = true
+    if (swap){
+
+    } else {
+      if (state){
+        return <td><input onClick={()=>this.getCheckbox('swap')} type="checkbox" name={name} value={1} checked/></td>
+      } else {
+        return <td><input type="checkbox" name={name} value={1}/></td>
+      }
+    }
+  }
+
   showUsers(){
     return (
       <div className="form-container">
@@ -129,13 +146,20 @@ class Admin extends React.Component {
             {this.state.users.map((user, index) => {
                 return (
                   <tr key={index}>
-                    <td>{user.username}</td>
-                    <td><input type="checkbox" name="admin" value={1}/></td>
+                    <td><input type="text" name="username" value={user.username}/></td>
+                    {user.admin ? 
+                    this.getCheckbox(null, 'admin', 'checked') :
+                    this.getCheckbox(null, 'admin', false)
+                    }
+                    {console.log(this.state.users[0])}
                     <td>
                       <ul>
                         {user.favoritePlants.map((plant) => {
                           return (
-                            <li>{this.toUpper(plant.commonName)}</li>
+                            <li>
+                              {this.toUpper(plant.commonName)}
+                              <img src="/icons/delete-icon.png" alt="delete"/>
+                            </li>
                           )
                         })}
                       </ul>
@@ -144,13 +168,19 @@ class Admin extends React.Component {
                       <ul>
                         {user.favoritePlants.map((plant) => {
                           return (
-                            <li>{this.toUpper(plant.commonName)}</li>
+                            <li>
+                              {this.toUpper(plant.commonName)}
+                              <img src="/icons/delete-icon.png" alt="delete"/>
+                            </li>
                           )
                         })}
                       </ul>
                     </td>
                     <td>
-                      <button onClick={(event)=>this.actionUsers(event, 'delete', user._id)}><img src="/icons/delete-icon.png" alt="delete"/></button>
+                      <img src="/icons/edit-icon.png" alt="edit" onClick={(event)=>this.actionUsers(event, 'edit', user._id)}/>
+                      <img src="/icons/delete-icon.png" alt="delete" onClick={(event)=>this.actionUsers(event, 'delete', user._id)}/>
+                      {/* <button onClick={(event)=>this.actionUsers(event, 'edit', user._id)}><img src="/icons/edit-icon.png" alt="edit"/></button> */}
+                      {/* <button onClick={(event)=>this.actionUsers(event, 'delete', user._id)}><img src="/icons/delete-icon.png" alt="delete"/></button> */}
                     </td>
                   </tr>
                 )
