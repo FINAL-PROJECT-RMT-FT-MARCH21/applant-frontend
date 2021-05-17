@@ -1,10 +1,10 @@
 import React from 'react'
-import axios from 'axios'
-import { Redirect } from 'react-router-dom'
+// import { Redirect } from 'react-router-dom'
 
 class Admin extends React.Component {
   state = {
-    users: [],
+    users: [...this.props.users],
+    plants: [...this.props.plants],
     newPlant: {
       commonName: '',
       botanicalName: '',
@@ -23,24 +23,6 @@ class Admin extends React.Component {
     adminPermissions: false
   }
 
-  componentDidMount(){
-    this.getUsers()
-  }
-  
-  getUsers(){
-    axios({
-      method: 'get',
-      url: `http://localhost:5000/all-users`,
-      withCredentials: true,
-    })
-      .then((result) => {
-        this.setState({ ...this.state, users: result.data })
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
   toUpper(word) {
     if (word) return word[0].toUpperCase() + word.slice(1)
   }
@@ -48,289 +30,233 @@ class Admin extends React.Component {
   isAdmin(){
     if (this.props.logInSuccess){
       if (this.props.userInfo.admin){
-        return true
+      return true
       } else {
-        return false
+      return false
       }
     }
   }
 
-  showLog() {
-    console.log(this.state)
-  }
-
-
-  handleSubmitNewPlant(event) {
+  handleSubmit(event, form, url, index){
     event.preventDefault()
-    axios({
-      method: 'post',
-      url: 'http://localhost:5000/new-plant',
-      data: this.state.newPlant,
-      withCredentials: true,
-    })
-      .then((result) => {
-        const newPlant = result.data.result
-        const message = result.data.message
-        this.props.setAppState(newPlant, message)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    index ? this.props.adminAction(this.state[form][index], url) :
+    this.props.adminAction(this.state[form], url)
   }
 
-  handleInputNewPlant(event) {
-    const { name, value } = event.target
-    const stateCopy = { ...this.state }
-    if (name === 'type') {
-      stateCopy.newPlant.type = value.includes('all')
-        ? ['indoors', 'outdoors']
-        : value.split(' ')
-    } else if (name === 'exposure') {
-      stateCopy.newPlant.exposure = value.includes('all')
-        ? ['low', 'medium', 'high']
-        : value.split(' ')
-    } else if (name === 'purifying' || name === 'inStore') {
-      stateCopy.newPlant[name] = value ? true : false
+  handleInput(ev, form){
+    const {name, value} = ev.target
+    const stateCopy = {...this.state}
+    if (name === 'type'){
+      stateCopy[form][name] = value === 'all' ?
+         ['indoors', 'outdoors'] : value.split(' ')
+    } else if (name === 'exposure'){
+      stateCopy[form][name] = value === 'all' ?
+        ['low', 'medium', 'high'] : value.split(' ')
+    } else if (name === 'purifying' || name === 'inStore'){
+      stateCopy[form][name] = value ? true : false
     } else {
-      stateCopy.newPlant[[name]] = value
+      stateCopy[form][name] = value
     }
     this.setState(stateCopy)
   }
 
-  actionUsers(event, action, userId){
-    if (action === 'edit'){
-      const hola = null
-    } else if (action === 'delete'){
-      event.preventDefault()
-      axios({
-        method: 'post',
-        url: `http://localhost:5000/delete-user/${userId}`,
-        withCredentials: true,
-      })
-      .then((result) => {
-          console.log('deleted!', result.data)
-          const message = result.data.message
-          this.props.addMsg(message)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-        this.getUsers()
-    }
-  }
-
-  isChecked(input){
-    return input.checked ? true : false
-  }
-
-  getCheckbox(swap, name, state){
-    const check = true
-    if (swap){
-
-    } else {
-      if (state){
-        return <td><input onClick={()=>this.getCheckbox('swap')} type="checkbox" name={name} value={1} checked/></td>
-      } else {
-        return <td><input type="checkbox" name={name} value={1}/></td>
-      }
-    }
-  }
-
-  showUsers(){
+  showPlants(){
     return (
       <div className="form-container">
-        <h2>Users</h2>
         <table>
-          <thead><tr><th>Username</th><th>Admin</th><th>Favorites</th><th>Cart</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Image URL</th>
+              <th>Common name</th>
+              <th>Botanical name</th>
+              <th>Type</th>
+              <th>Maintenance</th>
+              <th>Water</th>
+              <th>Exposure</th>
+              <th>Safety</th>
+              <th>Purifying</th>
+              <th>About</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>In store</th>
+            </tr>
+          </thead>
           <tbody>
-            {this.state.users.map((user, index) => {
-                return (
-                  <tr key={index}>
-                    <td><input type="text" name="username" value={user.username}/></td>
-                    {user.admin ? 
-                    this.getCheckbox(null, 'admin', 'checked') :
-                    this.getCheckbox(null, 'admin', false)
-                    }
-                    {console.log(this.state.users[0])}
-                    <td>
-                      <ul>
-                        {user.favoritePlants.map((plant) => {
-                          return (
-                            <li>
-                              {this.toUpper(plant.commonName)}
-                              <img src="/icons/delete-icon.png" alt="delete"/>
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    </td>
-                    <td>
-                      <ul>
-                        {user.favoritePlants.map((plant) => {
-                          return (
-                            <li>
-                              {this.toUpper(plant.commonName)}
-                              <img src="/icons/delete-icon.png" alt="delete"/>
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    </td>
-                    <td>
-                      <img src="/icons/edit-icon.png" alt="edit" onClick={(event)=>this.actionUsers(event, 'edit', user._id)}/>
-                      <img src="/icons/delete-icon.png" alt="delete" onClick={(event)=>this.actionUsers(event, 'delete', user._id)}/>
-                      {/* <button onClick={(event)=>this.actionUsers(event, 'edit', user._id)}><img src="/icons/edit-icon.png" alt="edit"/></button> */}
-                      {/* <button onClick={(event)=>this.actionUsers(event, 'delete', user._id)}><img src="/icons/delete-icon.png" alt="delete"/></button> */}
-                    </td>
-                  </tr>
-                )
-              })}
+            {this.props.plants.map((plant, index)=>{
+              return (
+                <tr>
+                  <form onSubmit={(ev) => this.handleSubmit(ev, 'plants', 'edit-plant', index)}>
+                  </form>
+                    <td><input type="text" value={plant.image}/></td>
+                    <td><input type="text" value={plant.commonName}/></td>
+                    <td><input type="text" value={plant.botanicalName}/></td>
+                    <td><input type="text" value={plant.type}/></td>
+                    <td><input type="text" value={plant.maintenance}/></td>
+                    <td><input type="text" value={plant.water}/></td>
+                    <td><input type="text" value={plant.exposure}/></td>
+                    <td><input type="text" value={plant.safety}/></td>
+                    <td><input type="checkbox" value={plant.purifying}/></td>
+                    <td><textarea value={plant.about}/></td>
+                    <td><input className="input-num" type="number" value={plant.price}/></td>
+                    <td><input className="input-num" type="number" value={plant.stock}/></td>
+                    <td><input type="checkbox" value={plant.inStore}/></td>
+                    <div className="table-btns">
+                      <button>E</button>
+                      <button>D</button>
+                    </div>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
     )
   }
-
+                  
   showNewPlantForm() {
     return (
       <div className="form-container">
         <h2>New plant</h2>
         <form
           className="form"
-          onSubmit={(event) => this.handleSubmitNewPlant(event)}
-        >
-          <div className="form-field">
-            <label htmlFor="image">Image URL</label>
-            <input
+          onSubmit={(ev) => this.handleSubmit(ev, 'newPlant', 'new-plant')}
+          >
+          <table>
+            <tbody>
+              <tr>
+                <td className="label-column"><label htmlFor="image">Image URL</label></td>
+                <td className="input-column"><input
               type="text"
               name="image"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               placeholder="https://ibb.co/KyKxWZv"
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="commonName">Common name</label>
-            <input
+              /></td>
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="commonName">Common name</label></td>
+                <td className="input-column"><input
               type="text"
               name="commonName"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               placeholder="encina"
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="botanicalName">Botanical name</label>
-            <input
+              /></td>                
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="botanicalName">Botanical name</label></td>
+                <td className="input-column"><input
               type="text"
               name="botanicalName"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               placeholder="quercus ilex"
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="type">Type</label>
-            <input
+              /></td>                
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="type">Type</label></td>
+                <td className="input-column"><input
               type="text"
               name="type"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               placeholder="indoors / outdoors"
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="maintenance">Maintenance</label>
-            <input
+              /></td>                
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="maintenance">Maintenance</label></td>
+                <td className="input-column"><input
               type="text"
               name="maintenance"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               placeholder="low / medium / high"
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="water">Water</label>
-            <input
+              /></td>                
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="water">Water</label></td>
+                <td className="input-column"><input
               type="text"
               name="water"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               placeholder="low / medium / high"
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="exposure">Exposure</label>
-            <input
+              /></td>                
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="exposure">Exposure</label></td>
+                <td className="input-column"><input
               type="text"
               name="exposure"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               placeholder="low / medium / high"
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="safety">Safety</label>
-            <input
+            /></td>                
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="safety">Safety</label></td>
+                <td className="input-column"><input
               type="text"
               name="safety"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               placeholder="yes / (details)"
-            />
-          </div>
-          <div className="checkbox">
-            <label htmlFor="purifying">Purifying</label>
-            <input
+              /></td>                
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="purifying">Purifying</label></td>
+                <td className="input-column"><input
               type="checkbox"
               name="purifying"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               value="true"
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="about">About</label>
-            <textarea
+              /></td>                
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="about">About</label></td>
+                <td className="input-column"><textarea
               className="textarea"
               type="text"
               name="about"
-              onChange={(event) => this.handleInputNewPlant(event)}
-            />
-          </div>
-          <hr></hr>
-          <div className="form-field text-centered">
-            <label htmlFor="price">Price</label>
-            <input
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
+              /></td>                
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="price">Price</label></td>
+                <td className="input-column"><input
               type="number"
               step="0.01"
               name="price"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               placeholder="0 €"
               min={0}
-            />
-          </div>
-          <div className="form-field text-centered">
-            <label htmlFor="stock">Stock</label>
-            <input
+              /></td>                
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="stock">Stock</label></td>
+                <td className="input-column"><input
               type="number"
               name="stock"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               placeholder={0}
-            />
-          </div>
-          <div className="checkbox">
-            <label htmlFor="inStore">In store </label>
-            <input
+              /></td>                
+              </tr>
+              <tr>
+                <td className="label-column"><label htmlFor="inStore">In store </label></td>
+                <td className="input-column"><input
               type="checkbox"
               name="inStore"
-              onChange={(event) => this.handleInputNewPlant(event)}
+              onChange={(ev) => this.handleInput(ev, 'newPlant')}
               value="true"
-            />
-          </div>
+              /></td>                
+              </tr>
+            </tbody>  
+          </table>
           <button>Create new plant</button>
-          <button onClick={() => this.showLog()}>See log</button>
         </form>
         {/* {!this.isAdmin() ? <Redirect to="/login" /> : null} */}
       </div>
     )
   }
-
+  
   render() {
+    console.log('render', this.state)
     return (
       <div className="Admin">
-        {this.showUsers()}
+        {/* {this.showUsers()} */}
+        {this.showPlants()}
         {this.showNewPlantForm()}
       </div>
     )
