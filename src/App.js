@@ -4,19 +4,24 @@ import { Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 import ReactJson from 'react-json-view'
 
-import Admin from './components/Admin'
-import Navbar from './components/Navbar'
-import Message from './components/Message'
-import Homepage from './components/Homepage'
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
+
+import CheckoutForm from './components/CheckoutForm'
+import Admin from './components/Admin/Admin'
+import Navbar from './components/Navbar/Navbar'
+import Message from './components/Message/Message'
+import Homepage from './components/Homepage/Homepage'
 import PlantDetails from './components/PlantDetails'
-import Forum from './components/Forum'
-import Store from './components/Store'
+import Forum from './components/Forum/Forum'
+import Store from './components/Store/Store'
 import Signup from './components/Signup'
 import Login from './components/Login'
 import Logout from './components/Logout'
-import Profile from './components/Profile'
+import Profile from './components/Profile/Profile'
 import StoreItem from './components/StoreItem'
 import ShoppingCart from './components/ShoppingCart'
+import Modal from './components/Modal/Modal'
 
 class App extends React.Component {
   state = {
@@ -32,13 +37,31 @@ class App extends React.Component {
     users: [],
     plants: [],
     message: '',
+    modal: {
+      login: false,
+      signup: false,
+      payment: false,
+    },
   }
 
   componentDidMount() {
+    this.getUsers()
+    this.getPlants()
+    this.updateUser()
+    this.editStateFromStoreItems()
+  }
+
+  // componentDidUpdate() {
+  //   this.getUsers()
+  //   this.getPlants()
+  //   this.updateUser()
+  // }
+
+  getUsers() {
     axios({
       method: 'get',
       url: `http://localhost:5000/all-users`,
-      withCredentials: true
+      withCredentials: true,
     })
       .then((result) => {
         this.setState({ ...this.state, users: result.data })
@@ -46,7 +69,9 @@ class App extends React.Component {
       .catch((error) => {
         console.log(error)
       })
-      
+  }
+
+  getPlants() {
     axios({
       method: 'get',
       url: `http://localhost:5000/all-plants`,
@@ -54,13 +79,24 @@ class App extends React.Component {
     })
       .then((result) => {
         this.setState({ ...this.state, plants: result.data })
+        console.log(result)
       })
       .catch((error) => {
         console.log(error)
       })
+  }
 
-    this.updateUser()
-    this.editStateFromStoreItems()
+  swapModal(mod) {
+    const stateCopy = { ...this.state }
+    for (let m in stateCopy.modal) {
+      stateCopy.modal[m] = false
+    }
+    if (mod) {
+      stateCopy.modal[mod] = true
+    } else {
+      console.log('>>>>>>>>>>>>>>>> cleaning')
+    }
+    this.setState(stateCopy)
   }
 
   updateUser() {
@@ -99,7 +135,6 @@ class App extends React.Component {
         stateCopy.message = result.data.message
         this.setState(stateCopy)
         this.updateUser()
-        console.log(this.state.user)
       })
       .catch((err) => {
         console.log(err)
@@ -128,9 +163,10 @@ class App extends React.Component {
 
   editStateFromLogin(user, message) {
     const stateCopy = { ...this.state }
-    stateCopy['user'] = user
+    stateCopy.user = user
     stateCopy.message = message
     user ? (stateCopy.logInSuccess = true) : (stateCopy.logInSuccess = false)
+    stateCopy.modal.login = false
     this.setState(stateCopy)
   }
 
@@ -148,39 +184,45 @@ class App extends React.Component {
       method: 'post',
       url: `http://localhost:5000/${url}`,
       data: data,
-      withCredentials: true
+      withCredentials: true,
     })
-    .then((result) => {
-      const dataReceived = result.data.data
-      const message = result.data.message
-      stateCopy.message = message
-      stateCopy.plants.push(dataReceived)
-      this.setState(stateCopy)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+      .then((result) => {
+        // const dataReceived = result.data.data
+        const message = result.data.message
+        stateCopy.message = message
+        // stateCopy.plants.push(dataReceived)
+        this.setState(stateCopy)
+        this.getUsers()
+        this.getPlants()
+        this.updateUser()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
-   deleteCartItem(id){
+  deleteCartItem(id) {
     axios({
       method: 'post',
       url: `http://localhost:5000/remove-from-cart/${id}`,
-      data: {user: this.state.user},
+      data: { user: this.state.user },
       withCredentials: true,
     })
-    .then((result)=>{
-      console.log(result)
-       const cartItemsCopy = [...this.state.user.cart]
-      const updatedItems = cartItemsCopy.filter((item)=>{
-        return item._id !== id
-      }) 
-      this.setState({...this.state, user: { ...this.state.user, cart: updatedItems }})
-      this.updateUser()
-    })
-    .catch((error)=>{
-      console.log(error)
-    })
-  } 
+      .then((result) => {
+        console.log(result)
+        const cartItemsCopy = [...this.state.user.cart]
+        const updatedItems = cartItemsCopy.filter((item) => {
+          return item._id !== id
+        })
+        this.setState({
+          ...this.state,
+          user: { ...this.state.user, cart: updatedItems },
+        })
+        this.updateUser()
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   deleteFavoritePlant(id) {
     axios({
@@ -223,14 +265,35 @@ class App extends React.Component {
   }
 
   render() {
+    const promise = loadStripe(
+      'pk_test_51IrpUwINyfw3Ussjr5TrEoNC8GW0dM1LdTMSLYsAIhofMEO44bCM8br241Ywwi96IRkCNMgKI4kMoSI8nugv9CSA0097t9atRk'
+    )
+
     return (
       <div className="App">
         <Navbar
+          swapModal={(modal) => this.swapModal(modal)}
           user={this.state.user}
           auth={this.state.logInSuccess}
           logout={() => this.editStateFromLogout()}
         />
         <Message msg={this.state.message} cleanMsg={() => this.cleanMsg()} />
+        <Modal
+          swapModal={(modal) => this.swapModal(modal)}
+          modal={this.state.modal}
+          setAppState={(body, message) =>
+            this.editStateFromLogin(body, message)
+          }
+          logInSuccess={this.state.logInSuccess}
+          userInfo={this.state.user}
+        />
+
+        {/* <div className="CheckoutForm">
+          <Elements stripe={promise}>
+            <CheckoutForm />
+          </Elements>
+        </div> */}
+
         <Switch>
           <Route
             path="/all-plants"
@@ -252,10 +315,12 @@ class App extends React.Component {
               <PlantDetails
                 {...routeProps}
                 allPlants={this.state.plants}
+                userInfo={this.state.user}
                 logInSuccess={this.state.logInSuccess}
                 setAppState={(selectedPlantId) =>
                   this.editStateFromPlantDetails(selectedPlantId)
                 }
+                adminAction={(data, url) => this.adminAction(data, url)}
               />
             )}
           />
@@ -285,7 +350,7 @@ class App extends React.Component {
             component={() => <Signup addMsg={(msg) => this.addMsg(msg)} />}
           />
           <Route
-            path="/login"
+            path="#openModal"
             exact
             component={() => (
               <Login
@@ -309,12 +374,12 @@ class App extends React.Component {
             exact
             component={() => (
               <Admin
-              users={this.state.users}
-              plants={this.state.plants}
-              addMsg={(msg) => this.addMsg(msg)}
-              userInfo={this.state.user}
-              logInSuccess={this.state.logInSuccess}
-              adminAction={(data, url)=>this.adminAction(data, url)}
+                users={this.state.users}
+                plants={this.state.plants}
+                addMsg={(msg) => this.addMsg(msg)}
+                userInfo={this.state.user}
+                logInSuccess={this.state.logInSuccess}
+                adminAction={(data, url) => this.adminAction(data, url)}
               />
             )}
           />
@@ -338,7 +403,7 @@ class App extends React.Component {
               <ShoppingCart
                 userInfo={this.state.user}
                 logInSuccess={this.state.logInSuccess}
-                deleteFromCart={(event)=> this.deleteCartItem(event)}
+                deleteFromCart={(event) => this.deleteCartItem(event)}
               />
             )}
           />

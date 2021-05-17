@@ -1,0 +1,43 @@
+@import '../../App.scss';
+
+.Admin {
+  @include flexCenter(column, center, center);
+  table {
+    .link {
+      background-color: rgb(200, 200, 200);
+      color: indianred;
+      padding: 0 5px;
+      transition: 1s;
+      &:hover {
+        background-color: rgb(180, 180, 180);
+        text-decoration: underline;
+        color: red;
+      }
+    }
+    img {
+      width: 50px;
+    }
+    button {
+      width: 40px;
+      margin: 0 1px;
+    }
+    tr {
+    }
+    td {
+      background-color: rgb(200, 200, 200);
+      padding: 0 50px 0 5px;
+    }
+    .border-right {
+      border-right: 1px solid black;
+    }
+    .table-btns {
+      @include flexCenter(row, center, center);
+    }
+  }
+  hr {
+    width: 100%;
+  }
+  .input-num {
+    width: 40px;
+  }
+}

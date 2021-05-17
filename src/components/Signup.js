@@ -8,7 +8,7 @@ class Signup extends React.Component {
       username: ``,
       password: ``,
     },
-    successSignup: false
+    successSignup: false,
   }
 
   handleSubmit(event) {
@@ -19,7 +19,8 @@ class Signup extends React.Component {
       data: this.state.user,
     })
       .then((result) => {
-        if (result.data.successSignup) this.setState({...this.state, successSignup: true})
+        if (result.data.successSignup)
+          this.setState({ ...this.state, successSignup: true })
         this.props.addMsg(result.data.message)
       })
       .catch((err) => {
@@ -63,9 +64,9 @@ class Signup extends React.Component {
   }
 
   render() {
-    return (
-      this.state.successSignup ? 
-      <Redirect to="/login" /> :
+    return this.state.successSignup ? (
+      <Redirect to="#openModal" />
+    ) : (
       <div className="Signup">{this.showSignup()}</div>
     )
   }

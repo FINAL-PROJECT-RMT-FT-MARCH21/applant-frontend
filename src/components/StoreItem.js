@@ -69,7 +69,7 @@ class StoreItem extends React.Component {
           <Link to={`/plant-details/${selectedPlantId}`}>View details</Link>
         </div>
         {this.state.toCartLoggedStatus === 'not logged' ? (
-          <Redirect to="/login" />
+          <Redirect to="#openModal" />
         ) : null}
         {this.state.toCartLoggedStatus === 'logged' ? (
           <Redirect to="/shopping-cart" />

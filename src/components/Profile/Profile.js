@@ -1,3 +1,4 @@
+import './Profile.scss'
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 
@@ -62,16 +63,12 @@ class Profile extends React.Component {
   render() {
     return this.props.logInSuccess ? (
       <div className="Profile">
-        <h1>
-          {/* {this.props.userInfo.username[0].toUpper() +
-            this.props.userInfo.slice(1)}
-          's page */}
-        </h1>
+        <h1>{`${this.toUpper(this.props.userInfo.username)}'s page`}</h1>
         <h2>Your favorite plants</h2>
         <div className="plant-card-container">{this.getFavoritePlants()}</div>
       </div>
     ) : (
-      <Redirect to="./" />
+      <Redirect to="#openModal" />
     )
   }
 }

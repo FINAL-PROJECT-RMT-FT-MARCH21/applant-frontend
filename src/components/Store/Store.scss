@@ -1,0 +1,9 @@
+@import '../../App.scss';
+
+.Store {
+  a,
+  h2,
+  h3 {
+    @include flexCenter(column, center, center);
+  }
+}

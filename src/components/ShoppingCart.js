@@ -50,6 +50,8 @@ class ShoppingCart extends React.Component {
     if (word) return word[0].toUpperCase() + word.slice(1)
   }
   getCartItems() {
+    console.log(this.props.userInfo.cart)
+    console.log(this.props.userInfo)
     const { cart } = this.props.userInfo
     if (cart.length > 0) {
       return cart.map((item, index) => {
@@ -86,7 +88,9 @@ class ShoppingCart extends React.Component {
       <div className="ShoppingCart">
         <h1>Cart</h1>
         {this.getCartItems()}
-        <p>Total: {this.getTotalPrice()}</p>
+        <p>
+          <b>Total: </b> {this.getTotalPrice()}
+        </p>
       </div>
     )
   }

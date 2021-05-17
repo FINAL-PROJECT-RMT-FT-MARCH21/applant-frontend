@@ -9,6 +9,7 @@ class Login extends React.Component {
       username: '',
       password: '',
     },
+    redirect: false,
   }
 
   handleSubmit(event) {
@@ -23,6 +24,7 @@ class Login extends React.Component {
         const user = result.data.data
         const message = result.data.message
         this.props.setAppState(user, message)
+        this.setState({ ...this.state, redirect: true })
       })
       .catch((error) => {
         console.log(error)
@@ -61,8 +63,8 @@ class Login extends React.Component {
           <button className="loginButton">Log in</button>
         </form>
         <p>
-          Don't have an account yet? Register by clicking<span> </span>
-          <Link to="/signup">here</Link>
+          Don't have an account yet? Register by clicking<span>here</span>.
+          {/* <Link onClick={() => this.props.swapModal('signup')}>here</Link> */}
         </p>
       </div>
     )
@@ -84,15 +86,16 @@ class Login extends React.Component {
     return (
       <div className="Login">
         {this.getLogin()}
-        {this.checkUser() ? (
+        {/* {this.checkUser() ? (
           this.checkUser('admin') ? (
             <Redirect to="/admin" />
           ) : (
             <Redirect to="/profile" />
           )
         ) : (
-          <Redirect to="/login" />
-        )}
+          <Redirect to="#openModal" />
+        )} */}
+        {this.state.redirect ? <Redirect to="/store" /> : null}
       </div>
     )
   }
