@@ -43,12 +43,12 @@ button {
 }
 
 table{
-  border: 1px solid black;
+  margin: 10px 0;
   tr{
     border: 1px solid black;
   }
   td{
-    padding: 5px;
+    padding: 2px;
   }
 }
 
@@ -110,7 +110,7 @@ table{
   background-color: lightgray;
   width: auto;
   margin: 20px 0;
-  padding: 10px 0;
+  padding: 10px;
   border-radius: 5px;
   -webkit-box-shadow: 0px 10px 16px 2px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 10px 16px 2px rgba(0, 0, 0, 0.75);
@@ -120,13 +120,23 @@ table{
   }
   .form {
     @include flexCenter(column, center, center);
+    textarea{
+      max-width: 171px;
+      min-width: 171px;
+      height: 15px;
+      min-height: 15px;
+    }
+    .label-column{
+      text-align: end;
+      padding-right: 10px;
+    }
   }
   .checkbox {
     @include flexCenter(row, center, center);
     margin: 5px 0;
   }
   .form-field {
-    @include flexCenter(column, center, center);
+    @include flexCenter(row, center, center);
     margin: 8px 0;
     .textarea {
       width: 177px;
@@ -192,7 +202,7 @@ table{
     .cart-icon{
       text-align: center;
       width: 50px;
-      padding: 10px 10px 10px 5px;
+      padding: 10px 20px 10px 15px;
       font-size: 1.4rem;
       margin: 5px 0;
       transition: 0.75s;
@@ -300,6 +310,44 @@ table{
     @include flexCenter(column, center, center);
   }
 }
+.ShoppingCart{
+  @include flexCenter(column, center, center);
+  flex-wrap: wrap;
+  .allItemsCart{
+    @include flexCenter(row, center, center);
+    border: 0.2px solid grey;
+    padding: 20px 30px;
+    margin: 20px;
+    button{
+      width: 30px;
+      background: none;
+      border: none;
+    
+    }
+    img{
+      width: 100px;
+      height: 100px;
+      margin-right: 20px;
+    }
+    .removeIcon{
+      color: rgb(156, 211, 156);
+      width: 20px;
+      height: 20px;
+      border-radius: 50px;
+      &:hover {
+        color: black;
+        background-color: transparent;
+      }
+    }
+    .infoItemCart{
+      display: flex;
+      align-items: center;
+      p {
+        margin: 10px;
+      }
+    }
+  }
+}
 
 .Signup {
   @include flexCenter(column, center, center);
@@ -313,8 +361,20 @@ table{
 
 .Admin {
   @include flexCenter(column, center, center);
+  table{
+    button{
+      width: 40px;
+      margin: 0 1px;
+    }
+    .table-btns{
+      @include flexCenter(row, center, center);
+    }
+  }
   hr {
     width: 100%;
+  }
+  .input-num{
+    width: 40px;
   }
 }
 

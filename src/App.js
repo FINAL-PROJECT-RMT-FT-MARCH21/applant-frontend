@@ -29,11 +29,24 @@ class App extends React.Component {
       cart: [],
     },
     logInSuccess: false,
+    users: [],
     plants: [],
     message: '',
   }
 
   componentDidMount() {
+    axios({
+      method: 'get',
+      url: `http://localhost:5000/all-users`,
+      withCredentials: true
+    })
+      .then((result) => {
+        this.setState({ ...this.state, users: result.data })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      
     axios({
       method: 'get',
       url: `http://localhost:5000/all-plants`,
@@ -129,12 +142,45 @@ class App extends React.Component {
     this.setState(stateCopy)
   }
 
-  addNewPlant(newPlant, message) {
+  adminAction(data, url) {
     const stateCopy = { ...this.state }
-    stateCopy.message = message
-    stateCopy.plants.push(newPlant)
-    this.setState(stateCopy)
+    axios({
+      method: 'post',
+      url: `http://localhost:5000/${url}`,
+      data: data,
+      withCredentials: true
+    })
+    .then((result) => {
+      const dataReceived = result.data.data
+      const message = result.data.message
+      stateCopy.message = message
+      stateCopy.plants.push(dataReceived)
+      this.setState(stateCopy)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }
+   deleteCartItem(id){
+    axios({
+      method: 'post',
+      url: `http://localhost:5000/remove-from-cart/${id}`,
+      data: {user: this.state.user},
+      withCredentials: true,
+    })
+    .then((result)=>{
+      console.log(result)
+       const cartItemsCopy = [...this.state.user.cart]
+      const updatedItems = cartItemsCopy.filter((item)=>{
+        return item._id !== id
+      }) 
+      this.setState({...this.state, user: { ...this.state.user, cart: updatedItems }})
+      this.updateUser()
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  } 
 
   deleteFavoritePlant(id) {
     axios({
@@ -263,9 +309,12 @@ class App extends React.Component {
             exact
             component={() => (
               <Admin
-                userInfo={this.state.user}
-                logInSuccess={this.state.logInSuccess}
-                addMsg={(msg) => this.addMsg(msg)}
+              users={this.state.users}
+              plants={this.state.plants}
+              addMsg={(msg) => this.addMsg(msg)}
+              userInfo={this.state.user}
+              logInSuccess={this.state.logInSuccess}
+              adminAction={(data, url)=>this.adminAction(data, url)}
               />
             )}
           />
@@ -288,8 +337,8 @@ class App extends React.Component {
             component={() => (
               <ShoppingCart
                 userInfo={this.state.user}
-                plants={this.state.plants}
                 logInSuccess={this.state.logInSuccess}
+                deleteFromCart={(event)=> this.deleteCartItem(event)}
               />
             )}
           />
