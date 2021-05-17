@@ -1,6 +1,9 @@
 import React from 'react'
 
 class ShoppingCart extends React.Component {
+  state = {
+    totalPrice: 0,
+  }
   // checkItemCart() {
   //   if (this.props.plants.length === 0) {
   //     return console.log('Loading')
@@ -35,6 +38,13 @@ class ShoppingCart extends React.Component {
   //     // }
   //   }
   // }
+  getTotalPrice() {
+    const sum = this.props.userInfo.cart.reduce((accumulator, element) => {
+      return accumulator + element.plant.price * element.quantity
+    }, 0)
+    return sum
+  }
+
   toUpper(word) {
     if (word) return word[0].toUpperCase() + word.slice(1)
   }
@@ -61,6 +71,7 @@ class ShoppingCart extends React.Component {
       <div>
         <h1>Shopping cart</h1>
         {this.getCartItems()}
+        <p>Total: {this.getTotalPrice()}</p>
       </div>
     )
   }

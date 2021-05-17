@@ -47,6 +47,7 @@ class App extends React.Component {
       })
 
     this.updateUser()
+    this.editStateFromStoreItems()
   }
 
   updateUser() {
