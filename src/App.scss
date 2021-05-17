@@ -300,6 +300,44 @@ table{
     @include flexCenter(column, center, center);
   }
 }
+.ShoppingCart{
+  @include flexCenter(column, center, center);
+  flex-wrap: wrap;
+  .allItemsCart{
+    @include flexCenter(row, center, center);
+    border: 0.2px solid grey;
+    padding: 20px 30px;
+    margin: 20px;
+    button{
+      width: 30px;
+      background: none;
+      border: none;
+    
+    }
+    img{
+      width: 100px;
+      height: 100px;
+      margin-right: 20px;
+    }
+    .removeIcon{
+      color: rgb(156, 211, 156);
+      width: 20px;
+      height: 20px;
+      border-radius: 50px;
+      &:hover {
+        color: black;
+        background-color: transparent;
+      }
+    }
+    .infoItemCart{
+      display: flex;
+      align-items: center;
+      p {
+        margin: 10px;
+      }
+    }
+  }
+}
 
 .Signup {
   @include flexCenter(column, center, center);

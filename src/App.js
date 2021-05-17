@@ -134,6 +134,26 @@ class App extends React.Component {
     stateCopy.plants.push(newPlant)
     this.setState(stateCopy)
   }
+   deleteCartItem(id){
+    axios({
+      method: 'post',
+      url: `http://localhost:5000/remove-from-cart/${id}`,
+      data: {user: this.state.user},
+      withCredentials: true,
+    })
+    .then((result)=>{
+      console.log(result)
+       const cartItemsCopy = [...this.state.user.cart]
+      const updatedItems = cartItemsCopy.filter((item)=>{
+        return item._id !== id
+      }) 
+      this.setState({...this.state, user: { ...this.state.user, cart: updatedItems }})
+      this.updateUser()
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  } 
 
   deleteFavoritePlant(id) {
     axios({
@@ -287,8 +307,8 @@ class App extends React.Component {
             component={() => (
               <ShoppingCart
                 userInfo={this.state.user}
-                plants={this.state.plants}
                 logInSuccess={this.state.logInSuccess}
+                deleteFromCart={(event)=> this.deleteCartItem(event)}
               />
             )}
           />
