@@ -5,9 +5,9 @@ import axios from 'axios'
 import ReactJson from 'react-json-view'
 
 import { loadStripe } from '@stripe/stripe-js'
-import { Elements } from '@stripe/react-stripe-js'
+//import { Elements } from '@stripe/react-stripe-js'
 
-import CheckoutForm from './components/CheckoutForm'
+//import CheckoutForm from './components/CheckoutForm'
 import Admin from './components/Admin/Admin'
 import Navbar from './components/Navbar/Navbar'
 import Message from './components/Message/Message'
@@ -48,7 +48,6 @@ class App extends React.Component {
     this.getUsers()
     this.getPlants()
     this.updateUser()
-    this.editStateFromStoreItems()
   }
 
   // componentDidUpdate() {
@@ -79,7 +78,6 @@ class App extends React.Component {
     })
       .then((result) => {
         this.setState({ ...this.state, plants: result.data })
-        console.log(result)
       })
       .catch((error) => {
         console.log(error)
@@ -128,11 +126,30 @@ class App extends React.Component {
       withCredentials: true,
     })
       .then((result) => {
+        console.log(result)
         const stateCopy = { ...this.state }
-        result.data.data.cart.forEach((item) => {
-          stateCopy.user.cart.push(item)
-        })
         stateCopy.message = result.data.message
+        
+        if(result.user===''){  //Planta actualizada (se recibe solo la planta)
+        let updatedPlant = result.data.updatedPlant
+        
+        const plantsWithoutUpdatedPlant = stateCopy.user.cart.filter((item)=>{
+          return updatedPlant.plant._id.toString() != item.plant._id.toString()
+        })
+        
+        const updatedPlants = [ updatedPlant, ...plantsWithoutUpdatedPlant]
+        stateCopy.user.cart = updatedPlants
+        
+        
+
+        } else if(result.updatedUser === '') {  //Planta nuevo anadida al carrito (Se recibe el usuario)
+        
+          let updatedUser = result.data.user
+          console.log(updatedUser)
+          stateCopy.user = updatedUser
+          
+          console.log('STATE COPY -->' + stateCopy)
+        }
         this.setState(stateCopy)
         this.updateUser()
       })
@@ -265,9 +282,7 @@ class App extends React.Component {
   }
 
   render() {
-    const promise = loadStripe(
-      'pk_test_51IrpUwINyfw3Ussjr5TrEoNC8GW0dM1LdTMSLYsAIhofMEO44bCM8br241Ywwi96IRkCNMgKI4kMoSI8nugv9CSA0097t9atRk'
-    )
+    
 
     return (
       <div className="App">
@@ -288,11 +303,6 @@ class App extends React.Component {
           userInfo={this.state.user}
         />
 
-        {/* <div className="CheckoutForm">
-          <Elements stripe={promise}>
-            <CheckoutForm />
-          </Elements>
-        </div> */}
 
         <Switch>
           <Route

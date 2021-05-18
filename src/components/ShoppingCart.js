@@ -1,44 +1,14 @@
 import React from 'react'
 import { RiDeleteBinLine } from 'react-icons/ri'
+import CheckoutForm from './CheckoutForm'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
 
 class ShoppingCart extends React.Component {
   state = {
     totalPrice: 0,
   }
-  // checkItemCart() {
-  //   if (this.props.plants.length === 0) {
-  //     return console.log('Loading')
-  //   } else {
-
-  //     const allPlants = this.props.plants
-  //     //-----populate de las plantas del carrito
-
-  //     const cartItems = this.props.userInfo.cart.map((item) => {
-  //       return (
-  //         item.plant // para filtrar (populate)
-  //       )
-  //     })
-
-  //     const plantAddedToCart = cartItems.map((item)=>{
-  //       return  allPlants.filter((plant)=>{
-  //         return plant._id === item
-  //       })
-  //     }).flat()
-  //     //----- cantidad de las plantas del carrito
-
-  //     const itemCartQuantities = this.props.userInfo.cart.map((item) => {
-  //       return item.quantity
-  //     })
-  //     console.log(this.props.userInfo.cart)
-  //     console.log(itemCartQuantities)
-  //     console.log(cartItems)
-  //     console.log(plantAddedToCart)
-
-  //     // for(let i=0; i<plantAddedToCart.length ; i++){
-  //     // return {plant: plantAddedToCart[i], quantity: itemCartQuantities[i] }
-  //     // }
-  //   }
-  // }
+  
   getTotalPrice() {
     const sum = this.props.userInfo.cart.reduce((accumulator, element) => {
       return accumulator + element.plant.price * element.quantity
@@ -50,8 +20,6 @@ class ShoppingCart extends React.Component {
     if (word) return word[0].toUpperCase() + word.slice(1)
   }
   getCartItems() {
-    console.log(this.props.userInfo.cart)
-    console.log(this.props.userInfo)
     const { cart } = this.props.userInfo
     if (cart.length > 0) {
       return cart.map((item, index) => {
@@ -82,6 +50,9 @@ class ShoppingCart extends React.Component {
     }
   }
   render() {
+    const promise = loadStripe(
+      'pk_test_51IrpUwINyfw3Ussjr5TrEoNC8GW0dM1LdTMSLYsAIhofMEO44bCM8br241Ywwi96IRkCNMgKI4kMoSI8nugv9CSA0097t9atRk'
+    )
     return this.props.userInfo.cart.length === 0 ? (
       <h1>Your cart it's empty</h1>
     ) : (
@@ -90,6 +61,12 @@ class ShoppingCart extends React.Component {
         {this.getCartItems()}
         <p>
           <b>Total: </b> {this.getTotalPrice()}
+          
+         <div className="CheckoutForm">
+          <Elements stripe={promise}>
+            <CheckoutForm />
+          </Elements>
+        </div>
         </p>
       </div>
     )

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+
 export default function CheckoutForm() {
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState(null)
@@ -67,7 +68,7 @@ export default function CheckoutForm() {
   }
   return (
     <div className="CheckoutForm">
-      <form id="payment-form" onSubmit={handleSubmit}>
+      <form className="stripeForm" id="payment-form" onSubmit={handleSubmit}>
         <CardElement
           id="card-element"
           options={cardStyle}
