@@ -21,7 +21,6 @@ class ModalComponent extends React.Component {
         </div>
       )
     } else if(this.props.modal === 'signup'){
-      console.log('modal signup')
       return (
         <div>
           <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
