@@ -1,11 +1,9 @@
 import './Modal.scss'
 import React from 'react'
-<<<<<<< HEAD
-/* import { Link, Redirect } from 'react-router-dom' */
-=======
+
 import 'react-responsive-modal/styles.css'
 import { Modal } from "react-responsive-modal";
->>>>>>> 0fdc4e721dea16c790cf3f06584ea9062780bec7
+
 
 import Login from '../Login/Login'
 import Signup from '../Signup/Signup'

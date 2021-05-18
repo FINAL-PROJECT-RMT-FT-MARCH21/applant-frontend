@@ -2,11 +2,7 @@ import './Login.scss'
 import React from 'react'
 import axios from 'axios'
 
-<<<<<<< HEAD:src/components/Login.js
-import { Redirect } from 'react-router-dom'
-=======
 import { Link } from 'react-router-dom'
->>>>>>> 0fdc4e721dea16c790cf3f06584ea9062780bec7:src/components/Login/Login.js
 
 class Login extends React.Component {
   state = {

@@ -171,7 +171,6 @@ class App extends React.Component {
     stateCopy.user = user
     stateCopy.message = message
     user ? (stateCopy.logInSuccess = true) : (stateCopy.logInSuccess = false)
-    stateCopy.modal.login = false
     this.setState(stateCopy)
   }
 
