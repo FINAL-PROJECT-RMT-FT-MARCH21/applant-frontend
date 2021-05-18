@@ -1,7 +1,9 @@
 import './Modal.scss'
 import React from 'react'
+
 import 'react-responsive-modal/styles.css'
 import { Modal } from "react-responsive-modal";
+
 
 import Login from '../Login/Login'
 import Signup from '../Signup/Signup'
