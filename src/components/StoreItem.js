@@ -26,6 +26,7 @@ class StoreItem extends React.Component {
   }
 
   render() {
+    console.log('Esto viene desde APP --->', this.props.setAppState)
     const selectedPlantId = this.props.match.params._id
     const showSelected = this.props.plants.filter((plant) => {
       return selectedPlantId === plant._id
