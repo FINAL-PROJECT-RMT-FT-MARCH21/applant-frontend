@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 import ReactJson from 'react-json-view'
 
-import { loadStripe } from '@stripe/stripe-js'
+//import { loadStripe } from '@stripe/stripe-js'
 //import { Elements } from '@stripe/react-stripe-js'
 
 //import CheckoutForm from './components/CheckoutForm'
@@ -179,7 +179,6 @@ class App extends React.Component {
     stateCopy.user = user
     stateCopy.message = message
     user ? (stateCopy.logInSuccess = true) : (stateCopy.logInSuccess = false)
-    //stateCopy.modal.login = false
     this.setState(stateCopy)
   }
 
