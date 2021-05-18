@@ -22,6 +22,7 @@ class Signup extends React.Component {
         if (result.data.successSignup)
           this.setState({ ...this.state, successSignup: true })
         this.props.addMsg(result.data.message)
+        this.props.modalAction('close')
       })
       .catch((err) => {
         console.log(err)

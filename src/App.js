@@ -15,8 +15,6 @@ import Homepage from './components/Homepage/Homepage'
 import PlantDetails from './components/PlantDetails'
 import Forum from './components/Forum/Forum'
 import Store from './components/Store/Store'
-import Signup from './components/Signup'
-import Login from './components/Login'
 import Logout from './components/Logout'
 import Profile from './components/Profile/Profile'
 import StoreItem from './components/StoreItem'
@@ -42,6 +40,8 @@ class App extends React.Component {
       signup: false,
       payment: false,
     },
+    modal: '',
+    modalOpened: false
   }
 
   componentDidMount() {
@@ -49,12 +49,6 @@ class App extends React.Component {
     this.getPlants()
     this.updateUser()
   }
-
-  // componentDidUpdate() {
-  //   this.getUsers()
-  //   this.getPlants()
-  //   this.updateUser()
-  // }
 
   getUsers() {
     axios({
@@ -84,30 +78,24 @@ class App extends React.Component {
       })
   }
 
-  swapModal(mod) {
-    const stateCopy = { ...this.state }
-    for (let m in stateCopy.modal) {
-      stateCopy.modal[m] = false
+  modalAction(action, mod) {
+    if(mod) {
+      this.setState({modal: mod})}
+    if(action === 'open'){
+      this.setState({modalOpened: true})
+    } else if(action === 'close'){
+      this.setState({modalOpened: false})
     }
-    if (mod) {
-      stateCopy.modal[mod] = true
-    } else {
-      console.log('>>>>>>>>>>>>>>>> cleaning')
-    }
-    this.setState(stateCopy)
   }
 
   updateUser() {
-    // No pasar como props para evitar loop
     axios({
       method: 'get',
       url: 'http://localhost:5000/loggedin',
       withCredentials: true,
     })
       .then((result) => {
-        const stateCopy = { ...this.state }
-        stateCopy.user = result.data.data
-        this.setState(stateCopy)
+        this.setState({ ...this.state, user: result.data.data})
       })
       .catch((error) => {
         console.log(error)
@@ -241,36 +229,19 @@ class App extends React.Component {
       })
   }
 
-  deleteFavoritePlant(id) {
+  removeFavoritePlant(id) {
     axios({
       method: 'post',
       url: `http://localhost:5000/remove-from-favorites/${id}`,
-      data: { user: this.state.user },
       withCredentials: true,
     })
       .then((result) => {
-        console.log(`Esto es el result => ${result}`)
+        this.setState({...this.state, message: result.data.message})
+        this.updateUser()
       })
       .catch((error) => {
         console.log(error)
       })
-  }
-
-  deletePlant = (id) => {
-    // juntar con la de arriba?
-    const favoritePlantsCopy = [...this.state.user.favoritePlants]
-    const updatedPlants = favoritePlantsCopy.filter((plant) => {
-      return plant._id !== id
-    })
-    this.setState(
-      {
-        ...this.state,
-        user: { ...this.state.user, favoritePlants: updatedPlants },
-      },
-      () => {
-        this.deleteFavoritePlant(id)
-      }
-    )
   }
 
   addMsg(msg) {
@@ -287,20 +258,22 @@ class App extends React.Component {
     return (
       <div className="App">
         <Navbar
-          swapModal={(modal) => this.swapModal(modal)}
+          modalAction={(action, mod)=>this.modalAction(action, mod)}
           user={this.state.user}
           auth={this.state.logInSuccess}
           logout={() => this.editStateFromLogout()}
         />
         <Message msg={this.state.message} cleanMsg={() => this.cleanMsg()} />
         <Modal
-          swapModal={(modal) => this.swapModal(modal)}
+          addMsg={(msg) => this.addMsg(msg)}
           modal={this.state.modal}
+          modalAction={(action, mod) => this.modalAction(action, mod)}
+          modalOpened={this.state.modalOpened}
+          logInSuccess={this.state.logInSuccess}
+          userInfo={this.state.user}
           setAppState={(body, message) =>
             this.editStateFromLogin(body, message)
           }
-          logInSuccess={this.state.logInSuccess}
-          userInfo={this.state.user}
         />
 
 
@@ -312,7 +285,6 @@ class App extends React.Component {
               <ReactJson src={this.state.plants} theme="hopscotch" />
             )}
           />
-
           <Route
             path="/"
             exact
@@ -355,24 +327,6 @@ class App extends React.Component {
             )}
           />
           <Route
-            path="/signup"
-            exact
-            component={() => <Signup addMsg={(msg) => this.addMsg(msg)} />}
-          />
-          <Route
-            path="#openModal"
-            exact
-            component={() => (
-              <Login
-                setAppState={(body, message) =>
-                  this.editStateFromLogin(body, message)
-                }
-                logInSuccess={this.state.logInSuccess}
-                userInfo={this.state.user}
-              />
-            )}
-          />
-          <Route
             path="/logout"
             exact
             component={() => (
@@ -401,7 +355,7 @@ class App extends React.Component {
                 {...routeProps}
                 userInfo={this.state.user}
                 logInSuccess={this.state.logInSuccess}
-                deletePlant={(event) => this.deletePlant(event)}
+                removeFavoritePlant={(event) => this.removeFavoritePlant(event)}
               />
             )}
           />
