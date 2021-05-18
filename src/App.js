@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 import ReactJson from 'react-json-view'
 
-import { loadStripe } from '@stripe/stripe-js'
+//import { loadStripe } from '@stripe/stripe-js'
 //import { Elements } from '@stripe/react-stripe-js'
 
 //import CheckoutForm from './components/CheckoutForm'
@@ -134,7 +134,7 @@ class App extends React.Component {
         let updatedPlant = result.data.updatedPlant
         
         const plantsWithoutUpdatedPlant = stateCopy.user.cart.filter((item)=>{
-          return updatedPlant.plant._id.toString() != item.plant._id.toString()
+          return updatedPlant.plant._id.toString() !== item.plant._id.toString()
         })
         
         const updatedPlants = [ updatedPlant, ...plantsWithoutUpdatedPlant]

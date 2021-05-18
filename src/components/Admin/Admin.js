@@ -1,6 +1,6 @@
 import './Admin.scss'
 import React from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class Admin extends React.Component {
   state = {

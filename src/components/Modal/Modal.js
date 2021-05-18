@@ -1,6 +1,6 @@
 import './Modal.scss'
 import React from 'react'
-import { Link, Redirect } from 'react-router-dom'
+/* import { Link, Redirect } from 'react-router-dom' */
 
 import Login from '../Login'
 

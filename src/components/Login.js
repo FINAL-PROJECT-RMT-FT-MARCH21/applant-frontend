@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 class Login extends React.Component {
   state = {
