@@ -118,11 +118,9 @@ class Navbar extends React.Component {
             </Link>
           </div>
           <div className="nav-right">
-            <a href="#openModal">Login</a>
-            {/* <Link onClick={() => this.props.swapModal('login')}>Login</Link> */}
-            {/* <Link className="link" to="/login">
-              <div className="nav-btn">Log in</div>
-            </Link> */}
+            <Link className="link" onClick={()=>this.props.modalAction('open', 'login')}>
+              <div className="nav-btn">Login</div>
+            </Link>
           </div>
         </div>
       )
