@@ -1,0 +1,13 @@
+@import '../../App.scss';
+
+.NewPost{
+    h2{
+        color: red;
+    }
+    #new-post-textarea{
+        min-width: 354px;
+        max-width: 354px;
+        height: 100px;
+        min-height: 15px;
+    }
+}

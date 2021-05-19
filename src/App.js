@@ -1,6 +1,6 @@
 import './App.scss'
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import ReactJson from 'react-json-view'
 
@@ -12,10 +12,9 @@ import Admin from './components/Admin/Admin'
 import Navbar from './components/Navbar/Navbar'
 import Message from './components/Message/Message'
 import Homepage from './components/Homepage/Homepage'
-import PlantDetails from './components/PlantDetails'
-import Forum from './components/Forum/Forum'
+import PlantDetails from './components/PlantDetails/PlantDetails'
+import Blog from './components/Blog/Blog'
 import Store from './components/Store/Store'
-import Logout from './components/Logout'
 import Profile from './components/Profile/Profile'
 import StoreItem from './components/StoreItem'
 import ShoppingCart from './components/ShoppingCart'
@@ -31,78 +30,102 @@ class App extends React.Component {
       favoritePlants: [],
       cart: [],
     },
-    logInSuccess: false,
     users: [],
     plants: [],
     posts: [],
     message: '',
-    modal: {
-      login: false,
-      signup: false,
-      payment: false,
-    },
     modal: '',
     modalOpened: false
   }
 
   componentDidMount() {
-    this.getUsers()
-    this.getPlants()
-    this.updateUser()
+    this.updateState('users')
+    this.updateState('plants')
+    this.updateState('posts')
+    this.updateState('user')
   }
-
-  getUsers() {
+  
+  updateState(url){
+    console.log(url)
     axios({
       method: 'get',
-      url: `http://localhost:5000/all-users`,
+      url: `http://localhost:5000/${url}`,
       withCredentials: true,
     })
-      .then((result) => {
-        this.setState({ ...this.state, users: result.data })
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
-  getPlants() {
-    axios({
-      method: 'get',
-      url: `http://localhost:5000/all-plants`,
-      withCredentials: true,
+    .then((result) => {
+      console.log(result.data.data)
+      if(result.data.data){
+        this.setState({[url]: result.data.data})
+      } else {
+        this.setState({[url]: null})
+        // return <Redirect to="/"/>
+      }
     })
-      .then((result) => {
-        this.setState({ ...this.state, plants: result.data })
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   modalAction(action, mod) {
     if(mod) {
       this.setState({modal: mod})}
-    if(action === 'open'){
-      this.setState({modalOpened: true})
-    } else if(action === 'close'){
-      this.setState({modalOpened: false})
+      if(action === 'open'){
+        this.setState({modalOpened: true})
+      } else if(action === 'close'){
+        this.setState({modalOpened: false})
+      }
+  }
+    
+  authAction(data, url, onlyUpdateState){
+    if (onlyUpdateState){
+      this.updateUser()
+    } else {
+      axios({
+        method: 'post',
+        url: `http://localhost:5000/${url}`,
+        data: data,
+        withCredentials: true,
+      })
+        .then((result) => {
+          const message = result.data.message
+          this.setState({...this.state, message: message})
+          this.updateState('user')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 
-  updateUser() {
+  adminAction(data, url) {
+    const stateCopy = { ...this.state }
     axios({
-      method: 'get',
-      url: 'http://localhost:5000/loggedin',
+      method: 'post',
+      url: `http://localhost:5000/${url}`,
+      data: data,
       withCredentials: true,
     })
-      .then((result) => {
-        this.setState({ ...this.state, user: result.data.data})
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    .then((result) => {
+      const message = result.data.message
+      stateCopy.message = message
+      this.setState(stateCopy)
+      this.getUsers()
+      this.getPlants()
+      this.getPosts()
+      this.updateUser()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }
 
+  editStateFromNewPost(post, message){
+    const stateCopy = {...this.state}
+    stateCopy.message = message
+    this.setState(stateCopy)
+    this.getPosts()
+  }
+      
   editStateFromStoreItems(selectedPlantId, quantity) {
     axios({
       method: 'post',
@@ -114,12 +137,12 @@ class App extends React.Component {
       },
       withCredentials: true,
     })
-      .then((result) => {
-        console.log(result)
-        const stateCopy = { ...this.state }
-        stateCopy.message = result.data.message
-        
-        if(result.user===''){  //Planta actualizada (se recibe solo la planta)
+    .then((result) => {
+      console.log(result)
+      const stateCopy = { ...this.state }
+      stateCopy.message = result.data.message
+      
+      if(result.user===''){  //Planta actualizada (se recibe solo la planta)
         let updatedPlant = result.data.updatedPlant
         
         const plantsWithoutUpdatedPlant = stateCopy.user.cart.filter((item)=>{
@@ -130,81 +153,43 @@ class App extends React.Component {
         stateCopy.user.cart = updatedPlants
         
         
-
-        } else if(result.updatedUser === '') {  //Planta nuevo anadida al carrito (Se recibe el usuario)
         
-          let updatedUser = result.data.user
-          console.log(updatedUser)
-          stateCopy.user = updatedUser
-          
-          console.log('STATE COPY -->' + stateCopy)
-        }
-        this.setState(stateCopy)
-        this.updateUser()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      } else if(result.updatedUser === '') {  //Planta nuevo anadida al carrito (Se recibe el usuario)
+        
+        let updatedUser = result.data.user
+        console.log(updatedUser)
+        stateCopy.user = updatedUser
+        
+        console.log('STATE COPY -->' + stateCopy)
+      }
+      this.setState(stateCopy)
+      this.updateUser()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }
 
-  editStateFromPlantDetails(selectedPlantId) {
+  editStateFromPlantDetails(selectedPlantId) { ////////////////
     axios({
       method: 'post',
       url: `http://localhost:5000/add-to-favorites/${selectedPlantId}`,
       data: { user: this.state.user },
       withCredentials: true,
     })
-      .then((result) => {
-        // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> check result
-        const stateCopy = { ...this.state }
-        stateCopy.user.favoritePlants.push(selectedPlantId)
-        stateCopy.message = result.data.message
-        this.setState(stateCopy)
-        this.updateUser()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  editStateFromLogin(user, message) {
-    const stateCopy = { ...this.state }
-    stateCopy.user = user
-    stateCopy.message = message
-    user ? (stateCopy.logInSuccess = true) : (stateCopy.logInSuccess = false)
-    this.setState(stateCopy)
-  }
-
-  editStateFromLogout(message) {
-    const stateCopy = { ...this.state }
-    stateCopy.message = message
-    stateCopy.logInSuccess = false
-    stateCopy.user = ''
-    this.setState(stateCopy)
-  }
-
-  adminAction(data, url) {
-    const stateCopy = { ...this.state }
-    axios({
-      method: 'post',
-      url: `http://localhost:5000/${url}`,
-      data: data,
-      withCredentials: true,
+    .then((result) => {
+      // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> check result
+      const stateCopy = { ...this.state }
+      stateCopy.user.favoritePlants.push(selectedPlantId)
+      stateCopy.message = result.data.message
+      this.setState(stateCopy)
+      this.updateUser()
     })
-      .then((result) => {
-        // const dataReceived = result.data.data
-        const message = result.data.message
-        stateCopy.message = message
-        // stateCopy.plants.push(dataReceived)
-        this.setState(stateCopy)
-        this.getUsers()
-        this.getPlants()
-        this.updateUser()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    .catch((err) => {
+      console.log(err)
+    })
   }
+
   deleteCartItem(id) {
     axios({
       method: 'post',
@@ -212,21 +197,21 @@ class App extends React.Component {
       data: { user: this.state.user },
       withCredentials: true,
     })
-      .then((result) => {
-        console.log(result)
-        const cartItemsCopy = [...this.state.user.cart]
-        const updatedItems = cartItemsCopy.filter((item) => {
-          return item._id !== id
-        })
-        this.setState({
-          ...this.state,
-          user: { ...this.state.user, cart: updatedItems },
-        })
-        this.updateUser()
+    .then((result) => {
+      console.log(result)
+      const cartItemsCopy = [...this.state.user.cart]
+      const updatedItems = cartItemsCopy.filter((item) => {
+        return item._id !== id
       })
-      .catch((error) => {
-        console.log(error)
+      this.setState({
+        ...this.state,
+        user: { ...this.state.user, cart: updatedItems },
       })
+      this.updateUser()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   removeFavoritePlant(id) {
@@ -253,15 +238,13 @@ class App extends React.Component {
   }
 
   render() {
-    
-
+    console.log('>>>', this.state)
     return (
       <div className="App">
         <Navbar
           modalAction={(action, mod)=>this.modalAction(action, mod)}
-          user={this.state.user}
-          auth={this.state.logInSuccess}
-          logout={() => this.editStateFromLogout()}
+          userInfo={this.state.user}
+          authAction={(data, url, upd) => this.authAction(data, url, upd)}
         />
         <Message msg={this.state.message} cleanMsg={() => this.cleanMsg()} />
         <Modal
@@ -269,11 +252,14 @@ class App extends React.Component {
           modal={this.state.modal}
           modalAction={(action, mod) => this.modalAction(action, mod)}
           modalOpened={this.state.modalOpened}
-          logInSuccess={this.state.logInSuccess}
+          updateState={(url) => this.updateState(url)}
+          
+          authAction={(data, url, upd) => this.authAction(data, url, upd)}
+          
           userInfo={this.state.user}
-          setAppState={(body, message) =>
-            this.editStateFromLogin(body, message)
-          }
+          adminAction={(data, url) => this.adminAction(data, url)}
+          editStateFromNewPost={(body, message) => 
+            this.editStateFromNewPost(body, message)}
         />
 
 
@@ -298,7 +284,6 @@ class App extends React.Component {
                 {...routeProps}
                 allPlants={this.state.plants}
                 userInfo={this.state.user}
-                logInSuccess={this.state.logInSuccess}
                 setAppState={(selectedPlantId) =>
                   this.editStateFromPlantDetails(selectedPlantId)
                 }
@@ -306,7 +291,15 @@ class App extends React.Component {
               />
             )}
           />
-          <Route path="/forum" exact component={() => <Forum />} />
+          <Route 
+            path="/blog" 
+            exact 
+            component={() => 
+              <Blog 
+                userInfo={this.state.user}
+                posts={this.state.posts}
+                modalAction={(action, mod)=>this.modalAction(action, mod)}
+              />} />
           <Route
             path="/store"
             exact
@@ -319,18 +312,10 @@ class App extends React.Component {
               <StoreItem
                 {...routeProps}
                 plants={this.state.plants}
-                logInSuccess={this.state.logInSuccess}
                 setAppState={(selectedPlantId, quantity) =>
                   this.editStateFromStoreItems(selectedPlantId, quantity)
                 }
               />
-            )}
-          />
-          <Route
-            path="/logout"
-            exact
-            component={() => (
-              <Logout logout={(message) => this.editStateFromLogout(message)} />
             )}
           />
           <Route
@@ -342,7 +327,6 @@ class App extends React.Component {
                 plants={this.state.plants}
                 addMsg={(msg) => this.addMsg(msg)}
                 userInfo={this.state.user}
-                logInSuccess={this.state.logInSuccess}
                 adminAction={(data, url) => this.adminAction(data, url)}
               />
             )}
@@ -354,7 +338,6 @@ class App extends React.Component {
               <Profile
                 {...routeProps}
                 userInfo={this.state.user}
-                logInSuccess={this.state.logInSuccess}
                 removeFavoritePlant={(event) => this.removeFavoritePlant(event)}
               />
             )}
@@ -366,7 +349,6 @@ class App extends React.Component {
             component={() => (
               <ShoppingCart
                 userInfo={this.state.user}
-                logInSuccess={this.state.logInSuccess}
                 deleteFromCart={(event) => this.deleteCartItem(event)}
               />
             )}

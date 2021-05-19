@@ -1,6 +1,9 @@
+import './Signup.scss'
 import React from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
+
+import { Link } from 'react-router-dom'
 
 class Signup extends React.Component {
   state = {
@@ -60,6 +63,10 @@ class Signup extends React.Component {
           </div>
           <button>Register new user</button>
         </form>
+        <p>
+          Do you have an account? Log in<span> </span>
+          <Link onClick={()=>this.props.modalAction('open', 'login')}>here</Link>
+        </p>
       </div>
     )
   }

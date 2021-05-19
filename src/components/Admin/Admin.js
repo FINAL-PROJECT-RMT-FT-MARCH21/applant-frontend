@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom'
 
 class Admin extends React.Component {
   state = {
-    users: [...this.props.users],
-    plants: [...this.props.plants],
     newPlant: {
       commonName: '',
       botanicalName: '',
@@ -264,7 +262,7 @@ class Admin extends React.Component {
                   <td><input type="text" name="username" value={user.username}/></td>
                   <td><input type="password" name="password" value={user.password}/></td>
                   <div className="table-btns">
-                    <Link className="link" onClick={()=>this.props.adminAction(this.state.users[index], `/edit-user/${user._id}`)}>
+                    <Link className="link" onClick={()=>this.props.adminAction(user, `/edit-user/${user._id}`)}>
                       Modify user
                     </Link>
                     <Link className="link" onClick={()=>this.props.adminAction(null, `/delete-user/${user._id}`)}>

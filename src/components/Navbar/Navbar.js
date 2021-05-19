@@ -4,55 +4,35 @@ import { Link } from 'react-router-dom'
 
 class Navbar extends React.Component {
   getNavbar() {
-    if (this.props.auth) {
-      if (this.props.user.admin) {
+    if (this.props.userInfo) {
+      if (this.props.userInfo.admin) {
         return (
           <div className="navbar-child">
             <div className="nav-left">
-              <div className="nav-btn">
-                <Link className="link" to="/">
-                  Home
-                </Link>
-              </div>
-              <div className="nav-btn">
-                <Link className="link" to="/forum">
-                  Forum
-                </Link>
-              </div>
-              <div className="nav-btn">
-                <Link className="link" to="/store">
-                  Store
-                </Link>
-              </div>
+              <Link className="link" to="/">
+                <div className="nav-btn">Home</div>
+              </Link>
+              <Link className="link" to="/blog">
+                <div className="nav-btn">Blog</div>
+              </Link>
+              <Link className="link" to="/store">
+                <div className="nav-btn">Store</div>
+              </Link>
             </div>
             <div className="nav-right">
-              <div className="nav-btn-container">
-                <div className="nav-btn">
-                  <Link className="link" to="/admin">
-                    Admin
-                  </Link>
-                </div>
-              </div>
-              <div className="nav-btn-container">
-                <div className="nav-btn">
-                  <Link className="link" to="/profile">
-                    Profile
-                  </Link>
-                </div>
-              </div>
-              <div className="nav-btn-container">
-                <div className="nav-btn">
-                  <Link className="link" to="/logout">
-                    Logout
-                  </Link>
-                </div>
-              </div>
-              <div className="nav-btn-container">
-                <div className="nav-btn cart-icon">
-                  <Link className="link" to="/shopping-cart">
-                    <img src="/icons/shopping-cart-icon.png" alt="cart" />
-                  </Link>
-                </div>
+              <Link className="link" to="/admin">
+                <div className="nav-btn">Admin</div>
+              </Link>
+              <Link className="link" to="/profile">
+                <div className="nav-btn">Profile</div>
+              </Link>
+              <Link className="link" onClick={()=>this.props.authAction(null, 'logout')}>
+                  <div className="nav-btn">Logout</div>
+              </Link>
+              <div className="nav-btn cart-icon">
+                <Link className="link" to="/shopping-cart">
+                  <img src="/icons/shopping-cart-icon.png" alt="cart" />
+                </Link>
               </div>
             </div>
           </div>
@@ -61,43 +41,27 @@ class Navbar extends React.Component {
         return (
           <div className="navbar-child">
             <div className="nav-left">
-              <div className="nav-btn">
-                <Link className="link" to="/">
-                  Home
-                </Link>
-              </div>
-              <div className="nav-btn">
-                <Link className="link" to="/forum">
-                  Forum
-                </Link>
-              </div>
-              <div className="nav-btn">
-                <Link className="link" to="/store">
-                  Store
-                </Link>
-              </div>
+              <Link className="link" to="/">
+                <div className="nav-btn">Home</div>
+              </Link>
+              <Link className="link" to="/blog">
+                <div className="nav-btn">Blog</div>
+              </Link>
+              <Link className="link" to="/store">
+                <div className="nav-btn">Store</div>
+              </Link>
             </div>
             <div className="nav-right">
-              <div className="nav-btn-container">
-                <div className="nav-btn">
-                  <Link className="link" to="/profile">
-                    Profile
-                  </Link>
-                </div>
-              </div>
-              <div className="nav-btn-container">
-                <div className="nav-btn">
-                  <Link className="link" to="/logout">
-                    Logout
-                  </Link>
-                </div>
-              </div>
-              <div className="nav-btn-container">
-                <div className="nav-btn cart-icon">
-                  <Link className="link" to="/shopping-cart">
-                    <img src="/icons/shopping-cart-icon.png" alt="cart" />
-                  </Link>
-                </div>
+              <Link className="link" to="/profile">
+                <div className="nav-btn">Profile</div>
+              </Link>
+              <Link className="link" onClick={()=>this.props.authAction(null, 'logout')}>
+                <div className="nav-btn">Logout</div>
+              </Link>
+              <div className="nav-btn cart-icon">
+                <Link className="link" to="/shopping-cart">
+                  <img src="/icons/shopping-cart-icon.png" alt="cart" />
+                </Link>
               </div>
             </div>
           </div>
@@ -110,8 +74,8 @@ class Navbar extends React.Component {
             <Link className="link" to="/">
               <div className="nav-btn">Home</div>
             </Link>
-            <Link className="link" to="/forum">
-              <div className="nav-btn">Forum</div>
+            <Link className="link" to="/blog">
+              <div className="nav-btn">Blog</div>
             </Link>
             <Link className="link" to="/store">
               <div className="nav-btn">Store</div>

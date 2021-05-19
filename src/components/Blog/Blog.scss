@@ -1,0 +1,31 @@
+@import '../../App.scss';
+
+.Blog {
+  @include flexCenter(column, center, center);
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCrKvVoql11O3d9TqALbH3PODWU5AwXrACGQ&usqp=CAU");
+  background-size: 100%;
+  .post-container{
+    @include flexCenter(column, center, center);
+    width: 100%;
+    button{
+      margin: 20px;
+    }
+    .post{
+      @include flexCenter(row, center, start);
+      background-color: rgb(156, 211, 156);
+      color: white;
+      border-radius: 16px;
+      min-width: 300px;
+      max-width: 500px;
+      margin: 5px 20px;
+      padding: 20px;
+      img{
+        width: 200px;
+        height: 200px;
+      }
+      .post-content{
+        margin-left: 20px;
+      }
+    }
+  }
+}

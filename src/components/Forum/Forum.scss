@@ -1,9 +1,0 @@
-@import '../../App.scss';
-
-.Forum {
-  @include flexCenter(column, center, center);
-  .post{
-    @include flexCenter(row, center, center);
-    background-color: grey;
-  }
-}

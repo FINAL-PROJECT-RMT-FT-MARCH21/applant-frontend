@@ -21,7 +21,7 @@ class ShoppingCart extends React.Component {
   }
   getCartItems() {
     const { cart } = this.props.userInfo
-    if (cart.length > 0) {
+    if (cart) {
       return cart.map((item, index) => {
         return (
           <div key={index} className="allItemsCart">
@@ -53,22 +53,26 @@ class ShoppingCart extends React.Component {
     const promise = loadStripe(
       'pk_test_51IrpUwINyfw3Ussjr5TrEoNC8GW0dM1LdTMSLYsAIhofMEO44bCM8br241Ywwi96IRkCNMgKI4kMoSI8nugv9CSA0097t9atRk'
     )
-    return this.props.userInfo.cart.length === 0 ? (
-      <h1>Your cart it's empty</h1>
-    ) : (
-      <div className="ShoppingCart">
-        <h1>Cart</h1>
-        {this.getCartItems()}
-        <p>
-          <b>Total: </b> {this.getTotalPrice()}
-          
-         <div className="CheckoutForm">
-          <Elements stripe={promise}>
-            <CheckoutForm />
-          </Elements>
-        </div>
-        </p>
-      </div>
+    return (
+      this.props.userInfo ? 
+        (this.props.userInfo.cart.lenght === 0 ?
+          <h1>Your cart it's empty</h1>
+          :
+          <div className="ShoppingCart">
+            <h1>Cart</h1>
+            {this.getCartItems()}
+            <p>
+              <b>Total: </b> {this.getTotalPrice()}
+              
+            <div className="CheckoutForm">
+              <Elements stripe={promise}>
+                <CheckoutForm />
+              </Elements>
+            </div>
+            </p>
+          </div>
+        ) 
+      : <h1>Login required</h1>
     )
   }
 }

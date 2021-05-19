@@ -1,6 +1,5 @@
 import './Profile.scss'
 import React from 'react'
-import { Redirect } from 'react-router-dom'
 
 class Profile extends React.Component {
   toUpper(word) {
@@ -65,14 +64,14 @@ class Profile extends React.Component {
   }
 
   render() {
-    return this.props.logInSuccess ? (
-      <div className="Profile">
-        <h1>{`${this.toUpper(this.props.userInfo.username)}'s page`}</h1>
-        <h2>Your favorite plants</h2>
-        <div className="plant-cards-container">{this.getFavoritePlants()}</div>
-      </div>
-    ) : (
-      <Redirect to="#openModal" />
+    return (
+      this.props.userInfo ? 
+        <div className="Profile">
+          <h1>{`${this.toUpper(this.props.userInfo.username)}'s page`}</h1>
+          <h2>Your favorite plants</h2>
+          <div className="plant-cards-container">{this.getFavoritePlants()}</div>
+        </div>
+      : <h1>Login required</h1>
     )
   }
 }
