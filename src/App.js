@@ -29,6 +29,7 @@ class App extends React.Component {
       admin: false,
       favoritePlants: [],
       cart: [],
+      totalPrice: 0,
     },
     users: [],
     plants: [],
@@ -119,6 +120,7 @@ class App extends React.Component {
     })
   }
 
+<<<<<<< HEAD
   editStateFromNewPost(post, message){
     const stateCopy = {...this.state}
     stateCopy.message = message
@@ -127,6 +129,9 @@ class App extends React.Component {
   }
       
   editStateFromStoreItems(selectedPlantId, quantity) {
+=======
+  editStateFromStoreItems(selectedPlantId, quantity, totalPrice) {
+>>>>>>> fc5e4b203b12cf8519c895a79f0e45faca0b3583
     axios({
       method: 'post',
       url: 'http://localhost:5000/add-to-cart',
@@ -134,6 +139,7 @@ class App extends React.Component {
         plantId: selectedPlantId,
         quantity: quantity,
         user: this.state.user,
+        totalPrice: this.state.user.totalPrice
       },
       withCredentials: true,
     })
@@ -152,6 +158,7 @@ class App extends React.Component {
         const updatedPlants = [ updatedPlant, ...plantsWithoutUpdatedPlant]
         stateCopy.user.cart = updatedPlants
         
+<<<<<<< HEAD
         
         
       } else if(result.updatedUser === '') {  //Planta nuevo anadida al carrito (Se recibe el usuario)
@@ -168,7 +175,31 @@ class App extends React.Component {
     .catch((err) => {
       console.log(err)
     })
+=======
+        } else if(result.updatedUser === '') {  //Planta nuevo anadida al carrito (Se recibe el usuario)
+        
+          let updatedUser = result.data.user
+          console.log(updatedUser)
+          stateCopy.user = updatedUser
+        }
+        //this.getTotalPrice()
+        this.setState(stateCopy)
+        this.updateUser()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+>>>>>>> fc5e4b203b12cf8519c895a79f0e45faca0b3583
   }
+ /*  getTotalPrice() {
+    const sum = this.state.user.cart.reduce((accumulator, element) => {
+      return accumulator += element.plant.price * element.quantity
+    }, 0)
+    console.log(sum)
+    const stateCopy = {...this.state}
+    stateCopy.user.totalPrice = sum
+    this.setState(stateCopy)
+  } */
 
   editStateFromPlantDetails(selectedPlantId) { ////////////////
     axios({
@@ -238,7 +269,12 @@ class App extends React.Component {
   }
 
   render() {
+<<<<<<< HEAD
     console.log('>>>', this.state)
+=======
+    console.log(this.state.user)
+
+>>>>>>> fc5e4b203b12cf8519c895a79f0e45faca0b3583
     return (
       <div className="App">
         <Navbar
@@ -312,8 +348,14 @@ class App extends React.Component {
               <StoreItem
                 {...routeProps}
                 plants={this.state.plants}
+<<<<<<< HEAD
                 setAppState={(selectedPlantId, quantity) =>
                   this.editStateFromStoreItems(selectedPlantId, quantity)
+=======
+                logInSuccess={this.state.logInSuccess}
+                setAppState={(selectedPlantId, quantity, totalPrice) =>
+                  this.editStateFromStoreItems(selectedPlantId, quantity, totalPrice)
+>>>>>>> fc5e4b203b12cf8519c895a79f0e45faca0b3583
                 }
               />
             )}
@@ -350,6 +392,7 @@ class App extends React.Component {
               <ShoppingCart
                 userInfo={this.state.user}
                 deleteFromCart={(event) => this.deleteCartItem(event)}
+                totalPrice={this.state.user.totalPrice}
               />
             )}
           />

@@ -5,16 +5,6 @@ import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 
 class ShoppingCart extends React.Component {
-  state = {
-    totalPrice: 0,
-  }
-  
-  getTotalPrice() {
-    const sum = this.props.userInfo.cart.reduce((accumulator, element) => {
-      return accumulator + element.plant.price * element.quantity
-    }, 0)
-    return sum
-  }
 
   toUpper(word) {
     if (word) return word[0].toUpperCase() + word.slice(1)
@@ -50,6 +40,7 @@ class ShoppingCart extends React.Component {
     }
   }
   render() {
+    console.log('TOTAL PRICE PROPS DE SHOPPING CART' + this.props.totalPrice)
     const promise = loadStripe(
       'pk_test_51IrpUwINyfw3Ussjr5TrEoNC8GW0dM1LdTMSLYsAIhofMEO44bCM8br241Ywwi96IRkCNMgKI4kMoSI8nugv9CSA0097t9atRk'
     )
@@ -62,7 +53,7 @@ class ShoppingCart extends React.Component {
             <h1>Cart</h1>
             {this.getCartItems()}
             <p>
-              <b>Total: </b> {this.getTotalPrice()}
+              <b>Total: </b> {this.props.totalPrice}€
               
             <div className="CheckoutForm">
               <Elements stripe={promise}>

@@ -5,20 +5,22 @@ class StoreItem extends React.Component {
   state = {
     selectedPlantId: [],
     quantity: 0,
+    totalPrice: 0, 
     toCartLoggedStatus: undefined,
   }
 
   handleInput(event) {
     const selectedPlantId = this.props.match.params._id
     const quantity = event.target.value
-    if (this.props.logInSuccess) {
+
+    if (this.props.userInfo) {
       this.setState({ ...this.state, selectedPlantId, quantity })
     }
   }
 
   addToCart() {
     if (this.props.logInSuccess) {
-      this.props.setAppState(this.state.selectedPlantId, this.state.quantity)
+      this.props.editStateFromStoreItems(this.state.selectedPlantId, this.state.quantity)
       this.setState({ ...this.state, toCartLoggedStatus: 'logged' })
     } else {
       this.setState({ ...this.state, toCartLoggedStatus: 'not logged' })
@@ -26,12 +28,15 @@ class StoreItem extends React.Component {
   }
 
   render() {
-    console.log('Esto viene desde APP --->', this.props.setAppState)
+    
     const selectedPlantId = this.props.match.params._id
     const showSelected = this.props.plants.filter((plant) => {
       return selectedPlantId === plant._id
     })[0]
+    const totalPrice = showSelected.price 
+    
 
+console.log(showSelected)
     return this.props.plants.length === 0 ? (
       <div className="spinner">
         <div className="lds-ripple">

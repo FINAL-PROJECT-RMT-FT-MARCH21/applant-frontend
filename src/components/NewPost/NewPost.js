@@ -17,9 +17,8 @@ class NewPost extends React.Component {
       withCredentials: true,
     })
       .then((result) => {
-        const post = result.data.data
-        const message = result.data.message
-        this.props.editStateFromNewPost(post, message)
+        this.props.addMsg(result.data.data.message)
+        this.props.updateState('posts')
         this.props.modalAction('close')
       })
       .catch((error) => {
