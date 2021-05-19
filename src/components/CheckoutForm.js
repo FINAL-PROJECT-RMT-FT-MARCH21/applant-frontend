@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 
-export default function CheckoutForm() {
+export default function CheckoutForm(props) {
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState(null)
   const [processing, setProcessing] = useState('')
@@ -9,15 +9,16 @@ export default function CheckoutForm() {
   const [clientSecret, setClientSecret] = useState('')
   const stripe = useStripe()
   const elements = useElements()
+  console.log(props)
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     window
-      .fetch(`${process.env.REACT_APP_URL}/create-payment-intent`, {
+      .fetch(`${process.env.REACT_APP_URL}/app/create-payment-intent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ items: [{ id: 'xl-tshirt' }] }),
+        body: JSON.stringify(props.userInfo),
       })
       .then((res) => {
         return res.json()
@@ -43,12 +44,14 @@ export default function CheckoutForm() {
       },
     },
   }
+
   const handleChange = async (event) => {
     // Listen for changes in the CardElement
     // and display any errors as the customer types their card details
     setDisabled(event.empty)
     setError(event.error ? event.error.message : '')
   }
+
   const handleSubmit = async (ev) => {
     ev.preventDefault()
     setProcessing(true)
@@ -92,10 +95,11 @@ export default function CheckoutForm() {
         {/* Show a success message upon completion */}
         <p className={succeeded ? 'result-message' : 'result-message hidden'}>
           Payment succeeded, see the result in your
+          {/* {this.props.addMsg('Payment succeeded, see the result in your')} */}
           <a href={`https://dashboard.stripe.com/test/payments`}>
             {' '}
             Stripe dashboard.
-          </a>{' '}
+          </a>
           Refresh the page to pay again.
         </p>
       </form>

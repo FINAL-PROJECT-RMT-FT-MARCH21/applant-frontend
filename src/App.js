@@ -77,7 +77,7 @@ class App extends React.Component {
     
   authAction(data, url, onlyUpdateState){
     if (onlyUpdateState){
-      this.updateUser()
+      this.updateState('user')
     } else {
       axios({
         method: 'post',
@@ -86,9 +86,9 @@ class App extends React.Component {
         withCredentials: true,
       })
         .then((result) => {
-          const message = result.data.message
-          this.setState({...this.state, message: message})
+          this.addMsg(result.data.message)
           this.updateState('user')
+          this.updateState('users')
         })
         .catch((err) => {
           console.log(err)
@@ -105,13 +105,11 @@ class App extends React.Component {
       withCredentials: true,
     })
     .then((result) => {
-      const message = result.data.message
-      stateCopy.message = message
-      this.setState(stateCopy)
-      this.getUsers()
-      this.getPlants()
-      this.getPosts()
-      this.updateUser()
+      this.addMsg(result.data.message)
+      this.updateState('users')
+      this.updateState('plants')
+      this.updateState('posts')
+      this.updateState('user')
     })
     .catch((err) => {
       console.log(err)
@@ -149,20 +147,19 @@ class App extends React.Component {
       })
   }
 
-  editStateFromStoreItems(selectedPlantId, quantity, totalPrice) {
+  editStateFromStoreItems(selectedPlantId, quantity) {
     axios({
       method: 'post',
       url: `${process.env.REACT_APP_URL}/app/add-to-cart`,
       data: {
         plantId: selectedPlantId,
         quantity: quantity,
-        user: this.state.user,
-        totalPrice: this.state.user.totalPrice
+        user: this.state.user
       },
       withCredentials: true,
     })
     .then((result) => {
-      console.log('resultado de storeItem', result.data)
+      console.log('164', result)
       this.addMsg(result.data.message)
       this.updateState('user')
       })
@@ -175,7 +172,6 @@ class App extends React.Component {
     axios({
       method: 'post',
       url: `${process.env.REACT_APP_URL}/app/remove-from-cart/${id}`,
-      data: { user: this.state.user },
       withCredentials: true,
     })
     .then((result) => {
@@ -187,7 +183,6 @@ class App extends React.Component {
     })
   }
 
-
   addMsg(msg) {
     this.setState({ ...this.state, message: msg })
   }
@@ -197,13 +192,13 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('>>>', this.state)
+    // console.log('>>>', this.state)
     return (
       <div className="App">
         <Navbar
           modalAction={(action, mod)=>this.modalAction(action, mod)}
-          userInfo={this.state.user}
           authAction={(data, url, upd) => this.authAction(data, url, upd)}
+          userInfo={this.state.user}
         />
         <Message msg={this.state.message} cleanMsg={() => this.cleanMsg()} />
         <Modal
@@ -216,6 +211,7 @@ class App extends React.Component {
           authAction={(data, url, upd) => this.authAction(data, url, upd)}
           
           userInfo={this.state.user}
+          users={this.state.users}
           adminAction={(data, url) => this.adminAction(data, url)}
           editStateFromNewPost={(body, message) => 
             this.editStateFromNewPost(body, message)}
@@ -274,8 +270,8 @@ class App extends React.Component {
                 plants={this.state.plants}
                 modalAction={(action, mod)=>this.modalAction(action, mod)}
                 userInfo={this.state.user}
-                editStateFromStoreItems={(selectedPlantId, quantity, totalPrice) =>
-                  this.editStateFromStoreItems(selectedPlantId, quantity, totalPrice)
+                editStateFromStoreItems={(selectedPlantId, quantity) =>
+                  this.editStateFromStoreItems(selectedPlantId, quantity)
                 }
               />
             )}
@@ -285,11 +281,12 @@ class App extends React.Component {
             exact
             component={() => (
               <Admin
-                users={this.state.users}
-                plants={this.state.plants}
                 addMsg={(msg) => this.addMsg(msg)}
+                modalAction={(action, mod) => this.modalAction(action, mod)}
                 userInfo={this.state.user}
                 adminAction={(data, url) => this.adminAction(data, url)}
+                users={this.state.users}
+                plants={this.state.plants}
               />
             )}
           />
@@ -311,7 +308,7 @@ class App extends React.Component {
             component={() => (
               <ShoppingCart
                 userInfo={this.state.user}
-                deleteFromCart={(event) => this.deleteCartItem(event)}
+                deleteFromCart={(id) => this.deleteCartItem(id)}
                 modalAction={(action, mod) => this.modalAction(action, mod)}
               />
             )}

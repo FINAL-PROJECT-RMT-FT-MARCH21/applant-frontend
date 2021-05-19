@@ -4,6 +4,15 @@ import { Link } from 'react-router-dom'
 
 class Admin extends React.Component {
   state = {
+    user: {
+      _id: '',
+      username: '',
+      password: '',
+      admin: false,
+      favoritePlants: [],
+      cart: [],
+      totalPrice: 0,
+    },
     newPlant: {
       commonName: '',
       botanicalName: '',
@@ -258,10 +267,9 @@ class Admin extends React.Component {
             {this.props.users.map((user, index) => {
               return (
                 <tr>
-                  <td><input type="text" name="username" value={user.username}/></td>
-                  <td><input type="password" name="password" value={user.password}/></td>
+                  <td>{user.username}</td>
                   <div className="table-btns">
-                    <Link className="link" onClick={()=>this.props.adminAction(user, `/edit-user/${user._id}`)}>
+                    <Link className="link" onClick={()=>this.props.modalAction('open', `edit-user/${user._id}`)}>
                       Modify user
                     </Link>
                     <Link className="link" onClick={()=>this.props.adminAction(null, `/delete-user/${user._id}`)}>
@@ -304,9 +312,10 @@ class Admin extends React.Component {
   render() {
     return (
       <div className="Admin">
+        <button onClick={()=>this.props.modalAction('open', 'newPlant')}>New plant</button>
         {this.showUsers()}
         {this.showPlants()}
-        {this.showNewPlantForm()}
+        {/* {this.showNewPlantForm()} */}
       </div>
     )
   }

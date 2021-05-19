@@ -14,27 +14,10 @@ class Signup extends React.Component {
     successSignup: false,
   }
 
-  handleSubmit(event) {
+  signup(event){
     event.preventDefault()
-    axios({
-      method: 'post',
-      url: `${process.env.REACT_APP_URL}/app/signup`,
-      data: this.state.user,
-    })
-      .then((result) => {
-        console.log('signup good', result)
-        if (result.data.successSignup){
-          console.log('success')
-          this.setState({...this.state, successSignup: true})
-          this.props.modalAction('close')
-        } else {
-          console.log('fail')
-        }
-        this.props.addMsg(result.data.message)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    this.props.authAction(this.state.user, 'signup')
+    this.props.modalAction('close')
   }
 
   handleChange(event) {
@@ -54,7 +37,7 @@ class Signup extends React.Component {
     return (
       <div className="form-container">
         <h2>Sign up</h2>
-        <form className="form" onSubmit={(event) => this.handleSubmit(event)}>
+        <form className="form" onSubmit={(event) => this.signup(event)}>
           <div className="form-field">
             <label htmlFor="username">Username</label>
             <input

@@ -6,6 +6,8 @@ import { Modal } from "react-responsive-modal";
 
 import Login from '../Login/Login'
 import Signup from '../Signup/Signup'
+import EditUser from '../EditUser/EditUser'
+import NewPlant from '../NewPlant/NewPlant'
 import NewPost from '../NewPost/NewPost'
 import { Elements } from '@stripe/react-stripe-js'
 import CheckoutForm from '../CheckoutForm'
@@ -33,6 +35,26 @@ class ModalComponent extends React.Component {
             <Signup 
               {...this.props}
             />
+          </Modal>
+        </div>
+      )
+    } else if(this.props.modal.includes('edit-user')){
+      return(
+        <div>
+          <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
+            <EditUser
+              {...this.props}
+            />
+          </Modal>
+        </div>
+      )
+    } else if(this.props.modal === 'newPlant'){
+      return(
+        <div>
+          <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
+            {/* <NewPlant
+              {...this.props}
+            /> */}
           </Modal>
         </div>
       )

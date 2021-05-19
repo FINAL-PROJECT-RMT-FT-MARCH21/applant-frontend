@@ -51,7 +51,7 @@ class ShoppingCart extends React.Component {
               <b>Total: </b> {this.props.userInfo.totalPrice} €
             </p>
             {console.log('>>>>>', this.props)}
-            <button onClick={()=>{this.props.modalAction('open', 'payment')}}>Pay now</button>
+            <button onClick={()=>{this.props.modalAction('open', 'payment')}}>Check out</button>
           </div>
         ) 
       : <h1>Login required</h1>
