@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import ReactJson from 'react-json-view'
 
+
 //import { loadStripe } from '@stripe/stripe-js'
 //import { Elements } from '@stripe/react-stripe-js'
 
@@ -19,6 +20,8 @@ import Profile from './components/Profile/Profile'
 import StoreItem from './components/StoreItem'
 import ShoppingCart from './components/ShoppingCart'
 import Modal from './components/Modal/Modal'
+import Footer from './components/Footer/Footer'
+import Parallax from './components/Parallax/Parallax'
 
 class App extends React.Component {
   state = {
@@ -97,7 +100,6 @@ class App extends React.Component {
   }
 
   adminAction(data, url) {
-    const stateCopy = { ...this.state }
     axios({
       method: 'post',
       url: `${process.env.REACT_APP_URL}/app/${url}`,
@@ -192,7 +194,6 @@ class App extends React.Component {
   }
 
   render() {
-    // console.log('>>>', this.state)
     return (
       <div className="App">
         <Navbar
@@ -200,6 +201,7 @@ class App extends React.Component {
           authAction={(data, url, upd) => this.authAction(data, url, upd)}
           userInfo={this.state.user}
         />
+         
         <Message msg={this.state.message} cleanMsg={() => this.cleanMsg()} />
         <Modal
           addMsg={(msg) => this.addMsg(msg)}
@@ -212,13 +214,14 @@ class App extends React.Component {
           
           userInfo={this.state.user}
           users={this.state.users}
+          plants={this.state.plants}
           adminAction={(data, url) => this.adminAction(data, url)}
           editStateFromNewPost={(body, message) => 
             this.editStateFromNewPost(body, message)}
         />
 
-
         <Switch>
+          <Route path="/parallax" exact component={()=> <Parallax /> } />
           <Route
             path="/all-plants"
             exact
@@ -314,6 +317,9 @@ class App extends React.Component {
             )}
           />
         </Switch>
+        <Footer 
+          modalAction={(action, mod)=>this.modalAction(action, mod)}
+          authAction={(data, url, upd) => this.authAction(data, url, upd)} />
       </div>
     )
   }

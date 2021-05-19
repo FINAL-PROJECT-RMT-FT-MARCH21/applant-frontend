@@ -2,7 +2,7 @@
 
 .Blog {
   @include flexCenter(column, center, center);
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCrKvVoql11O3d9TqALbH3PODWU5AwXrACGQ&usqp=CAU");
+
   background-size: 100%;
   .post-container{
     @include flexCenter(column, center, center);
@@ -12,13 +12,12 @@
     }
     .post{
       @include flexCenter(row, center, start);
-      background-color: rgb(156, 211, 156);
-      color: white;
-      border-radius: 16px;
+      /* border-radius: 16px; */
       min-width: 300px;
-      max-width: 500px;
-      margin: 5px 20px;
-      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 50px;
+      border: 1px solid black;
       img{
         width: 200px;
         height: 200px;

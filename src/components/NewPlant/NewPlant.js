@@ -132,21 +132,7 @@ class NewPlant extends React.Component {
                         />
                         </td>
                     </tr>
-                    {this.state.plant.purifying ? (
-                        <tr>
-                        <td>Purifying</td>
-                        <td>
-                            <input
-                            onChange={(event) => this.handleInput(event)}
-                            type="checkbox"
-                            name="purifying"
-                            value={1}
-                            checked
-                            />
-                        </td>
-                        </tr>
-                    ) : (
-                        <tr>
+                    <tr>
                         <td>Purifying</td>
                         <td>
                             <input
@@ -156,8 +142,7 @@ class NewPlant extends React.Component {
                             value={1}
                             />
                         </td>
-                        </tr>
-                    )}
+                    </tr>
                     <tr>
                         <td>About</td>
                         <td>
@@ -186,21 +171,7 @@ class NewPlant extends React.Component {
                         />
                         </td>
                     </tr>
-                    {this.state.plant.inStore ? (
-                        <tr>
-                        <td>In store</td>
-                        <td>
-                            <input
-                            onChange={(event) => this.handleInput(event)}
-                            type="checkbox"
-                            name="inStore"
-                            value={1}
-                            checked
-                            />
-                        </td>
-                        </tr>
-                    ) : (
-                        <tr>
+                    <tr>
                         <td>In store</td>
                         <td>
                             <input
@@ -210,8 +181,7 @@ class NewPlant extends React.Component {
                             value={1}
                             />
                         </td>
-                        </tr>
-                    )}
+                    </tr>
                     </tbody>
                 </table>
             </form>

@@ -1,7 +1,21 @@
 @import '../../App.scss';
-
 .Login{
     h2{
-        color: red;
+        color: rgb(156, 211, 156);
+    }
+}
+.react-responsive-modal-modal{
+
+    border-radius: 20px;
+    .react-responsive-modal-closeButton{
+        svg{
+
+        }
+    }
+    .form-container{
+        background-color: transparent;
+        box-shadow: none;
+        input { outline: none; }
+        border-radius: 10px;
     }
 }

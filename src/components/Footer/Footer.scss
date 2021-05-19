@@ -1,0 +1,62 @@
+@import '../../App.scss';
+
+.Footer{
+    background-color: rgb(156, 211, 156);
+    color: white;
+    /* width: 100vw; */
+    padding-bottom: 35vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    h5{
+        font-size: 16px;
+    }
+    div{
+        height: 9vh;
+        display: flex;
+        flex-direction: column;
+    }
+    p{
+        margin: 3px 0px;
+    }
+    .contact{
+        margin: 13px 0px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .icons{
+        margin: 3px;
+        color: rgb(255, 255, 255);
+        width: 20px;
+        height: 20px;
+        border-radius: 50px;
+        &:hover {
+          color: black;
+          background-color: transparent;
+        }
+      }
+      .Join{
+        a{
+            text-decoration: none;
+            color: white;
+        }
+        p{
+            margin: 9px 0px;
+            color: white;
+        }
+      }
+      .Terms{
+        a{
+            margin: 16px 0px;
+            text-decoration: none;
+            color: white;
+        }
+        p{
+            color: white;
+        }
+      }
+
+}

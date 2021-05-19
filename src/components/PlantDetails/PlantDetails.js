@@ -1,11 +1,12 @@
 import './PlantDetails.scss'
 import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
+//import { GrFavorite } from 'react-icons/gf'  MdAddShoppingCart
 
 class PlantDetails extends React.Component {
   state = {
     plant: {
-      ...this.props.allPlants.filter(
+                  ...this.props.allPlants.filter(
         (plant) => this.props.match.params._id === plant._id
       )[0],
     },
@@ -52,23 +53,27 @@ class PlantDetails extends React.Component {
       return <Redirect to="/admin" />
     }
     return (
-      <div className="PlantDetails">
-        <div className="imageAndButtons">
+      <div  className="PlantDetails" >
+      <div className="PlantDetailsUp">
+        <div className="image">
           <img
             src={this.state.plant.image}
             alt={this.state.plant.commonName}
           />
-          <button className="link-btn" onClick={() => this.likeToFavorites()}>
-            Like
-          </button>
-          <Link
-            className="link-btn"
-            to={`/store-items/${this.props.match.params._id}`}
-          >
-            Go to store
-          </Link>
         </div>
         <div className="infoPlantDetails">
+        <div className="buttons">
+          <button className="link-btn" onClick={() => this.likeToFavorites()}>
+          {/* //<GrFavorite/> */}
+          </button>
+          <Link
+            
+            to={`/store-items/${this.props.match.params._id}`}
+          >
+            <button className="link-btn">Go to store</button>
+          </Link>
+          </div>
+          <div>
           <h2>{this.toUpper(this.state.plant.commonName)}</h2>
           <i>
             <h3>{this.toUpper(this.state.plant.botanicalName)}</h3>
@@ -103,7 +108,10 @@ class PlantDetails extends React.Component {
           <p>
             <b>Pet/baby safe:</b> {this.state.plant.safety}
           </p>
-
+          </div>
+          </div>
+        </div>
+          <div className='About'>
           <h3>
             <b>About {this.toUpper(this.state.plant.commonName)}</b>
           </h3>

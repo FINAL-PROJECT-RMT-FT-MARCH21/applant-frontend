@@ -65,6 +65,7 @@ class Store extends React.Component {
               plant.botanicalName.slice(1)}
             )
           </h3>
+          <p><b>P.v.p:</b> {plant.price}€</p>
         </div>
       )
     })
@@ -74,8 +75,8 @@ class Store extends React.Component {
     return (
       <div className="Homepage">
         <h1 className="main-title">Store</h1>
-        {this.getSearchBar()}
         {this.getFilterButtons()}
+        {this.getSearchBar()}
         <div className="plant-cards-container">{this.getStoreItems()}</div>
       </div>
     )

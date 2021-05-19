@@ -2,6 +2,8 @@ import './Homepage.scss'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import Parallax from '../Parallax/Parallax'
+
 class Homepage extends React.Component {
   state = {
     filteredPlants: [...this.props.allPlants],
@@ -11,7 +13,7 @@ class Homepage extends React.Component {
     return (
       <input
         type="text"
-        placeholder="Search plant"
+        placeholder="Search plant by name"
         onChange={(event) => this.filterPlants(event, 'commonName')}
       />
     )
@@ -65,6 +67,11 @@ class Homepage extends React.Component {
               plant.botanicalName.slice(1)}
             )
           </h3>
+          <Link className="link" to={`/plant-details/${plant._id}`}>
+            <div className="seeDetails">
+                <p>See details</p>
+            </div>
+          </Link>
         </div>
       )
     })
@@ -73,20 +80,13 @@ class Homepage extends React.Component {
   render() {
     return (
       <div className="Homepage">
-        <h1 className="main-title">All plants</h1>
-        {this.getSearchBar()}
+          <Parallax />
         {this.getFilterButtons()}
-        {this.props.allPlants.length === 0 ? (
-          <div className="spinner">
-            <div className="lds-ripple">
-              <div></div>
-              <div></div>
-            </div>
-          </div>
-        ) : (
-          <div className="plant-cards-container">{this.getPlants()}</div>
-        )}
-      </div>
+        {this.getSearchBar()}
+        <div className="plant-cards-container">
+          {this.getPlants()}
+        </div>
+    </div>
     )
   }
 }

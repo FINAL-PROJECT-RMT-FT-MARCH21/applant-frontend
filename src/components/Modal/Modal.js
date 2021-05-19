@@ -4,14 +4,17 @@ import React from 'react'
 import 'react-responsive-modal/styles.css'
 import { Modal } from "react-responsive-modal";
 
-import Login from '../Login/Login'
-import Signup from '../Signup/Signup'
-import EditUser from '../EditUser/EditUser'
-import NewPlant from '../NewPlant/NewPlant'
-import NewPost from '../NewPost/NewPost'
 import { Elements } from '@stripe/react-stripe-js'
 import CheckoutForm from '../CheckoutForm'
 import { loadStripe } from '@stripe/stripe-js'
+
+import Login from '../Login/Login'
+import Signup from '../Signup/Signup'
+import DeleteUser from '../DeleteUser/DeleteUser'
+import NewPlant from '../NewPlant/NewPlant'
+import EditPlant from '../EditPlant/EditPlant'
+import DeletePlant from '../DeletePlant/DeletePlant'
+import NewPost from '../NewPost/NewPost'
 
 class ModalComponent extends React.Component {
   
@@ -38,27 +41,47 @@ class ModalComponent extends React.Component {
           </Modal>
         </div>
       )
-    } else if(this.props.modal.includes('edit-user')){
+    } else if(this.props.modal.includes('delete-user')){
       return(
         <div>
           <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
-            <EditUser
+            <DeleteUser
               {...this.props}
             />
           </Modal>
         </div>
       )
-    } else if(this.props.modal === 'newPlant'){
+    } else if(this.props.modal === 'new-plant'){
       return(
         <div>
           <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
-            {/* <NewPlant
+            <NewPlant
               {...this.props}
-            /> */}
+            />
           </Modal>
         </div>
       )
-    } else if(this.props.modal === 'newPost'){
+    } else if(this.props.modal.includes('edit-plant')){
+      return(
+        <div>
+          <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
+            <EditPlant
+              {...this.props}
+            />
+          </Modal>
+        </div>
+      )
+    } else if(this.props.modal.includes('delete-plant')){
+      return(
+        <div>
+          <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
+            <DeletePlant
+              {...this.props}
+            />
+          </Modal>
+        </div>
+      )
+    } else if(this.props.modal === 'new-post'){
       return(
         <div>
           <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
