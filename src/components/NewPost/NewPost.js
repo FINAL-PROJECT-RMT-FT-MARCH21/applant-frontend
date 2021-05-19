@@ -12,7 +12,7 @@ class NewPost extends React.Component {
     event.preventDefault()
     axios({
       method: 'post',
-      url: `http://localhost:5000/${url}`,
+      url: `${process.env.REACT_APP_URL}/app/${url}`,
       data: data,
       withCredentials: true,
     })

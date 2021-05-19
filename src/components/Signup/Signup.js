@@ -18,7 +18,7 @@ class Signup extends React.Component {
     event.preventDefault()
     axios({
       method: 'post',
-      url: 'http://localhost:5000/signup',
+      url: `${process.env.REACT_APP_URL}/app/signup`,
       data: this.state.user,
     })
       .then((result) => {

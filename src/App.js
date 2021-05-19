@@ -50,7 +50,7 @@ class App extends React.Component {
     console.log(url)
     axios({
       method: 'get',
-      url: `http://localhost:5000/${url}`,
+      url: `${process.env.REACT_APP_URL}/app/${url}`,
       withCredentials: true,
     })
     .then((result) => {
@@ -83,7 +83,7 @@ class App extends React.Component {
     } else {
       axios({
         method: 'post',
-        url: `http://localhost:5000/${url}`,
+        url: `${process.env.REACT_APP_URL}/app/${url}`,
         data: data,
         withCredentials: true,
       })
@@ -102,7 +102,7 @@ class App extends React.Component {
     const stateCopy = { ...this.state }
     axios({
       method: 'post',
-      url: `http://localhost:5000/${url}`,
+      url: `${process.env.REACT_APP_URL}/app/${url}`,
       data: data,
       withCredentials: true,
     })
@@ -120,21 +120,10 @@ class App extends React.Component {
     })
   }
 
-<<<<<<< HEAD
-  editStateFromNewPost(post, message){
-    const stateCopy = {...this.state}
-    stateCopy.message = message
-    this.setState(stateCopy)
-    this.getPosts()
-  }
-      
-  editStateFromStoreItems(selectedPlantId, quantity) {
-=======
   editStateFromStoreItems(selectedPlantId, quantity, totalPrice) {
->>>>>>> fc5e4b203b12cf8519c895a79f0e45faca0b3583
     axios({
       method: 'post',
-      url: 'http://localhost:5000/add-to-cart',
+      url: `${process.env.REACT_APP_URL}/app/add-to-cart`,
       data: {
         plantId: selectedPlantId,
         quantity: quantity,
@@ -158,24 +147,6 @@ class App extends React.Component {
         const updatedPlants = [ updatedPlant, ...plantsWithoutUpdatedPlant]
         stateCopy.user.cart = updatedPlants
         
-<<<<<<< HEAD
-        
-        
-      } else if(result.updatedUser === '') {  //Planta nuevo anadida al carrito (Se recibe el usuario)
-        
-        let updatedUser = result.data.user
-        console.log(updatedUser)
-        stateCopy.user = updatedUser
-        
-        console.log('STATE COPY -->' + stateCopy)
-      }
-      this.setState(stateCopy)
-      this.updateUser()
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-=======
         } else if(result.updatedUser === '') {  //Planta nuevo anadida al carrito (Se recibe el usuario)
         
           let updatedUser = result.data.user
@@ -184,12 +155,11 @@ class App extends React.Component {
         }
         //this.getTotalPrice()
         this.setState(stateCopy)
-        this.updateUser()
+        this.updateState('user')
       })
       .catch((err) => {
         console.log(err)
       })
->>>>>>> fc5e4b203b12cf8519c895a79f0e45faca0b3583
   }
  /*  getTotalPrice() {
     const sum = this.state.user.cart.reduce((accumulator, element) => {
@@ -204,7 +174,7 @@ class App extends React.Component {
   editStateFromPlantDetails(selectedPlantId) { ////////////////
     axios({
       method: 'post',
-      url: `http://localhost:5000/add-to-favorites/${selectedPlantId}`,
+      url: `${process.env.REACT_APP_URL}/app/add-to-favorites/${selectedPlantId}`,
       data: { user: this.state.user },
       withCredentials: true,
     })
@@ -224,7 +194,7 @@ class App extends React.Component {
   deleteCartItem(id) {
     axios({
       method: 'post',
-      url: `http://localhost:5000/remove-from-cart/${id}`,
+      url: `${process.env.REACT_APP_URL}/app/remove-from-cart/${id}`,
       data: { user: this.state.user },
       withCredentials: true,
     })
@@ -248,7 +218,7 @@ class App extends React.Component {
   removeFavoritePlant(id) {
     axios({
       method: 'post',
-      url: `http://localhost:5000/remove-from-favorites/${id}`,
+      url: `${process.env.REACT_APP_URL}/app/remove-from-favorites/${id}`,
       withCredentials: true,
     })
       .then((result) => {
@@ -269,12 +239,7 @@ class App extends React.Component {
   }
 
   render() {
-<<<<<<< HEAD
     console.log('>>>', this.state)
-=======
-    console.log(this.state.user)
-
->>>>>>> fc5e4b203b12cf8519c895a79f0e45faca0b3583
     return (
       <div className="App">
         <Navbar
@@ -348,14 +313,9 @@ class App extends React.Component {
               <StoreItem
                 {...routeProps}
                 plants={this.state.plants}
-<<<<<<< HEAD
-                setAppState={(selectedPlantId, quantity) =>
-                  this.editStateFromStoreItems(selectedPlantId, quantity)
-=======
-                logInSuccess={this.state.logInSuccess}
-                setAppState={(selectedPlantId, quantity, totalPrice) =>
+                userInfo={this.state.user}
+                editStateFromStoreItems={(selectedPlantId, quantity, totalPrice) =>
                   this.editStateFromStoreItems(selectedPlantId, quantity, totalPrice)
->>>>>>> fc5e4b203b12cf8519c895a79f0e45faca0b3583
                 }
               />
             )}
