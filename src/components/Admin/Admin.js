@@ -245,7 +245,6 @@ class Admin extends React.Component {
           </table>
           <button>Create new plant</button>
         </form>
-        {/* {!this.isAdmin() ? <Redirect to="#openModal" /> : null} */}
       </div>
     )
   }

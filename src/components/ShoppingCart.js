@@ -1,8 +1,6 @@
 import React from 'react'
+
 import { RiDeleteBinLine } from 'react-icons/ri'
-import CheckoutForm from './CheckoutForm'
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
 
 class ShoppingCart extends React.Component {
 
@@ -41,9 +39,6 @@ class ShoppingCart extends React.Component {
   }
   render() {
     console.log('TOTAL PRICE PROPS DE SHOPPING CART' + this.props.totalPrice)
-    const promise = loadStripe(
-      'pk_test_51IrpUwINyfw3Ussjr5TrEoNC8GW0dM1LdTMSLYsAIhofMEO44bCM8br241Ywwi96IRkCNMgKI4kMoSI8nugv9CSA0097t9atRk'
-    )
     return (
       this.props.userInfo ? 
         (this.props.userInfo.cart.lenght === 0 ?
@@ -53,14 +48,10 @@ class ShoppingCart extends React.Component {
             <h1>Cart</h1>
             {this.getCartItems()}
             <p>
-              <b>Total: </b> {this.props.totalPrice}€
-              
-            <div className="CheckoutForm">
-              <Elements stripe={promise}>
-                <CheckoutForm />
-              </Elements>
-            </div>
+              <b>Total: </b> {this.props.userInfo.totalPrice} €
             </p>
+            {console.log('>>>>>', this.props)}
+            <button onClick={()=>{this.props.modalAction('open', 'payment')}}>Pay now</button>
           </div>
         ) 
       : <h1>Login required</h1>

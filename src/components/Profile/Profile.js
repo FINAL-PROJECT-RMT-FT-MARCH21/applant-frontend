@@ -14,7 +14,7 @@ class Profile extends React.Component {
         console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', plant)
         if (plant){
           return (
-            <div key={index} className="plant-card">
+            <div key={index} >
               <img src={plant.image} alt={plant.commonName} />
   
               <h2>{this.toUpper(plant.commonName)}</h2>
@@ -38,11 +38,11 @@ class Profile extends React.Component {
   
               <p>
                 <b>Type: </b>
-                {plant.type.map((type) => {
+                {plant.type ? plant.type.map((type) => {
                   return `${this.toUpper(type)} `
-                })}
+                }) : null}
               </p>
-              <p>{plant.exposure.forEach((exposure) => exposure)}</p>
+              <p>{plant.exposure?plant.exposure.forEach((exposure) => exposure):null}</p>
   
               <p>
                 <b>Air purifying:</b> {plant.purifying ? 'Yes' : 'No'}
@@ -69,7 +69,7 @@ class Profile extends React.Component {
         <div className="Profile">
           <h1>{`${this.toUpper(this.props.userInfo.username)}'s page`}</h1>
           <h2>Your favorite plants</h2>
-          <div className="plant-cards-container">{this.getFavoritePlants()}</div>
+          <div >{this.getFavoritePlants()}</div>
         </div>
       : <h1>Login required</h1>
     )

@@ -19,7 +19,7 @@ class StoreItem extends React.Component {
   }
 
   addToCart() {
-    if (this.props.logInSuccess) {
+    if (this.props.userInfo) {
       this.props.editStateFromStoreItems(this.state.selectedPlantId, this.state.quantity)
       this.setState({ ...this.state, toCartLoggedStatus: 'logged' })
     } else {
@@ -28,23 +28,12 @@ class StoreItem extends React.Component {
   }
 
   render() {
-    
     const selectedPlantId = this.props.match.params._id
     const showSelected = this.props.plants.filter((plant) => {
       return selectedPlantId === plant._id
     })[0]
-    const totalPrice = showSelected.price 
-    
-
-console.log(showSelected)
-    return this.props.plants.length === 0 ? (
-      <div className="spinner">
-        <div className="lds-ripple">
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-    ) : (
+    console.log(showSelected)
+    return (
       <div className="plant-cards-container">
         <div className="plant-card">
           <img src={showSelected.image} alt={showSelected.commonName} />
@@ -75,7 +64,7 @@ console.log(showSelected)
           <Link to={`/plant-details/${selectedPlantId}`}>View details</Link>
         </div>
         {this.state.toCartLoggedStatus === 'not logged' ? (
-          <Redirect to="#openModal" />
+          this.props.modalAction('open', 'login')
         ) : null}
         {this.state.toCartLoggedStatus === 'logged' ? (
           <Redirect to="/shopping-cart" />

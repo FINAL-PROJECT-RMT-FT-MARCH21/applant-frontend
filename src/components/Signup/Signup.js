@@ -22,10 +22,15 @@ class Signup extends React.Component {
       data: this.state.user,
     })
       .then((result) => {
-        if (result.data.successSignup)
-          this.setState({ ...this.state, successSignup: true })
+        console.log('signup good', result)
+        if (result.data.successSignup){
+          console.log('success')
+          this.setState({...this.state, successSignup: true})
+          this.props.modalAction('close')
+        } else {
+          console.log('fail')
+        }
         this.props.addMsg(result.data.message)
-        this.props.modalAction('close')
       })
       .catch((err) => {
         console.log(err)
@@ -38,6 +43,11 @@ class Signup extends React.Component {
       ...this.state,
       user: { ...this.state.user, [name]: value },
     })
+  }
+
+  showLoginModal(){
+    this.setState({successSignup: false})
+    this.props.modalAction('open', 'login')
   }
 
   showSignup() {
@@ -72,11 +82,15 @@ class Signup extends React.Component {
   }
 
   render() {
-    return this.state.successSignup ? (
-      <Redirect to="#openModal" />
-    ) : (
-      <div className="Signup">{this.showSignup()}</div>
+    return (
+      <div className="Signup">
+        {this.state.successSignup ? 
+        this.showLoginModal()
+        : null}
+        {this.showSignup()}
+      </div>
     )
   }
 }
+
 export default Signup

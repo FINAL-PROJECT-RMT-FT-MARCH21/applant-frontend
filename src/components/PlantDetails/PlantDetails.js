@@ -40,10 +40,10 @@ class PlantDetails extends React.Component {
 
   likeToFavorites() {
     const selectedPlantId = this.props.match.params._id
-    if (this.props.logInSuccess) {
-      this.props.setAppState(selectedPlantId)
+    if (this.props.userInfo) {
+      this.props.addFavoritePlant(selectedPlantId)
     } else {
-      this.setState({ ...this.state, toLikeNotLogged: true })
+      this.props.modalAction('open', 'login')
     }
   }
 
@@ -386,7 +386,6 @@ class PlantDetails extends React.Component {
       <div className="PlantDetails">
         <h2 className="main-title">PlantDetails</h2>
         {this.showPlantDetails()}
-        {this.state.toLikeNotLogged ? <Redirect to="/login" /> : null}
       </div>
     )
   }

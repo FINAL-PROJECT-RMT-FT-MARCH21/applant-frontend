@@ -47,14 +47,12 @@ class App extends React.Component {
   }
   
   updateState(url){
-    console.log(url)
     axios({
       method: 'get',
       url: `${process.env.REACT_APP_URL}/app/${url}`,
       withCredentials: true,
     })
     .then((result) => {
-      console.log(result.data.data)
       if(result.data.data){
         this.setState({[url]: result.data.data})
       } else {
@@ -120,7 +118,37 @@ class App extends React.Component {
     })
   }
   
-  
+  addFavoritePlant(selectedPlantId) { ////////////////
+    axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_URL}/app/add-to-favorites/${selectedPlantId}`,
+      data: { user: this.state.user },
+      withCredentials: true,
+    })
+    .then((result) => {
+      this.addMsg(result.data.message)
+      this.updateState('user')
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
+  removeFavoritePlant(id) {
+    axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_URL}/app/remove-from-favorites/${id}`,
+      withCredentials: true,
+    })
+      .then((result) => {
+        this.addMsg(result.data.message)
+        this.updateState('user')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   editStateFromStoreItems(selectedPlantId, quantity, totalPrice) {
     axios({
       method: 'post',
@@ -134,62 +162,13 @@ class App extends React.Component {
       withCredentials: true,
     })
     .then((result) => {
-      console.log(result)
-      const stateCopy = { ...this.state }
-      stateCopy.message = result.data.message
-      
-      if(result.user===''){  //Planta actualizada (se recibe solo la planta)
-        let updatedPlant = result.data.updatedPlant
-        
-        const plantsWithoutUpdatedPlant = stateCopy.user.cart.filter((item)=>{
-          return updatedPlant.plant._id.toString() !== item.plant._id.toString()
-        })
-        
-        const updatedPlants = [ updatedPlant, ...plantsWithoutUpdatedPlant]
-        stateCopy.user.cart = updatedPlants
-        
-        } else if(result.updatedUser === '') {  //Planta nuevo anadida al carrito (Se recibe el usuario)
-        
-          let updatedUser = result.data.user
-          console.log(updatedUser)
-          stateCopy.user = updatedUser
-        }
-        //this.getTotalPrice()
-        this.setState(stateCopy)
-        this.updateState('user')
+      console.log('resultado de storeItem', result.data)
+      this.addMsg(result.data.message)
+      this.updateState('user')
       })
       .catch((err) => {
         console.log(err)
       })
-  }
- /*  getTotalPrice() {
-    const sum = this.state.user.cart.reduce((accumulator, element) => {
-      return accumulator += element.plant.price * element.quantity
-    }, 0)
-    console.log(sum)
-    const stateCopy = {...this.state}
-    stateCopy.user.totalPrice = sum
-    this.setState(stateCopy)
-  } */
-
-  editStateFromPlantDetails(selectedPlantId) { ////////////////
-    axios({
-      method: 'post',
-      url: `${process.env.REACT_APP_URL}/app/add-to-favorites/${selectedPlantId}`,
-      data: { user: this.state.user },
-      withCredentials: true,
-    })
-    .then((result) => {
-      // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> check result
-      const stateCopy = { ...this.state }
-      stateCopy.user.favoritePlants.push(selectedPlantId)
-      stateCopy.message = result.data.message
-      this.setState(stateCopy)
-      this.updateUser()
-    })
-    .catch((err) => {
-      console.log(err)
-    })
   }
 
   deleteCartItem(id) {
@@ -200,36 +179,14 @@ class App extends React.Component {
       withCredentials: true,
     })
     .then((result) => {
-      console.log(result)
-      const cartItemsCopy = [...this.state.user.cart]
-      const updatedItems = cartItemsCopy.filter((item) => {
-        return item._id !== id
-      })
-      this.setState({
-        ...this.state,
-        user: { ...this.state.user, cart: updatedItems },
-      })
-      this.updateUser()
+      this.addMsg(result.data.message)
+      this.updateState('user')
     })
     .catch((error) => {
       console.log(error)
     })
   }
 
-  removeFavoritePlant(id) {
-    axios({
-      method: 'post',
-      url: `${process.env.REACT_APP_URL}/app/remove-from-favorites/${id}`,
-      withCredentials: true,
-    })
-      .then((result) => {
-        this.setState({...this.state, message: result.data.message})
-        this.updateUser()
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
 
   addMsg(msg) {
     this.setState({ ...this.state, message: msg })
@@ -285,9 +242,10 @@ class App extends React.Component {
               <PlantDetails
                 {...routeProps}
                 allPlants={this.state.plants}
+                modalAction={(action, mod)=>this.modalAction(action, mod)}
                 userInfo={this.state.user}
-                setAppState={(selectedPlantId) =>
-                  this.editStateFromPlantDetails(selectedPlantId)
+                addFavoritePlant={(selectedPlantId) =>
+                  this.addFavoritePlant(selectedPlantId)
                 }
                 adminAction={(data, url) => this.adminAction(data, url)}
               />
@@ -314,6 +272,7 @@ class App extends React.Component {
               <StoreItem
                 {...routeProps}
                 plants={this.state.plants}
+                modalAction={(action, mod)=>this.modalAction(action, mod)}
                 userInfo={this.state.user}
                 editStateFromStoreItems={(selectedPlantId, quantity, totalPrice) =>
                   this.editStateFromStoreItems(selectedPlantId, quantity, totalPrice)
@@ -353,7 +312,7 @@ class App extends React.Component {
               <ShoppingCart
                 userInfo={this.state.user}
                 deleteFromCart={(event) => this.deleteCartItem(event)}
-                totalPrice={this.state.user.totalPrice}
+                modalAction={(action, mod) => this.modalAction(action, mod)}
               />
             )}
           />

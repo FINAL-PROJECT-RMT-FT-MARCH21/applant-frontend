@@ -4,15 +4,18 @@ import React from 'react'
 import 'react-responsive-modal/styles.css'
 import { Modal } from "react-responsive-modal";
 
-
 import Login from '../Login/Login'
 import Signup from '../Signup/Signup'
 import NewPost from '../NewPost/NewPost'
-
+import { Elements } from '@stripe/react-stripe-js'
+import CheckoutForm from '../CheckoutForm'
+import { loadStripe } from '@stripe/stripe-js'
 
 class ModalComponent extends React.Component {
+  
   showModal() {
-
+    const promise = loadStripe(
+      'pk_test_51IrpUwINyfw3Ussjr5TrEoNC8GW0dM1LdTMSLYsAIhofMEO44bCM8br241Ywwi96IRkCNMgKI4kMoSI8nugv9CSA0097t9atRk')
     if(this.props.modal === 'login') {
       return (
         <div>
@@ -43,9 +46,21 @@ class ModalComponent extends React.Component {
           </Modal>
         </div>
       )
+    } else if(this.props.modal === 'payment'){
+      return(
+        <div>
+          <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
+            <Elements
+              {...this.props}
+              stripe={promise}>
+              <CheckoutForm {...this.props}/>
+            </Elements>
+          </Modal>
+        </div>
+      )
     }
   }
-
+  
   render() {
     return <div className="Modal">{this.showModal()}</div>
   }

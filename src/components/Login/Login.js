@@ -12,7 +12,9 @@ class Login extends React.Component {
     },
   }
 
-  login(){
+  login(ev){
+    ev.preventDefault()
+    console.log('login')
     axios({
       method: 'post',
       url: `${process.env.REACT_APP_URL}/app/login`,
@@ -22,6 +24,7 @@ class Login extends React.Component {
       .then((result) => {
         this.props.addMsg(result.data.message)
         this.props.updateState('user')
+        this.props.modalAction('close')
       })
       .catch((err) => {
         console.log(err)
@@ -40,7 +43,7 @@ class Login extends React.Component {
     return (
       <div className="form-container">
         <h2>Login</h2>
-        <form onSubmit={() => this.login()}>
+        <form onSubmit={(ev) => this.login(ev)}>
           <div>
             <label htmlFor="username">Username</label>
             <input
