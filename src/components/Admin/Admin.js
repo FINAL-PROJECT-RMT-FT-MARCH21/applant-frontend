@@ -73,7 +73,7 @@ class Admin extends React.Component {
                   <td>{this.toUpper(plant.commonName)}</td>
                   <div className="table-btns">
                     {/* <Link className="link" to={`plant-details/${plant._id}`}> */}
-                    <Link onClick={()=>this.props.modalAction('open', `edit-plant/${plant._id}`)}>
+                    <Link className="link" onClick={()=>this.props.modalAction('open', `edit-plant/${plant._id}`)}>
                       <img src="/icons/edit-icon.png" alt="edit-icon"/>
                     </Link>
                   </div>
@@ -99,7 +99,7 @@ class Admin extends React.Component {
                   <td>{this.toUpper(post.title)}</td>
                   <td>{this.toUpper(post.content)}</td>
                   <div className="table-btns">
-                    <Link onClick={()=>this.props.modalAction('open', `edit-post/${post._id}`)}>
+                    <Link className="link" onClick={()=>this.props.modalAction('open', `edit-post/${post._id}`)}>
                       <img src="/icons/edit-icon.png" alt="edit-icon"/>
                     </Link>
                   </div>

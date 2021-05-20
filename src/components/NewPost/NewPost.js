@@ -21,8 +21,8 @@ class NewPost extends React.Component {
         this.props.updateState('posts')
         this.props.modalAction('close')
       })
-      .catch((error) => {
-        console.log(error)
+      .catch((err) => {
+        console.log(err)
       })
   }
 

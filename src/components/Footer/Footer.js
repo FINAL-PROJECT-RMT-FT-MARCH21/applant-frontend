@@ -15,7 +15,7 @@ class Footer extends React.Component {
             <p>FAQ</p>    
             <p>Contacts:</p>
             <div className="contact">
-              <p>Hector Martin </p>
+              <p>Hector Martinez </p>
               <a href="https://www.linkedin.com/in/hector-md/" className="icons"><VscGithub /></a> 
               <a href="https://github.com/Thornnk"  className="icons"><GrLinkedin /></a> 
             </div>
@@ -45,10 +45,10 @@ class Footer extends React.Component {
         <div>
             <h5>Terms</h5>
             <div className="Terms">
-            <a href="">Terms of Service</a>
-            <a href="">Privacy Policy</a>
-            <a href="">Returns and Delivey</a>
-            <a href="">Cookies</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Returns and Delivey</a>
+            <a href="#">Cookies</a>
             </div>
         </div>
         

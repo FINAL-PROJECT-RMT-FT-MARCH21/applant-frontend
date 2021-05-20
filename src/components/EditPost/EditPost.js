@@ -1,7 +1,5 @@
 import './EditPost.scss'
 import React from 'react'
-import axios from 'axios'
-
 
 class EditPost extends React.Component {
   

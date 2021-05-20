@@ -1,8 +1,18 @@
 import './Navbar.scss'
 import React from 'react'
-import { Link } from 'react-router-dom'
-
+import { Link, Redirect } from 'react-router-dom'
+import { TiShoppingCart } from 'react-icons/ti'
 class Navbar extends React.Component {
+  
+  state = {
+    logoutRediect: false
+  }
+
+  logout(){
+    this.props.authAction(null, 'logout')
+    this.setState({logoutRedirect: true})
+  }
+
   getNavbar() {
     if (this.props.userInfo) {
       if (this.props.userInfo.admin) {
@@ -26,7 +36,7 @@ class Navbar extends React.Component {
               <Link className="link" to="/profile">
                 <div className="nav-btn">Profile</div>
               </Link>
-              <Link className="link" onClick={()=>this.props.authAction(null, 'logout')}>
+              <Link className="link" onClick={()=>this.logout()}>
                   <div className="nav-btn">Logout</div>
               </Link>
               <div className="nav-btn cart-icon">
@@ -35,6 +45,7 @@ class Navbar extends React.Component {
                 </Link>
               </div>
             </div>
+            {this.state.logoutRedirect ? <Redirect to="/"/> : null}
           </div>
         )
       } else {
@@ -55,15 +66,17 @@ class Navbar extends React.Component {
               <Link className="link" to="/profile">
                 <div className="nav-btn">Profile</div>
               </Link>
-              <Link className="link" onClick={()=>this.props.authAction(null, 'logout')}>
+              <Link className="link" onClick={()=>this.logout()}>
                 <div className="nav-btn">Logout</div>
               </Link>
               <div className="nav-btn cart-icon">
                 <Link className="link" to="/shopping-cart">
-                  <img src="/icons/shopping-cart-icon.png" alt="cart" />
+                  {/* <img src="/icons/shopping-cart-icon.png" alt="cart" /> */}
+                   <TiShoppingCart /> 
                 </Link>
               </div>
             </div>
+            {this.state.logoutRedirect ? <Redirect to="/"/> : null}
           </div>
         )
       }
@@ -86,6 +99,7 @@ class Navbar extends React.Component {
               <div className="nav-btn">Login</div>
             </Link>
           </div>
+          {this.state.logoutRedirect ? this.setState({logoutRedirect: false}) : null}
         </div>
       )
     }

@@ -12,7 +12,6 @@ class StoreItem extends React.Component {
   handleInput(event) {
     const selectedPlantId = this.props.match.params._id
     const quantity = event.target.value
-
     if (this.props.userInfo) {
       this.setState({ ...this.state, selectedPlantId, quantity })
     }
@@ -33,9 +32,9 @@ class StoreItem extends React.Component {
       return selectedPlantId === plant._id
     })[0]
     console.log(showSelected)
-    return (
-      <div className="plant-cards-container">
-        <div className="plant-card">
+    return this.props.plants.length ? (
+      <div className="StoreItem">
+        <div className="item">
           <img src={showSelected.image} alt={showSelected.commonName} />
           <h2>
             {showSelected.commonName[0].toUpperCase() +
@@ -69,6 +68,13 @@ class StoreItem extends React.Component {
         {this.state.toCartLoggedStatus === 'logged' ? (
           <Redirect to="/shopping-cart" />
         ) : null}
+      </div>
+    ) : (
+      <div className="spinner">
+        <div className="lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
       </div>
     )
   }

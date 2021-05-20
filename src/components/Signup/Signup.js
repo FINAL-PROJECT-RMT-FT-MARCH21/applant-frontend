@@ -1,9 +1,7 @@
 import './Signup.scss'
 import React from 'react'
-import axios from 'axios'
-import { Redirect } from 'react-router-dom'
 
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 class Signup extends React.Component {
   state = {
@@ -15,9 +13,11 @@ class Signup extends React.Component {
   }
 
   signup(event){
+    this.setState({successSignup: true})
     event.preventDefault()
     this.props.authAction(this.state.user, 'signup')
     this.props.modalAction('close')
+    console.log('closing signup')
   }
 
   handleChange(event) {
@@ -28,9 +28,9 @@ class Signup extends React.Component {
     })
   }
 
-  showLoginModal(){
-    this.setState({successSignup: false})
+  redirectToLogin(){
     this.props.modalAction('open', 'login')
+    this.setState({successSignup: false})
   }
 
   showSignup() {
@@ -67,10 +67,8 @@ class Signup extends React.Component {
   render() {
     return (
       <div className="Signup">
-        {this.state.successSignup ? 
-        this.showLoginModal()
-        : null}
         {this.showSignup()}
+        {this.state.successSignup ? this.redirectToLogin() : null}
       </div>
     )
   }

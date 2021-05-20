@@ -1,14 +1,9 @@
 import './App.scss'
 import React from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 import axios from 'axios'
 import ReactJson from 'react-json-view'
 
-
-//import { loadStripe } from '@stripe/stripe-js'
-//import { Elements } from '@stripe/react-stripe-js'
-
-//import CheckoutForm from './components/CheckoutForm'
 import Admin from './components/Admin/Admin'
 import Navbar from './components/Navbar/Navbar'
 import Message from './components/Message/Message'
@@ -63,8 +58,8 @@ class App extends React.Component {
         // return <Redirect to="/"/>
       }
     })
-    .catch((error) => {
-      console.log(error)
+    .catch((err) => {
+      console.log(err)
     })
   }
 
@@ -78,25 +73,21 @@ class App extends React.Component {
       }
   }
     
-  authAction(data, url, onlyUpdateState){
-    if (onlyUpdateState){
+  authAction(data, url){
+    axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_URL}/app/${url}`,
+      data: data,
+      withCredentials: true,
+    })
+    .then((result) => {
+      this.addMsg(result.data.message)
       this.updateState('user')
-    } else {
-      axios({
-        method: 'post',
-        url: `${process.env.REACT_APP_URL}/app/${url}`,
-        data: data,
-        withCredentials: true,
-      })
-        .then((result) => {
-          this.addMsg(result.data.message)
-          this.updateState('user')
-          this.updateState('users')
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
+      this.updateState('users')
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }
 
   adminAction(data, url) {
@@ -161,7 +152,6 @@ class App extends React.Component {
       withCredentials: true,
     })
     .then((result) => {
-      console.log('164', result)
       this.addMsg(result.data.message)
       this.updateState('user')
       })
@@ -198,7 +188,7 @@ class App extends React.Component {
       <div className="App">
         <Navbar
           modalAction={(action, mod)=>this.modalAction(action, mod)}
-          authAction={(data, url, upd) => this.authAction(data, url, upd)}
+          authAction={(data, url) => this.authAction(data, url)}
           userInfo={this.state.user}
         />
          
@@ -210,7 +200,7 @@ class App extends React.Component {
           modalOpened={this.state.modalOpened}
           updateState={(url) => this.updateState(url)}
           
-          authAction={(data, url, upd) => this.authAction(data, url, upd)}
+          authAction={(data, url) => this.authAction(data, url)}
           
           userInfo={this.state.user}
           users={this.state.users}
@@ -321,7 +311,7 @@ class App extends React.Component {
         </Switch>
         <Footer 
           modalAction={(action, mod)=>this.modalAction(action, mod)}
-          authAction={(data, url, upd) => this.authAction(data, url, upd)} />
+          authAction={(data, url) => this.authAction(data, url)} />
       </div>
     )
   }

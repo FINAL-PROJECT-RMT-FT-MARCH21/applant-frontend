@@ -2,7 +2,6 @@
 
 
 .PlantDetails {
-    // @include flexCenter(row, center, center);
     display:flex;
     flex-direction: column;
     margin-top: 30px;
@@ -14,7 +13,7 @@
     .infoPlantDetails {
       display:flex;
       flex-direction: column;
-      height: 50vh;
+      width: 100vw;
       h2{
         color: rgb(82, 82, 82);
       }
@@ -25,7 +24,7 @@
     }
     img {
         object-fit: cover;
-        height: 50vh;
+        width: 50vw;
     }
     button {
       width: 120px;
@@ -35,5 +34,6 @@
     .buttons{
       display:flex;
       flex-direction: row;
+      margin-bottom: 8vh;
     }
 }

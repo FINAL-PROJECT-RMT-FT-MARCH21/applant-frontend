@@ -2,7 +2,7 @@
 
 .Homepage {
   @include flexCenter(column, center, center);
-  color: darkslategrey;
+  color: $dark-green;
   button {
     margin: 10px 1px;
     font-weight: 700;
@@ -52,11 +52,11 @@
       }
       .seeDetails{
         text-align: center;
-        background-color: rgb(156, 211, 156);
+        background-color: $medium-green;
         width: 300px;
         padding: 10px 0px;
         p{
-          color: rgb(255, 255, 255);
+          color: white;
           font-weight: bold;
         }
       }

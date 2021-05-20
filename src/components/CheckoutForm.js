@@ -9,7 +9,7 @@ export default function CheckoutForm(props) {
   const [clientSecret, setClientSecret] = useState('')
   const stripe = useStripe()
   const elements = useElements()
-  console.log(props)
+
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     window
@@ -97,10 +97,8 @@ export default function CheckoutForm(props) {
           Payment succeeded, see the result in your
           {/* {this.props.addMsg('Payment succeeded, see the result in your')} */}
           <a href={`https://dashboard.stripe.com/test/payments`}>
-            {' '}
             Stripe dashboard.
           </a>
-          Refresh the page to pay again.
         </p>
       </form>
     </div>

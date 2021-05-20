@@ -1,9 +1,10 @@
 @import '../../App.scss';
 
 .Footer{
-    background-color: rgb(156, 211, 156);
+    background-color: $dark-green;
     color: white;
-    /* width: 100vw; */
+    width: 100vw; 
+    margin-top: 10vh;
     padding-bottom: 35vh;
     display: flex;
     flex-direction: row;

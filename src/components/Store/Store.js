@@ -65,7 +65,7 @@ class Store extends React.Component {
               plant.botanicalName.slice(1)}
             )
           </h3>
-          <p><b>P.v.p:</b> {plant.price}€</p>
+          <p><b>PVP</b> {plant.price}€</p>
         </div>
       )
     })

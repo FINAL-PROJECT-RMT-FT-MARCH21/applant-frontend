@@ -17,6 +17,14 @@
   justify-content: $justify;
   align-items: $align;
 }
+
+/* COLOR PALETTE */
+ $dark-green: #7c9473;
+ $medium-green: #abd09a;
+ $soft-green: #cfdac8;
+ $soft-grey: #e8eae6;
+ $dark-grey: #cdd0cb;
+
 #root{
   display: flex;
   flex-direction: column;
@@ -39,8 +47,9 @@ button {
   width: 200px;
   background: none;
   background-color: white;
-  color: rgb(156, 211, 156);
-  border: 2px solid rgb(156, 211, 156);
+  color: $dark-green;
+  border: 2px solid $dark-green;
+  margin: 0;
   padding: 10px 20px;
   font-size: 1.1rem;
   font-weight: 800;
@@ -49,8 +58,10 @@ button {
   outline: inherit;
   transition: 0.5s;
   &:hover {
-    color: green;
-    background-color: whitesmoke;
+    color: $dark-green;
+    background-color: $soft-green;
+    border: 2px solid transparent;
+    padding: 10px 20px;
     border-radius: 16px;
   }
 }
@@ -92,7 +103,7 @@ table {
   }
   .lds-ripple div {
     position: absolute;
-    border: 4px solid #dfc;
+    border: 4px solid $dark-green;
     opacity: 1;
     border-radius: 50%;
     animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
@@ -192,7 +203,7 @@ table {
   transition: 0.75s;
   color: whitesmoke;
   text-decoration: none;
-  background-color: rgb(100, 136, 100);
+  background-color:  $dark-green;
   &:hover {
     color: black;
     background-color: white;
@@ -230,6 +241,8 @@ table {
 }
 
 .ShoppingCart {
+  height: 50vh;
+  width: 100vw;
   @include flexCenter(column, center, center);
   flex-wrap: wrap;
   .allItemsCart {
@@ -436,4 +449,16 @@ table {
        width: 80vw;
      }
    }
+ }
+
+ //STORE ITEM
+
+ .StoreItem{
+  @include flexCenter(column, center, center);
+  margin-top: 10vh;
+  .item{
+    img {
+      width: 250px;
+    }
+  }
  }

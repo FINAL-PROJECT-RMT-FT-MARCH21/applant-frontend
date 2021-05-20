@@ -1,14 +1,11 @@
 import './DeletePost.scss'
 import React from 'react'
 
-import { Link } from 'react-router-dom'
-
-
 class DeletePost extends React.Component {
 
   state = {
     post: this.props.posts.filter((post)=>{
-      return this.props.modal.split('/')[1] == post._id
+      return this.props.modal.split('/')[1] === post._id
     })[0]
   }
 

@@ -1,6 +1,5 @@
 import './NewPlant.scss'
 import React from 'react'
-import axios from 'axios'
 
 class NewPlant extends React.Component {
 

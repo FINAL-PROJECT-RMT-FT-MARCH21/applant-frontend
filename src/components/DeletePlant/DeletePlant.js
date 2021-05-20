@@ -1,14 +1,11 @@
 import './DeletePlant.scss'
 import React from 'react'
 
-import { Link } from 'react-router-dom'
-
-
 class DeletePlant extends React.Component {
 
   state = {
     plant: this.props.plants.filter((plant)=>{
-      return this.props.modal.split('/')[1] == plant._id
+      return this.props.modal.split('/')[1] === plant._id
     })[0]
   }
 

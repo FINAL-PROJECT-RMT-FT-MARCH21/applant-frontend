@@ -1,14 +1,11 @@
 import './DeleteUser.scss'
 import React from 'react'
 
-import { Link } from 'react-router-dom'
-
-
 class DeleteUser extends React.Component {
 
   state = {
     user: this.props.users.filter((user)=>{
-      return this.props.modal.split('/')[1] == user._id
+      return this.props.modal.split('/')[1] === user._id
     })[0]
   }
 

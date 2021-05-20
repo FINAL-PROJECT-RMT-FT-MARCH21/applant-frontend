@@ -1,7 +1,8 @@
 import './PlantDetails.scss'
 import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
-//import { GrFavorite } from 'react-icons/gf'  MdAddShoppingCart
+import { MdFavoriteBorder } from 'react-icons/md'
+import { MdAddShoppingCart } from 'react-icons/md'
 
 class PlantDetails extends React.Component {
   state = {
@@ -20,7 +21,6 @@ class PlantDetails extends React.Component {
 
   handleInput(event) {
     const { name, value } = event.target
-    console.log(name, value)
     this.setState({
       ...this.state,
       plant: { ...this.state.plant, [name]: value },
@@ -64,13 +64,13 @@ class PlantDetails extends React.Component {
         <div className="infoPlantDetails">
         <div className="buttons">
           <button className="link-btn" onClick={() => this.likeToFavorites()}>
-          {/* //<GrFavorite/> */}
+          <MdFavoriteBorder />
           </button>
           <Link
             
             to={`/store-items/${this.props.match.params._id}`}
           >
-            <button className="link-btn">Go to store</button>
+             <button className="link-btn"><MdAddShoppingCart /> </button> 
           </Link>
           </div>
           <div>
@@ -122,12 +122,19 @@ class PlantDetails extends React.Component {
   }
 
   render() {
-    return (
+    return this.props.allPlants.length ? (
       <div className="PlantDetails">
-        <h2 className="main-title">PlantDetails</h2>
         {this.showPlantDetails()}
+      </div>
+    ):( 
+      <div className="spinner">
+        <div className="lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
       </div>
     )
   }
+  
 }
 export default PlantDetails
