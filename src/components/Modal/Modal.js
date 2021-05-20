@@ -15,6 +15,8 @@ import NewPlant from '../NewPlant/NewPlant'
 import EditPlant from '../EditPlant/EditPlant'
 import DeletePlant from '../DeletePlant/DeletePlant'
 import NewPost from '../NewPost/NewPost'
+import EditPost from '../EditPost/EditPost'
+import DeletePost from '../DeletePost/DeletePost'
 
 class ModalComponent extends React.Component {
   
@@ -86,6 +88,26 @@ class ModalComponent extends React.Component {
         <div>
           <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
             <NewPost
+              {...this.props}
+            />
+          </Modal>
+        </div>
+      )
+    } else if(this.props.modal.includes('edit-post')){
+      return(
+        <div>
+          <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
+            <EditPost
+              {...this.props}
+            />
+          </Modal>
+        </div>
+      )
+    } else if(this.props.modal.includes('delete-post')){
+      return(
+        <div>
+          <Modal open={this.props.modalOpened} onClose={()=>this.props.modalAction('close')}>
+            <DeletePost
               {...this.props}
             />
           </Modal>

@@ -215,6 +215,7 @@ class App extends React.Component {
           userInfo={this.state.user}
           users={this.state.users}
           plants={this.state.plants}
+          posts={this.state.posts}
           adminAction={(data, url) => this.adminAction(data, url)}
           editStateFromNewPost={(body, message) => 
             this.editStateFromNewPost(body, message)}
@@ -290,6 +291,7 @@ class App extends React.Component {
                 adminAction={(data, url) => this.adminAction(data, url)}
                 users={this.state.users}
                 plants={this.state.plants}
+                posts={this.state.posts}
               />
             )}
           />

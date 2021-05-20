@@ -35,27 +35,11 @@ class Admin extends React.Component {
     if (word) return word[0].toUpperCase() + word.slice(1)
   }
 
-  handleInput(ev, form) {
-    const { name, value } = ev.target
-    const stateCopy = { ...this.state }
-    if (name === 'type') {
-      stateCopy[form][name] =
-      value === 'all' ? ['indoors', 'outdoors'] : value.split(' ')
-    } else if (name === 'exposure') {
-      stateCopy[form][name] =
-      value === 'all' ? ['low', 'medium', 'high'] : value.split(' ')
-    } else if (name === 'purifying' || name === 'inStore') {
-      stateCopy[form][name] = value ? true : false
-    } else {
-      stateCopy[form][name] = value
-    }
-    this.setState(stateCopy)
-  }
-
   showUsers() {
     return (
       <div className="form-container">
         <h2>List of users</h2>
+        <button onClick={()=>this.props.modalAction('open', 'signup')}>New user</button>
         <table>
           <tbody>
             {this.props.users.map((user, index) => {
@@ -80,6 +64,7 @@ class Admin extends React.Component {
     return (
       <div className="form-container">
         <h2>List of plants</h2>
+        <button onClick={()=>this.props.modalAction('open', 'new-plant')}>New plant</button>
         <table>
           <tbody>
             {this.props.plants.map((plant, index) => {
@@ -101,12 +86,38 @@ class Admin extends React.Component {
     )
   }
   
+  showPosts() {
+    return (
+      <div className="form-container">
+        <h2>List of Posts</h2>
+        <button onClick={() => this.props.modalAction('open', 'new-post')}>New post</button>
+        <table>
+          <tbody>
+            {this.props.posts.map((post, index) => {
+              return (
+                <tr>
+                  <td>{this.toUpper(post.title)}</td>
+                  <td>{this.toUpper(post.content)}</td>
+                  <div className="table-btns">
+                    <Link onClick={()=>this.props.modalAction('open', `edit-post/${post._id}`)}>
+                      <img src="/icons/edit-icon.png" alt="edit-icon"/>
+                    </Link>
+                  </div>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="Admin">
         {this.showUsers()}
-        <button onClick={()=>this.props.modalAction('open', 'new-lant')}>New plant</button>
         {this.showPlants()}
+        {this.showPosts()}
       </div>
     )
   }

@@ -2,7 +2,6 @@ import './EditPlant.scss'
 import React from 'react'
 import axios from 'axios'
 
-import { Link } from 'react-router-dom'
 
 class EditPlant extends React.Component {
   
@@ -24,19 +23,19 @@ class EditPlant extends React.Component {
     this.setState(stateCopy)
   }
 
-  handleInput(event) {
+  handleInput(event, form) {
     const stateCopy = {...this.state}
     let { name, value } = event.target
     if (name === 'type'){
-      value === 'all' ? 
-      stateCopy.editPlant[[name]] = ['indoors, outdoors'] : stateCopy.editPlant[[name]] = value.split(' ')
+      stateCopy[form][name] =
+      value === 'all' ? ['indoors, outdoors'] : value.split(' ')
     } else if (name === 'exposure'){
-      value === 'all' ?
-      stateCopy.editPlant[[name]] = ['low', 'medium', 'high'] : stateCopy.editPlant[[name]] = value.split(' ')
+      stateCopy[form][name] = 
+      value === 'all' ? ['low', 'medium', 'high'] : value.split(' ')
     } else if (name === 'purifying' || name === 'inStore'){
       return
     } else {
-      stateCopy.editPlant[[name]] = value
+      stateCopy[form][name] = value
     }
     this.setState(stateCopy)
   }
@@ -55,7 +54,7 @@ class EditPlant extends React.Component {
                 <td>Image URL</td>
                 <td>
                 <input
-                    onChange={(event) => this.handleInput(event)}
+                    onChange={(event) => this.handleInput(event, 'editPlant')}
                     type="text"
                     name="image"
                     value={this.state.editPlant.image}
@@ -66,7 +65,7 @@ class EditPlant extends React.Component {
                 <td>Common name</td>
                 <td>
                 <input
-                  onChange={(event) => this.handleInput(event)}
+                  onChange={(event) => this.handleInput(event, 'editPlant')}
                   type="text"
                   name="commonName"
                   value={this.state.editPlant.commonName}
@@ -77,7 +76,7 @@ class EditPlant extends React.Component {
                 <td>Botanical name</td>
                 <td>
                 <input
-                  onChange={(event) => this.handleInput(event)}
+                  onChange={(event) => this.handleInput(event, 'editPlant')}
                   type="text"
                   name="botanicalName"
                   value={this.state.editPlant.botanicalName}
@@ -88,7 +87,7 @@ class EditPlant extends React.Component {
                 <td>Type</td>
                 <td>
                 <input
-                  onChange={(event) => this.handleInput(event)}
+                  onChange={(event) => this.handleInput(event, 'editPlant')}
                   type="text"
                   name="type"
                   value={this.state.editPlant.type.join(' ')}
@@ -99,7 +98,7 @@ class EditPlant extends React.Component {
                 <td>Maintenance</td>
                 <td>
                 <input
-                  onChange={(event) => this.handleInput(event)}
+                  onChange={(event) => this.handleInput(event, 'editPlant')}
                   type="text"
                   name="maintenance"
                   value={this.state.editPlant.maintenance}
@@ -110,7 +109,7 @@ class EditPlant extends React.Component {
                 <td>Water</td>
                 <td>
                 <input
-                  onChange={(event) => this.handleInput(event)}
+                  onChange={(event) => this.handleInput(event, 'editPlant')}
                   type="text"
                   name="water"
                   value={this.state.editPlant.water}
@@ -121,7 +120,7 @@ class EditPlant extends React.Component {
                 <td>Exposure</td>
                 <td>
                 <input
-                  onChange={(event) => this.handleInput(event)}
+                  onChange={(event) => this.handleInput(event, 'editPlant')}
                   type="text"
                   name="exposure"
                   value={this.state.editPlant.exposure.join(' ')}
@@ -132,7 +131,7 @@ class EditPlant extends React.Component {
                 <td>Safety</td>
                 <td>
                 <input
-                  onChange={(event) => this.handleInput(event)}
+                  onChange={(event) => this.handleInput(event, 'editPlant')}
                   type="text"
                   name="safety"
                   value={this.state.editPlant.safety}
@@ -143,9 +142,9 @@ class EditPlant extends React.Component {
               <td>Purifying</td>
               <td>
                 {this.state.editPlant.purifying ?
-                <input onClick={()=>this.swapCheckbox('purifying')} onChange={(event) => this.handleInput(event)}
+                <input onClick={()=>this.swapCheckbox('purifying')} onChange={(event) => this.handleInput(event, 'editPlant')}
                   type="checkbox" name="purifying" checked/>
-                : <input onClick={()=>this.swapCheckbox('purifying')} onChange={(event) => this.handleInput(event)}
+                : <input onClick={()=>this.swapCheckbox('purifying')} onChange={(event) => this.handleInput(event, 'editPlant')}
                 type="checkbox" name="purifying"/>}
               </td>
               </tr>
@@ -159,7 +158,7 @@ class EditPlant extends React.Component {
                 <td>Price</td>
                 <td>
                 <input
-                  onChange={(event) => this.handleInput(event)}
+                  onChange={(event) => this.handleInput(event, 'editPlant')}
                   type="number"
                   name="price"
                   value={this.state.editPlant.price}
@@ -170,7 +169,7 @@ class EditPlant extends React.Component {
                 <td>Stock</td>
                 <td>
                 <input
-                  onChange={(event) => this.handleInput(event)}
+                  onChange={(event) => this.handleInput(event, 'editPlant')}
                   type="number"
                   name="stock"
                   value={this.state.editPlant.stock}
@@ -178,9 +177,9 @@ class EditPlant extends React.Component {
                 </td>
               </tr>
               {this.state.editPlant.inStore ?
-                <input onClick={()=>this.swapCheckbox('inStore')} onChange={(event) => this.handleInput(event)}
+                <input onClick={()=>this.swapCheckbox('inStore')} onChange={(event) => this.handleInput(event, 'editPlant')}
                   type="checkbox" name="inStore" checked/>
-                : <input onClick={()=>this.swapCheckbox('inStore')} onChange={(event) => this.handleInput(event)}
+                : <input onClick={()=>this.swapCheckbox('inStore')} onChange={(event) => this.handleInput(event, 'editPlant')}
                 type="checkbox" name="inStore"/>}
             </tbody>
           </table>
