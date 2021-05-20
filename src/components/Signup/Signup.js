@@ -37,7 +37,7 @@ class Signup extends React.Component {
     return (
       <div className="form-container">
         <h2>Sign up</h2>
-        <form className="form" onSubmit={(event) => this.signup(event)}>
+        <form onSubmit={(event) => this.signup(event)}>
           <div className="form-field">
             <label htmlFor="username">Username</label>
             <input

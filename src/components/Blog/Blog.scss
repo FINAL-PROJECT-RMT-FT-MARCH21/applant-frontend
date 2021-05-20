@@ -4,25 +4,32 @@
   @include flexCenter(column, center, center);
 
   background-size: 100%;
+  background-color:  $soft-grey;
   .post-container{
+    padding-bottom: 10vh;
     @include flexCenter(column, center, center);
     width: 100%;
     button{
       margin: 20px;
     }
     .post{
-      @include flexCenter(row, center, start);
-      /* border-radius: 16px; */
-      min-width: 300px;
-      max-width: 800px;
-      margin: 0 auto;
+      @include flexCenter(row, flex-start, start);
+      border-radius: 16px ; 
+      width: 60vw;
+      margin: 20px;
       padding: 50px;
-      border: 1px solid black;
+      /* border: 2px solid #7c9473; */
+      background-color: white;
+      h2{
+        color: $dark-green;
+      }
       img{
+        object-fit: cover;
         width: 200px;
         height: 200px;
       }
       .post-content{
+        @include flexCenter(column, center, start);
         margin-left: 20px;
       }
     }

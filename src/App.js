@@ -176,14 +176,17 @@ class App extends React.Component {
   }
 
   addMsg(msg) {
+    console.log('adding message', msg)
     this.setState({ ...this.state, message: msg })
   }
 
   cleanMsg() {
+    console.log('cleaning messages')
     this.setState({ ...this.state, message: '' })
   }
 
   render() {
+    console.log('rendering App', this.state.message)
     return (
       <div className="App">
         <Navbar
@@ -192,7 +195,9 @@ class App extends React.Component {
           userInfo={this.state.user}
         />
          
-        <Message msg={this.state.message} cleanMsg={() => this.cleanMsg()} />
+        <Message msg={this.state.message} 
+          message={this.state.message}
+          cleanMsg={() => this.cleanMsg()} />
         <Modal
           addMsg={(msg) => this.addMsg(msg)}
           modal={this.state.modal}

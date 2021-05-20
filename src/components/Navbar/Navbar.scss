@@ -13,12 +13,21 @@
     .nav-left {
       @include flexCenter(row, center, center);
       height: 100%;
+      .applant-logo{
+        width: 100px;
+        padding: 12px 10px;
+      }
     }
     .nav-right {
       @include flexCenter(row, center, center);
       height: 100%;
+      .applant-logo{
+        width: 100px;
+        padding: 12px 10px;
+      }
     }
     .nav-btn {
+      font-weight: bold;
       text-align: center;
       width: 150px;
       padding: 20px 10px;
@@ -32,6 +41,7 @@
       }
     }
     .cart-icon {
+      padding: 17px 10px;
       .link{
         color: whitesmoke;
         svg{

@@ -16,20 +16,19 @@ class Footer extends React.Component {
             <p>Contacts:</p>
             <div className="contact">
               <p>Hector Martinez </p>
-              <a href="https://www.linkedin.com/in/hector-md/" className="icons"><VscGithub /></a> 
-              <a href="https://github.com/Thornnk"  className="icons"><GrLinkedin /></a> 
+              <a href="https://github.com/Thornnk" target="_blank" className="icons"><VscGithub /></a> 
+              <a href="https://www.linkedin.com/in/hector-md/" target="_blank" className="icons"><GrLinkedin /></a> 
             </div>
             <div className="contact">
               <p>Raquel Rodriguez  </p>
-              <a href="https://github.com/srtamaciel"  className="icons"><VscGithub /></a>  
-              <a href="https://www.linkedin.com/in/raquel-rodriguez-diaz/"  className="icons"><GrLinkedin /></a>  
+              <a href="https://github.com/srtamaciel" target="_blank" className="icons"><VscGithub /></a>  
+              <a href="https://www.linkedin.com/in/raquel-rodriguez-diaz/" target="_blank" className="icons"><GrLinkedin /></a>  
             </div>
             <div className="contact">
               <p>German Delgado  </p>
-              <a href="https://github.com/GermanDG6"  className="icons"><VscGithub /></a>  
-              <a href="https://www.linkedin.com/in/germandelgadogarcia/"  className="icons"><GrLinkedin /></a> 
+              <a href="https://github.com/GermanDG6" target="_blank" className="icons"><VscGithub /></a>  
+              <a href="https://www.linkedin.com/in/germandelgadogarcia/" target="_blank" className="icons"><GrLinkedin /></a> 
             </div>
-
         </div>
         <div>
             <h5>Join Applant</h5>
@@ -45,10 +44,10 @@ class Footer extends React.Component {
         <div>
             <h5>Terms</h5>
             <div className="Terms">
-            <a href="#">Terms of Service</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Returns and Delivey</a>
-            <a href="#">Cookies</a>
+            <Link to="#">Terms of Service</Link>
+            <Link to="#">Privacy Policy</Link>
+            <Link to="#">Returns and Delivery</Link>
+            <Link to="#">Cookies</Link>
             </div>
         </div>
         

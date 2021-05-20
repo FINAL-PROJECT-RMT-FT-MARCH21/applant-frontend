@@ -20,7 +20,8 @@ class Navbar extends React.Component {
           <div className="navbar-child">
             <div className="nav-left">
               <Link className="link" to="/">
-                <div className="nav-btn">Home</div>
+                {/* <div className="nav-btn">Home</div> */}
+                <img className="applant-logo nav-btn" src="https://i.ibb.co/CKL8bY6/logo-applant.png" alt="home-logo" />
               </Link>
               <Link className="link" to="/blog">
                 <div className="nav-btn">Blog</div>
@@ -41,7 +42,7 @@ class Navbar extends React.Component {
               </Link>
               <div className="nav-btn cart-icon">
                 <Link className="link" to="/shopping-cart">
-                  <img src="/icons/shopping-cart-icon.png" alt="cart" />
+                  <TiShoppingCart/> 
                 </Link>
               </div>
             </div>
@@ -53,7 +54,8 @@ class Navbar extends React.Component {
           <div className="navbar-child">
             <div className="nav-left">
               <Link className="link" to="/">
-                <div className="nav-btn">Home</div>
+               {/*  <div className="nav-btn">Home</div> */}
+               <img className="applant-logo nav-btn" src="https://i.ibb.co/CKL8bY6/logo-applant.png" alt="home-logo" />
               </Link>
               <Link className="link" to="/blog">
                 <div className="nav-btn">Blog</div>
@@ -71,8 +73,7 @@ class Navbar extends React.Component {
               </Link>
               <div className="nav-btn cart-icon">
                 <Link className="link" to="/shopping-cart">
-                  {/* <img src="/icons/shopping-cart-icon.png" alt="cart" /> */}
-                   <TiShoppingCart /> 
+                   <TiShoppingCart/> 
                 </Link>
               </div>
             </div>
@@ -85,7 +86,8 @@ class Navbar extends React.Component {
         <div className="navbar-child">
           <div className="nav-left">
             <Link className="link" to="/">
-              <div className="nav-btn">Home</div>
+              {/* <div className="nav-btn">Home</div> */}
+              <img className="applant-logo nav-btn" src="https://i.ibb.co/CKL8bY6/logo-applant.png" alt="home-logo" />
             </Link>
             <Link className="link" to="/blog">
               <div className="nav-btn">Blog</div>

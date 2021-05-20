@@ -1,5 +1,24 @@
 @import '../../App.scss';
 
 .Signup{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h2{
+        color: $dark-green;
+        margin-bottom: 10px;
+    }
+    input{
+        color: $dark-green;
+        margin: 10px;
+    }
+    .form-container{
+        .form-field{
+            display: flex;
+            flex-direction: column;
+        }
 
+    }
 }
+
+

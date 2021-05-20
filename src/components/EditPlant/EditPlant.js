@@ -174,11 +174,12 @@ class EditPlant extends React.Component {
                 />
                 </td>
               </tr>
-              {this.state.editPlant.inStore ?
-                <input onClick={()=>this.swapCheckbox('inStore')} onChange={(event) => this.handleInput(event, 'editPlant')}
-                  type="checkbox" name="inStore" checked/>
-                : <input onClick={()=>this.swapCheckbox('inStore')} onChange={(event) => this.handleInput(event, 'editPlant')}
-                type="checkbox" name="inStore"/>}
+                <td>On sale</td>
+                {this.state.editPlant.inStore ?
+                  <input onClick={()=>this.swapCheckbox('inStore')} onChange={(event) => this.handleInput(event, 'editPlant')}
+                    type="checkbox" name="inStore" checked/>
+                  : <input onClick={()=>this.swapCheckbox('inStore')} onChange={(event) => this.handleInput(event, 'editPlant')}
+                  type="checkbox" name="inStore"/>}
             </tbody>
           </table>
           <button>Edit plant</button>

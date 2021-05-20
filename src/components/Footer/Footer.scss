@@ -4,7 +4,6 @@
     background-color: $dark-green;
     color: white;
     width: 100vw; 
-    margin-top: 10vh;
     padding-bottom: 35vh;
     display: flex;
     flex-direction: row;
@@ -35,7 +34,7 @@
         height: 20px;
         border-radius: 50px;
         &:hover {
-          color: black;
+          color: $soft-green;
           background-color: transparent;
         }
       }

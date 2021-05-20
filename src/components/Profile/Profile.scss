@@ -19,10 +19,27 @@
     object-fit: cover;
     width: 50vw;
   }
+  h1{
+    text-align: center;
+    color: $dark-green;
+  }
+  .p{
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top:10px;
+    
+    color: $dark-green;
+  }
   h2 {
       @include title;
+      
   }
   h3 {
       @include subtitle;
   }  
+  .ProfileDown{
+    p{
+      font-size: 1.2rem;
+    }
+  }
 }

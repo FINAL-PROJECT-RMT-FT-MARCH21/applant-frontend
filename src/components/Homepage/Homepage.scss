@@ -3,6 +3,7 @@
 .Homepage {
   @include flexCenter(column, center, center);
   color: $dark-green;
+  padding-bottom: 10vh;
   button {
     margin: 10px 1px;
     font-weight: 700;

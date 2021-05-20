@@ -36,31 +36,33 @@ class StoreItem extends React.Component {
       <div className="StoreItem">
         <div className="item">
           <img src={showSelected.image} alt={showSelected.commonName} />
-          <h2>
-            {showSelected.commonName[0].toUpperCase() +
-              showSelected.commonName.slice(1)}
-          </h2>
-          <p>
-            <i>
-              {showSelected.botanicalName[0].toUpperCase() +
-                showSelected.botanicalName.slice(1)}
-            </i>
-          </p>
-          <input
-            className="input"
-            type="number"
-            placeholder="0"
-            min="0"
-            name="quantity"
-            onChange={(event) => this.handleInput(event)}
-          />
-          <strong>
-            <p>{showSelected.price}€</p>
-          </strong>
+          <div className="item-info">
+            <h2>
+              {showSelected.commonName[0].toUpperCase() +
+                showSelected.commonName.slice(1)}
+            </h2>
+            <p>
+              <i>
+                {showSelected.botanicalName[0].toUpperCase() +
+                  showSelected.botanicalName.slice(1)}
+              </i>
+            </p>
+            <strong>
+              <p>{showSelected.price}€</p>
+            </strong>
 
-          <button onClick={() => this.addToCart()}>Add to cart</button>
+            <input
+              className="input"
+              type="number"
+              placeholder="Quantity"
+              min="0"
+              name="quantity"
+              onChange={(event) => this.handleInput(event)}
+            />
+            <button onClick={() => this.addToCart()}>Add to cart</button>
 
-          <Link to={`/plant-details/${selectedPlantId}`}>View details</Link>
+            <Link className="link" to={`/plant-details/${selectedPlantId}`}>View details</Link>
+          </div>
         </div>
         {this.state.toCartLoggedStatus === 'not logged' ? (
           this.props.modalAction('open', 'login')

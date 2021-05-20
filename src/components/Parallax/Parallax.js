@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import M from 'materialize-css'
 import './Parallax.scss'
 
+import { RiPlantFill } from "react-icons/ri";
+
 const Parallax = () => {
   useEffect(() => {
     let elements = document.querySelectorAll('.parallax')
@@ -18,7 +20,7 @@ const Parallax = () => {
             />
           </div>
           <div className="section white">
-            <h2>Plants made easy</h2>
+            <h2><RiPlantFill/> Plants made easy <RiPlantFill/></h2>
             <p>"You can’t buy happiness, but you can buy plants, and that’s pretty much the same thing."</p>
           </div>
         </div>
@@ -30,11 +32,11 @@ const Parallax = () => {
             />
           </div>
           <div className="section white">
-            <h2>Applants</h2>
-            <p>helps you discover the best plants for your spaces</p>
+            <h2><RiPlantFill/> APPLANT <RiPlantFill/></h2>
+            <p>helps you find the plant that fits your spaces best</p>
           </div>
         </div>
-        <div className="parallax-container">
+       {/*  <div className="parallax-container">
           <div className="parallax">
             <img
               src="https://i.ibb.co/QC40J4G/Parallax4.jpg"
@@ -42,10 +44,10 @@ const Parallax = () => {
             />
           </div>
           <div className="section white">
-            <h2>This is parallax 2</h2>
-            <p>demoooooo 2</p>
+            <h2><RiPlantFill/> Decorating with plants is simple <RiPlantFill/></h2>
+            <p>You can transform a room with minimal effort.</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   )

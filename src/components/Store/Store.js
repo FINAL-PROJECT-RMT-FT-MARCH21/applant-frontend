@@ -4,7 +4,12 @@ import { Link } from 'react-router-dom'
 
 class Store extends React.Component {
   state = {
-    filteredStoreItems: [...this.props.allPlants],
+    storeItems: this.props.allPlants.filter((plant)=>{
+      return plant.inStore
+    }),
+    filteredStoreItems: this.props.allPlants.filter((plant)=>{
+      return plant.inStore
+    }),
   }
 
   getSearchBar() {
@@ -32,25 +37,26 @@ class Store extends React.Component {
   }
 
   filterStoreItems(event, by, type) {
-    let filteredStoreItems, value
+    let filteredItems, value
     if (by === 'commonName') {
       value = event.target.value.toLowerCase()
-      filteredStoreItems = this.props.allPlants.filter((plant) =>
-        plant[by].includes(value)
-      )
+      filteredItems = this.state.storeItems.filter((plant) => {
+        return plant[by].includes(value)
+      })
     } else if (by === 'type') {
-      filteredStoreItems = this.props.allPlants.filter((plant) =>
-        plant.type.includes(type)
-      )
+      filteredItems = this.state.storeItems.filter((plant) => {
+        return plant[by].includes(type)
+      })
     } else {
-      filteredStoreItems = this.props.allPlants
+      filteredItems = this.state.storeItems
     }
-    this.setState({ ...this.state, filteredStoreItems: filteredStoreItems })
+    this.setState({ ...this.state, filteredStoreItems: filteredItems })
   }
 
   getStoreItems() {
     const storeItems = this.state.filteredStoreItems
     return storeItems.map((plant, index) => {
+
       return (
         <div key={index} className="plant-card">
           <Link className="link" to={`/store-items/${plant._id}`}>

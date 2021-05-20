@@ -46,7 +46,7 @@ class Login extends React.Component {
               onChange={(event) => this.handleInput(event)}
             />
           </div>
-          <button>Log in</button> 
+          <button className="login-button">Log in</button> 
         </form>
         <p>
           Don't you have an account yet? Register by clicking<span> </span>

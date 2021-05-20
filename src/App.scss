@@ -84,6 +84,7 @@ table {
   color: black;
   text-decoration: none;
   height: 100%;
+  transition: none;
 }
 
 .App {
@@ -93,15 +94,20 @@ table {
 }
 
 .spinner {
-  width: 100%;
+  max-width: 100%;
   height: 100px;
+  margin: 0 auto;
+  margin-top: 50vh;
   .lds-ripple {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
     position: relative;
     width: 80px;
     height: 80px;
   }
   .lds-ripple div {
+    display: flex;
+    justify-content: center;
     position: absolute;
     border: 4px solid $dark-green;
     opacity: 1;
@@ -147,7 +153,7 @@ table {
     textarea {
       max-width: 171px;
       min-width: 171px;
-      height: 15px;
+      height: 75px;
       min-height: 15px;
     }
     .label-column {
@@ -239,14 +245,26 @@ table {
     }
   }
 }
+.cart{
+  h1{
+    text-align: center;
+    color: $dark-green;
+  }
 
 .ShoppingCart {
-  height: 50vh;
+  padding-bottom: 10vh;
+  min-height: 50vh;
   width: 100vw;
   @include flexCenter(column, center, center);
   flex-wrap: wrap;
+  h1{
+    color: $dark-green;
+  }
+  .total-price{
+    @include flexCenter(column, center, center);
+  }
   .allItemsCart {
-    @include flexCenter(row, center, center);
+    @include flexCenter(row, space-between, center);
     border: 0.2px solid grey;
     padding: 20px 30px;
     margin: 20px;
@@ -261,12 +279,12 @@ table {
       margin-right: 20px;
     }
     .removeIcon {
-      color: rgb(156, 211, 156);
+      color: $dark-green;
       width: 20px;
       height: 20px;
       border-radius: 50px;
       &:hover {
-        color: black;
+        color: $medium-green;
         background-color: transparent;
       }
     }
@@ -277,7 +295,9 @@ table {
         margin: 10px;
       }
     }
+   
   }
+}
 }
 
 .Signup {
@@ -455,10 +475,55 @@ table {
 
  .StoreItem{
   @include flexCenter(column, center, center);
-  margin-top: 10vh;
+  margin-top: 20vh;
+  margin-bottom: 30vh;
   .item{
+    display: flex;
+    align-items: center;
+    border: 1px solid $dark-green;
+    padding: 20px;
     img {
       width: 250px;
+      height: 250px;
+    }
+    .item-info{
+      @include flexCenter(column, left, left);
+      margin-left: 8vh;
+      h2 {
+        margin-bottom: 8px;
+      }
+      p{
+        margin-top: 0px;
+      }
+      input{
+        margin-bottom: 2vh;
+      }
+      .link {
+        text-align: center;
+        text-decoration: none;
+        margin-top:2vh;
+        font-weight: 700;
+        width: 200px;
+        background: none;
+        background-color: white;
+        color: $dark-green;
+        border: 2px solid $dark-green;
+        padding: 10px 0px;
+        font-size: 1.1rem;
+        font-weight: 800;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        transition: 0.5s;
+        &:hover {
+          color: $dark-green;
+          background-color: $soft-green;
+          border: 2px solid transparent;
+          padding: 10px 20px;
+          border-radius: 16px;
+        }
+      }
     }
   }
- }
+  }
+ 

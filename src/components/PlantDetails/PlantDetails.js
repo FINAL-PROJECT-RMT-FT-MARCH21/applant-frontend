@@ -97,7 +97,7 @@ class PlantDetails extends React.Component {
           <p>
             <b>Exposure: </b>
             {this.state.plant.exposure.map((exposure) =>
-              this.toUpper(exposure)
+              this.toUpper(exposure+" ")
             )}
           </p>
 

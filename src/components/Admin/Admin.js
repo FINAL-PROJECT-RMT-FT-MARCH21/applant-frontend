@@ -1,6 +1,7 @@
 import './Admin.scss'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { BiBasket } from "react-icons/bi";
 
 class Admin extends React.Component {
   state = {
@@ -70,9 +71,11 @@ class Admin extends React.Component {
             {this.props.plants.map((plant, index) => {
               return (
                 <tr>
-                  <td>{this.toUpper(plant.commonName)}</td>
+                  <td>
+                    {this.toUpper(plant.commonName)}{' '}
+                    {plant.inStore ? <BiBasket/> : null}
+                  </td>
                   <div className="table-btns">
-                    {/* <Link className="link" to={`plant-details/${plant._id}`}> */}
                     <Link className="link" onClick={()=>this.props.modalAction('open', `edit-plant/${plant._id}`)}>
                       <img src="/icons/edit-icon.png" alt="edit-icon"/>
                     </Link>
@@ -115,6 +118,7 @@ class Admin extends React.Component {
   render() {
     return (
       <div className="Admin">
+        <a className="link" href={`https://dashboard.stripe.com/test/payments`}>Stripe dashboard</a>
         {this.showUsers()}
         {this.showPlants()}
         {this.showPosts()}

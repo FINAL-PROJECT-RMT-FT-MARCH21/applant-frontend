@@ -1,5 +1,6 @@
 import './Profile.scss'
 import React from 'react'
+import { GiFlowerPot } from 'react-icons/gi'
 
 class Profile extends React.Component {
   toUpper(word) {
@@ -60,8 +61,9 @@ class Profile extends React.Component {
     return (
       this.props.userInfo ? 
         <div className="Profile">
-          <h1>{`${this.toUpper(this.props.userInfo.username)}'s page`}</h1>
-          <h2>Your favorite plants</h2>
+          <h1>{`${this.toUpper(this.props.userInfo.username)}'s profile`}</h1>
+          <p className="p">Your favorite plants <GiFlowerPot /></p>
+          
           <div >{this.getFavoritePlants()}</div>
         </div>
       : <h1>Login required</h1>

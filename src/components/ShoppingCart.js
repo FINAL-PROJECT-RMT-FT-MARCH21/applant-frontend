@@ -38,23 +38,28 @@ class ShoppingCart extends React.Component {
     }
   }
   render() {
-    console.log('TOTAL PRICE PROPS DE SHOPPING CART' + this.props.totalPrice)
+    // console.log('TOTAL PRICE PROPS DE SHOPPING CART' + this.props.totalPrice)
     return (
       this.props.userInfo ? 
         (this.props.userInfo.cart.lenght === 0 ?
-          <h1>Your cart it's empty</h1>
+          <h1>Your cart it's empty </h1>
           :
-          <div className="ShoppingCart">
+          <div className="cart">
             <h1>Cart</h1>
-            {this.getCartItems()}
-            <p>
-              <b>Total: </b> {this.props.userInfo.totalPrice} €
-            </p>
-            {console.log('>>>>>', this.props)}
-            <button onClick={()=>{this.props.modalAction('open', 'payment')}}>Check out</button>
+          <div className="ShoppingCart" >
+            <div className="ItemsCart" > 
+                {this.getCartItems()}
+            </div>
+            <div className="total-price">
+              <p>
+                <b>Total: </b> {this.props.userInfo.totalPrice} €
+              </p>
+              <button onClick={()=>{this.props.modalAction('open', 'payment')}}>Check out</button>
+            </div> 
+          </div>
           </div>
         ) 
-      : <h1>Login required</h1>
+      : (<h1>Login required </h1>)
     )
   }
 }

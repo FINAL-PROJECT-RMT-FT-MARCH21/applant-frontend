@@ -68,6 +68,7 @@ export default function CheckoutForm(props) {
       setProcessing(false)
       setSucceeded(true)
     }
+    props.updateState('user')
   }
   return (
     <div className="CheckoutForm">
@@ -94,11 +95,7 @@ export default function CheckoutForm(props) {
         )}
         {/* Show a success message upon completion */}
         <p className={succeeded ? 'result-message' : 'result-message hidden'}>
-          Payment succeeded, see the result in your
-          {/* {this.props.addMsg('Payment succeeded, see the result in your')} */}
-          <a href={`https://dashboard.stripe.com/test/payments`}>
-            Stripe dashboard.
-          </a>
+          Payment succeeded
         </p>
       </form>
     </div>

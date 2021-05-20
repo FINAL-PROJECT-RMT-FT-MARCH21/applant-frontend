@@ -1,17 +1,49 @@
 @import '../../App.scss';
 .Login{
     h2{
-        color: rgb(156, 211, 156);
+        color: $dark-green;
+        margin-bottom: 10px;
     }
+    input{
+        color: $dark-green;
+        margin: 10px;
+    }
+    
 }
 .react-responsive-modal-modal{
-
     border-radius: 20px;
     .react-responsive-modal-closeButton{
-        svg{
-
-        }
+        
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-content: flex-end;
+            /* pointer-events: none; */
+            &:hover{
+                color: none;
+                background-color: transparent;
+                border: none;
+                padding: 0px;
+                border-radius: 0px;
+              
+            }
     }
+    /*   button{
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        background-color: transparent;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-content: flex-end;
+        &:hover {
+            pointer-events: none;
+      }
+      } */
     .form-container{
         background-color: transparent;
         box-shadow: none;
