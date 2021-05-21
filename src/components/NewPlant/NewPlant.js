@@ -134,7 +134,10 @@ class NewPlant extends React.Component {
                     <tr>
                         <td>About</td>
                         <td>
-                        <textarea type="text" name="about"/>
+                            <textarea 
+                            onChange={(event) => this.handleInput(event, 'newPlant')}
+                            name="about"
+                            type="text"/>
                         </td>
                     </tr>
                     <tr>

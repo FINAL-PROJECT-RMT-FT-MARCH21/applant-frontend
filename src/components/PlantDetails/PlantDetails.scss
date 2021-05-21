@@ -31,10 +31,14 @@
       width: 120px;
       height: 60px;
       margin: 10px;
+      &:hover{
+        color: $dark-green;
+      }
     }
     .buttons{
       display:flex;
       flex-direction: row;
       margin-bottom: 8vh;
+      
     }
 }

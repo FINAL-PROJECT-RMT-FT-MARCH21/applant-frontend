@@ -38,7 +38,6 @@ class ShoppingCart extends React.Component {
     }
   }
   render() {
-    // console.log('TOTAL PRICE PROPS DE SHOPPING CART' + this.props.totalPrice)
     return (
       this.props.userInfo ? 
         (this.props.userInfo.cart.lenght === 0 ?

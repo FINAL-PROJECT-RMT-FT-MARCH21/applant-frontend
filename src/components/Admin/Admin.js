@@ -115,16 +115,33 @@ class Admin extends React.Component {
     )
   }
 
+  showAdminForms(){
+    if (this.props.userInfo){
+      if (this.props.userInfo.admin){
+        return(
+          <div>
+            <a className="link" href={`https://dashboard.stripe.com/test/payments`}>Stripe dashboard</a>
+            {this.showUsers()}
+            {this.showPlants()}
+            {this.showPosts()}
+          </div>
+        )
+      } else {
+        return  <h1>Admin user required </h1>
+      }
+    } else {
+      return <h1>Login required </h1>
+    }
+  }
+
   render() {
     return (
       <div className="Admin">
-        <a className="link" href={`https://dashboard.stripe.com/test/payments`}>Stripe dashboard</a>
-        {this.showUsers()}
-        {this.showPlants()}
-        {this.showPosts()}
+        {this.showAdminForms()}
       </div>
     )
   }
 }
 
+// (<a className="link" href={`https://dashboard.stripe.com/test/payments`}>Stripe dashboard</a>
 export default Admin

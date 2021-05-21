@@ -1,5 +1,25 @@
 @import '../../App.scss';
 
 .Message{
-
+    text-align: center;
+    color: black;
+    font-weight: 600;
+    background-color: $medium-green;
+    max-width: 500px;
+    z-index: 999999999;
+    position: fixed;
+    bottom: 50px;
+    height: auto;
+    margin: 5px auto;
+    left: 0;
+    right: 0;
+    border-radius: 8px;
+    .message-container{
+        @include flexCenter(row, space-between, center);
+        padding: 16px;
+        font-size: 1.1rem;
+    }
+    article{
+        width: 100%;
+    }
 }

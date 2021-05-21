@@ -92,7 +92,7 @@ table {
     @include mainTitle;
   }
 }
-
+//GLOBAL SPINNER
 .spinner {
   max-width: 100%;
   height: 100px;
@@ -134,7 +134,13 @@ table {
     }
   }
 }
-
+//SPECIFIC COMPONENT SPINNER
+.spinner-2{
+  max-width: 100%;
+  height: 100px;
+  margin: 0 auto;
+  margin-top: 50vh;
+}
 .form-container {
   @include flexCenter(column, center, center);
   background-color: lightgray;
@@ -274,6 +280,7 @@ table {
       border: none;
     }
     img {
+      object-fit: cover;
       width: 100px;
       height: 100px;
       margin-right: 20px;
@@ -483,6 +490,7 @@ table {
     border: 1px solid $dark-green;
     padding: 20px;
     img {
+      object-fit: cover;
       width: 250px;
       height: 250px;
     }
@@ -514,12 +522,12 @@ table {
         font: inherit;
         cursor: pointer;
         outline: inherit;
-        transition: 0.5s;
+       /*  transition: 0.5s; */
         &:hover {
           color: $dark-green;
           background-color: $soft-green;
           border: 2px solid transparent;
-          padding: 10px 20px;
+          /* padding: 10px 20px; */
           border-radius: 16px;
         }
       }

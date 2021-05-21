@@ -36,18 +36,6 @@ const Parallax = () => {
             <p>helps you find the plant that fits your spaces best</p>
           </div>
         </div>
-       {/*  <div className="parallax-container">
-          <div className="parallax">
-            <img
-              src="https://i.ibb.co/QC40J4G/Parallax4.jpg"
-              alt="background-img"
-            />
-          </div>
-          <div className="section white">
-            <h2><RiPlantFill/> Decorating with plants is simple <RiPlantFill/></h2>
-            <p>You can transform a room with minimal effort.</p>
-          </div>
-        </div> */}
       </div>
     </div>
   )

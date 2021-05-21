@@ -5,8 +5,9 @@
         margin-bottom: 10px;
     }
     input{
-        color: $dark-green;
         margin: 10px;
+        padding: 3px 0px;
+        border: 1px solid black;
     }
     
 }
@@ -18,7 +19,6 @@
             flex-wrap: wrap;
             flex-direction: column;
             align-content: flex-end;
-            /* pointer-events: none; */
             &:hover{
                 color: none;
                 background-color: transparent;
@@ -28,22 +28,7 @@
               
             }
     }
-    /*   button{
-        position: absolute;
-        top: 14px;
-        right: 14px;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        background-color: transparent;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        align-content: flex-end;
-        &:hover {
-            pointer-events: none;
-      }
-      } */
+    
     .form-container{
         background-color: transparent;
         box-shadow: none;

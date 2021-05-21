@@ -17,7 +17,6 @@ class Signup extends React.Component {
     event.preventDefault()
     this.props.authAction(this.state.user, 'signup')
     this.props.modalAction('close')
-    console.log('closing signup')
   }
 
   handleChange(event) {

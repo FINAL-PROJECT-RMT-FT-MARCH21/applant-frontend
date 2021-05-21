@@ -31,7 +31,6 @@ class StoreItem extends React.Component {
     const showSelected = this.props.plants.filter((plant) => {
       return selectedPlantId === plant._id
     })[0]
-    console.log(showSelected)
     return this.props.plants.length ? (
       <div className="StoreItem">
         <div className="item">
@@ -72,7 +71,7 @@ class StoreItem extends React.Component {
         ) : null}
       </div>
     ) : (
-      <div className="spinner">
+      <div className="spinner-2">
         <div className="lds-ripple">
           <div></div>
           <div></div>

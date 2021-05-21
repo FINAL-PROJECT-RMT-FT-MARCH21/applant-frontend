@@ -176,17 +176,14 @@ class App extends React.Component {
   }
 
   addMsg(msg) {
-    console.log('adding message', msg)
     this.setState({ ...this.state, message: msg })
   }
 
   cleanMsg() {
-    console.log('cleaning messages')
     this.setState({ ...this.state, message: '' })
   }
 
   render() {
-    console.log('rendering App', this.state.message)
     return (
       <div className="App">
         <Navbar

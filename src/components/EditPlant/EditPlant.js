@@ -149,7 +149,10 @@ class EditPlant extends React.Component {
               <tr>
                 <td>About</td>
                 <td>
-                <textarea name="about" value={this.state.editPlant.about} />
+                <textarea 
+                onChange={(event) => this.handleInput(event, 'editPlant')}
+                name="about" 
+                value={this.state.editPlant.about} />
                 </td>
               </tr>
               <tr>
