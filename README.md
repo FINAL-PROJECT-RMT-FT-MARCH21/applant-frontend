@@ -1,5 +1,4 @@
-# APPLANT
-![Applant-Logo](https://i.ibb.co/bHhxGL9/logo-applant-verde.png)
+![Applant-Logo](https://i.ibb.co/x5LmrDw/logo-applant-verde-pequen-o.png)
 
 Applant is our React Full-Stack project for the final module at the Ironhack's Web Dev Bootcamp. We built it only for desktop, and still working on making it available for mobile or tablet. We've used mainly ReactJs and many backend npm packages and modules but in resume: Axios to connect with our backend's API; NodeJS and ExpressJs for the routes and server of our API; Passport and BcryptJs for authentication, Stripe for the payments and MongoDB for the data base. For the front we've used ReactJs and SASS for the customization. 
 
